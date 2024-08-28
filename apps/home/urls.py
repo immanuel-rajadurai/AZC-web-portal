@@ -2,18 +2,18 @@
 """
 Copyright (c) 2019 - present AppSeed.us
 """
-
 from django.urls import path, re_path
-from apps.home import views
+
+from apps.home.views import animal_views, event_views, miscellaneous_views, place_views
 
 urlpatterns = [
-
     # The home page
-    path('', views.index, name='home'),
-    path('events/', views.events, name='events'),
+    path('', miscellaneous_views.index, name='home'),
 
     # Matches any html file
-    re_path(r'^.*\.*', views.pages, name='pages'),
+    re_path(r'^.*\.*', miscellaneous_views.pages, name='pages'),
 
-
+    path('events/', event_views.events, name='events'),
+    path('places/', place_views.places, name='places'),
+    path('animals/', animal_views.animals, name='animals'),
 ]
