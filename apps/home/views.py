@@ -74,11 +74,13 @@ def events(request):
     else:
         form = EventForm()
 
-
     events_data_test = [
-        {'name': 'Event 1', 'description': 'this is the description', 'image': 'Location 1'},
-        {'name': 'Event 1', 'description': 'this is the description', 'image': 'Location 1'},
-        {'name': 'Event 1', 'description': 'this is the description', 'image': 'Location 1'},
+        {'name': 'Event 1', 'description': 'this is the description',
+            'image': 'Location 1'},
+        {'name': 'Event 1', 'description': 'this is the description',
+            'image': 'Location 1'},
+        {'name': 'Event 1', 'description': 'this is the description',
+            'image': 'Location 1'},
     ]
 
     events_data = get_events_list()
@@ -88,7 +90,6 @@ def events(request):
         'events': events_data,
         'form': form,
     }
-
 
     html_template = loader.get_template('home/events.html')
     return HttpResponse(html_template.render(context, request))
