@@ -6,9 +6,9 @@ Copyright (c) 2019 - present AppSeed.us
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.template import loader
-from apps.home.services import place_services
-from apps.home.forms import place_forms
 from django.contrib import messages
+from ..services import place_services
+from ..forms import place_forms
 
 
 @login_required(login_url="/login/")
