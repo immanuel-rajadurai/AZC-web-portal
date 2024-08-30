@@ -12,7 +12,7 @@ from django.contrib import messages
 
 
 @login_required(login_url="/login/")
-def animals(request):
+def all_animals(request):
 
     if request.method == 'POST':
         print("executing post request")
@@ -23,7 +23,7 @@ def animals(request):
             print("form data: ", data)
 
             name = data['name']
-            place_id = data['description']
+            place_id = data['place_id']
             image = data['image']
 
             animal_services.add_animal(name, place_id, image)

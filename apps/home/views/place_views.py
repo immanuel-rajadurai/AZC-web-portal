@@ -12,7 +12,7 @@ from django.contrib import messages
 
 
 @login_required(login_url="/login/")
-def places(request):
+def all_places(request):
 
     if request.method == 'POST':
         print("executing post request")
@@ -24,7 +24,7 @@ def places(request):
 
             name = data['name']
             description = data['description']
-            animal_id = data['description']
+            animal_id = data['animal_id']
             isOpen = data['isOpen']
             image = data['image']
 

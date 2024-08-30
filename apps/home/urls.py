@@ -13,7 +13,7 @@ urlpatterns = [
     # Matches any html file
     re_path(r'^.*\.*', miscellaneous_views.pages, name='pages'),
 
-    path('events/', event_views.events, name='events'),
-    path('places/', place_views.places, name='places'),
-    path('animals/', animal_views.animals, name='animals'),
+    path('events/', event_views.all_events, name='events'),
+    path('places/', place_views.all_places, name='places'),
+    path('animals/', animal_views.all_animals, name='animals'),
 ]

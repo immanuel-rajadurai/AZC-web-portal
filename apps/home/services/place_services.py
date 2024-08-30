@@ -1,8 +1,6 @@
 import requests
 import json
-
-API_KEY = 'da2-ewwgqtv4a5fkzc4mh7u4sfxkqu'
-APPSYNC_ENDPOINT = """https://g4gxobh45jeqrke2ywuday5sgq.appsync-api.eu-west-2.amazonaws.com/graphql"""
+from api_info import *
 
 # The headers for the HTTP request
 headers = {
