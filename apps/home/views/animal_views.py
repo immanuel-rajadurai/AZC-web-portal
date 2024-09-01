@@ -13,7 +13,6 @@ from ..forms import animal_forms
 
 @login_required(login_url="/login/")
 def all_animals(request):
-
     if request.method == 'POST':
         print("executing post request")
         form = animal_forms.AddAnimalForm(request.POST)
@@ -23,10 +22,9 @@ def all_animals(request):
             print("form data: ", data)
 
             name = data['name']
-            place_id = data['place_id']
             image = data['image']
 
-            animal_services.add_animal(name, place_id, image)
+            animal_services.add_animal(name, image)
 
             messages.success(request, 'Event created successfully')
 
