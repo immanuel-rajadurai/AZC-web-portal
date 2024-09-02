@@ -12,6 +12,8 @@ from django.urls import reverse
 
 @login_required(login_url="/login/")
 def index(request):
+
+    print("calling index view")
     context = {'segment': 'index'}
 
     html_template = loader.get_template('home/index.html')
@@ -25,7 +27,7 @@ def pages(request):
     # Pick out the html file name from the url. And load that template.
 
     print("now entering a HTML page")
-    print(request.path)
+    
     try:
 
         load_template = request.path.split('/')[-1]
@@ -35,6 +37,9 @@ def pages(request):
         context['segment'] = load_template
 
         html_template = loader.get_template('home/' + load_template)
+
+        print('home/' + load_template)
+
         return HttpResponse(html_template.render(context, request))
 
     except template.TemplateDoesNotExist:

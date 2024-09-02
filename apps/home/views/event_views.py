@@ -14,6 +14,8 @@ from django.contrib import messages
 @login_required(login_url="/login/")
 def events(request):
 
+    print("calling events view")
+
     if request.method == 'POST':
         print("executing post request")
         form = event_forms.CreateEventForm(request.POST)
@@ -39,11 +41,15 @@ def events(request):
 
     events_data = event_services.get_events_list()
 
+    # events_data = {}
+
     context = {
         'segment': 'events',
         'events': events_data,
         'form': form,
     }
 
-    html_template = loader.get_template('home/events.html')
+    html_template = loader.get_template('home/show_events.html')
+
+    print("HTML template ", html_template)
     return HttpResponse(html_template.render(context, request))

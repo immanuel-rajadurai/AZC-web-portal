@@ -1,8 +1,8 @@
 import requests
 import json
 
-API_KEY = 'da2-ewwgqtv4a5fkzc4mh7u4sfxkqu'
-APPSYNC_ENDPOINT = """https://g4gxobh45jeqrke2ywuday5sgq.appsync-api.eu-west-2.amazonaws.com/graphql"""
+API_KEY = 'da2-cppg5ki5c5gwtenwpabd3csahe'
+APPSYNC_ENDPOINT = """https://43ey4asyffgypdekr6hrqdu76i.appsync-api.eu-west-2.amazonaws.com/graphql"""
 
 # The headers for the HTTP request
 headers = {
@@ -15,10 +15,8 @@ list_events = """
     listEvents {
       items {
         id
-        name
         description
-        place_id
-        animal_id
+        name
         image
       }
     }
