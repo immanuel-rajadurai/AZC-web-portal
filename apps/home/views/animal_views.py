@@ -6,14 +6,13 @@ Copyright (c) 2019 - present AppSeed.us
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.template import loader
-from apps.home.services import animal_services
-from apps.home.forms import animal_forms
 from django.contrib import messages
+from ..services import animal_services
+from ..forms import animal_forms
 
 
 @login_required(login_url="/login/")
-def animals(request):
-
+def all_animals(request):
     if request.method == 'POST':
         print("executing post request")
         form = animal_forms.AddAnimalForm(request.POST)
@@ -23,10 +22,9 @@ def animals(request):
             print("form data: ", data)
 
             name = data['name']
-            place_id = data['description']
             image = data['image']
 
-            animal_services.add_animal(name, place_id, image)
+            animal_services.add_animal(name, image)
 
             messages.success(request, 'Event created successfully')
 

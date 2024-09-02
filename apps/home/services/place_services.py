@@ -1,8 +1,6 @@
 import requests
 import json
-
-API_KEY = 'da2-ewwgqtv4a5fkzc4mh7u4sfxkqu'
-APPSYNC_ENDPOINT = """https://g4gxobh45jeqrke2ywuday5sgq.appsync-api.eu-west-2.amazonaws.com/graphql"""
+from api_info import *
 
 # The headers for the HTTP request
 headers = {
@@ -10,23 +8,22 @@ headers = {
     'x-api-key': API_KEY
 }
 
-list_places = """
-  query ListPlaces {
-    listPlaces {
-      items {
-        id
-        name
-        description
-        animal_id
-        isOpen
-        image
-      }
-    }
-  }
-"""
-
 
 def get_places_list():
+    list_places = """
+        query ListPlaces {
+            listPlaces {
+                items {
+                    id
+                    name
+                    description
+                    isOpen
+                    animal_id
+                    image
+                }
+            }
+        }
+    """
 
     # The payload for the HTTP request
     payload = {
@@ -43,16 +40,38 @@ def get_places_list():
 
 
 def create_place(name, description, isOpen, animal_id=None, image=None):
-    create_place_item = f"""
-      mutation CreatePlace {{
-        CreatePlace(input: {{name: "{name}", description: "{description}", animal_id: "{animal_id}", isOpen: "{isOpen}", image: "{image}", }}) {{
-          id
+    create_place_payload = {
+        'query': f"""
+            mutation createPlace {{
+               createPlace(input: {{id: {id}, 
+                name: "{name}, 
+                description: {description}, 
+                image: {image}, 
+                isOpen: {isOpen}, 
+                placeAnimalId: {animal_id}}}) {{
+                 id
+               }}
+            }}
+      """
+    }
+
+    # Send the POST request to the AppSync endpoint
+    response = requests.post(
+        APPSYNC_ENDPOINT, headers=headers, data=json.dumps(create_place_payload))
+
+    return response.json()
+
+
+def delete_place(id):
+    delete_place_mutation = f"""
+      mutation deletePlace {{
+        deletePlace(input: {{id: "{id}"}}) {{
         }}
       }}
     """
 
     payload = {
-        'query': create_place_item
+        'query': delete_place_mutation
     }
 
     # Send the POST request to the AppSync endpoint
@@ -60,14 +79,3 @@ def create_place(name, description, isOpen, animal_id=None, image=None):
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload))
 
     return response.json()
-
-
-# TODO: add implmentation
-# delete_place = """
-#   mutation DeletePlace {
-#     deletePlace(input: {id: "130749d8-3b8c-4fc3-9d0c-1b63c8e4d5aa"}) {
-#       id
-#     }
-#   }
-# """
-# def delete_place():

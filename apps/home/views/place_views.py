@@ -6,14 +6,13 @@ Copyright (c) 2019 - present AppSeed.us
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.template import loader
-from apps.home.services import place_services
-from apps.home.forms import place_forms
 from django.contrib import messages
+from ..services import place_services
+from ..forms import place_forms
 
 
 @login_required(login_url="/login/")
-def places(request):
-
+def all_places(request):
     if request.method == 'POST':
         print("executing post request")
         form = place_forms.AddPlaceForm(request.POST)
@@ -24,7 +23,7 @@ def places(request):
 
             name = data['name']
             description = data['description']
-            animal_id = data['description']
+            animal_id = data['animal_id']
             isOpen = data['isOpen']
             image = data['image']
 

@@ -25,6 +25,19 @@ list_events = """
 
 
 def get_events_list():
+    list_events = """
+        query ListEvents {
+            listEvents {
+                items {
+                    id
+                    name
+                    description
+                    place_id
+                    image
+                }
+            }
+        }
+    """
 
     # The payload for the HTTP request
     payload = {
@@ -41,31 +54,41 @@ def get_events_list():
 
 
 def create_event(name, description, place_id, image=None, animal_id=None):
-    create_event_item = f"""
-      mutation CreateEvent {{
-        createEvent(input: {{name: "{name}", description: "{description}", place_id: "{place_id}", animal_id: "{animal_id}", image: "{image}"}}) {{
-          id
-        }}
-      }}
-    """
-
-    payload = {
-        'query': create_event_item
+    create_event_payload = {
+        'query': f"""
+            mutation createEvent {{
+               createEvent(input: {{id: {id},
+                name: "{name},
+                description: {description},
+                image: {image},
+                place_id: {place_id},
+                animal_id: {animal_id}}}) {{
+                 id
+               }}
+            }}
+      """
     }
 
     # Send the POST request to the AppSync endpoint
     response = requests.post(
-        APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload))
+        APPSYNC_ENDPOINT, headers=headers, data=json.dumps(create_event_payload))
 
     return response.json()
 
 
-# TODO: add implmentation
-# delete_event = """
-#   mutation DeleteEvent {
-#     deleteEvent(input: {id: "130749d8-3b8c-4fc3-9d0c-1b63c8e4d5aa"}) {
-#       id
-#     }
-#   }
-# """
-# def delete_event():
+def delete_event(id):
+    delete_event_payload = {
+        'query': f"""
+            mutation deleteEvent {{
+               deleteEvent(input: {{id: {id}}}) {{
+                 id
+               }}
+            }}
+      """
+    }
+
+    # Send the POST request to the AppSync endpoint
+    response = requests.post(
+        APPSYNC_ENDPOINT, headers=headers, data=json.dumps(delete_event_payload))
+
+    return response.json()

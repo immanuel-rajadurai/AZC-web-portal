@@ -6,16 +6,13 @@ Copyright (c) 2019 - present AppSeed.us
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.template import loader
-from apps.home.services import event_services
-from apps.home.forms import event_forms
 from django.contrib import messages
+from ..services import event_services
+from ..forms import event_forms
 
 
 @login_required(login_url="/login/")
-def events(request):
-
-    print("calling events view")
-
+def all_events(request):
     if request.method == 'POST':
         print("executing post request")
         form = event_forms.CreateEventForm(request.POST)
@@ -27,11 +24,10 @@ def events(request):
             name = data['name']
             description = data['description']
             place_id = data['place_id']
-            animal_id = data['animal_id']
             image = data['image']
 
             event_services.create_event(
-                name, description, place_id, animal_id, image)
+                name, description, place_id, image)
 
             messages.success(request, 'Event created successfully')
 

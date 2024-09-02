@@ -10,7 +10,6 @@ urlpatterns = [
     # The home page
     path('', miscellaneous_views.index, name='home'),
 
-    
 
     path('events/', event_views.events, name='events'),
     path('places/', place_views.places, name='places'),
