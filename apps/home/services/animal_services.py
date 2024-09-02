@@ -2,30 +2,25 @@ import requests
 import json
 from api_info import *
 
-APPSYNC_ENDPOINT = """https://g4gxobh45jeqrke2ywuday5sgq.appsync-api.eu-west-2.amazonaws.com/graphql"""
-
 # The headers for the HTTP request
 headers = {
     'Content-Type': 'application/json',
     'x-api-key': API_KEY
 }
 
-list_animals = """
-  query ListAnimals {
-    listAnimals {
-      items {
-        id
-        name
-        place_id
-        animal_id
-        image
-      }
-    }
-  }
-"""
-
 
 def get_animals_list():
+    list_animals = """
+        query ListAnimals {
+            listAnimals {
+                items {
+                    id
+                    name
+                    image
+                }
+            }
+        }
+    """
 
     # The payload for the HTTP request
     payload = {
@@ -41,30 +36,27 @@ def get_animals_list():
     return response.json()["data"]["listAnimals"]["items"]
 
 
-def add_animal(name, place_id, image=None):
-    add_animal_item = f"""
-      mutation AddAnimal {{
-        addAnimal(input: {{name: "{name}", place_id: "{place_id}", image: "{image}"}}) {{
-          id
-        }}
-      }}
-    """
-
-    payload = {
-        'query': add_animal_item
+def add_animal(name, image=None):
+    create_animal_payload = {
+        'query': f"""
+                mutation createAnimal {{
+                  createAnimal(input: {{id: {id}, image: {image}, name: {name}}}) {{
+                    id
+                  }}
+                }}
+        """
     }
 
     # Send the POST request to the AppSync endpoint
     response = requests.post(
-        APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload))
+        APPSYNC_ENDPOINT, headers=headers, data=json.dumps(create_animal_payload))
 
     return response.json()
 
 
-# FIXME: implement deletion PROPERLY with graphql
 def delete_animal(id):
     delete_animal_mutation = f"""
-      mutation DeleteAnimal {{
+      mutation deleteAnimal {{
         deleteAnimal(input: {{id: "{id}"}}) {{
         }}
       }}

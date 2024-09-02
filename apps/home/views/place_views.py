@@ -13,7 +13,6 @@ from ..forms import place_forms
 
 @login_required(login_url="/login/")
 def all_places(request):
-
     if request.method == 'POST':
         print("executing post request")
         form = place_forms.AddPlaceForm(request.POST)

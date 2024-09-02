@@ -13,7 +13,6 @@ from ..forms import event_forms
 
 @login_required(login_url="/login/")
 def all_events(request):
-
     if request.method == 'POST':
         print("executing post request")
         form = event_forms.CreateEventForm(request.POST)
@@ -25,11 +24,10 @@ def all_events(request):
             name = data['name']
             description = data['description']
             place_id = data['place_id']
-            animal_id = data['animal_id']
             image = data['image']
 
             event_services.create_event(
-                name, description, place_id, animal_id, image)
+                name, description, place_id, image)
 
             messages.success(request, 'Event created successfully')
 
