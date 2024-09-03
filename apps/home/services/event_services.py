@@ -32,7 +32,6 @@ def get_events_list():
                     id
                     name
                     description
-                    place_id
                     image
                 }
             }
