@@ -33,3 +33,6 @@ apps/static/assets/.temp
 
 # vscode files
 .vscode
+
+Jupyter Notebooks
+*.ipynb
