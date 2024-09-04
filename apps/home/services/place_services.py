@@ -1,6 +1,6 @@
 import requests
 import json
-from apps.home.services.api_info import API_KEY, APPSYNC_ENDPOINT
+from api_info import *
 
 # The headers for the HTTP request
 headers = {
