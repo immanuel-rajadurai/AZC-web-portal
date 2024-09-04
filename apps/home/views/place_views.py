@@ -19,7 +19,7 @@ def all_places(request):
         if form.is_valid():
             data = form.cleaned_data
 
-            print("form data: ", data)
+            # print("form data: ", data)
 
             name = data['name']
             description = data['description']

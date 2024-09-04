@@ -18,7 +18,6 @@ def get_places_list():
                     name
                     description
                     isOpen
-                    animal_id
                     image
                 }
             }
@@ -40,34 +39,58 @@ def get_places_list():
 
 
 def create_place(name, description, isOpen, animal_id=None, image=None):
-    create_place_payload = {
-        'query': f"""
-            mutation createPlace {{
-               createPlace(input: {{id: {id}, 
-                name: "{name}, 
-                description: {description}, 
-                image: {image}, 
-                isOpen: {isOpen}, 
-                placeAnimalId: {animal_id}}}) {{
-                 id
-               }}
-            }}
-      """
-    }
-
-    # Send the POST request to the AppSync endpoint
+    if image != None:
+        create_place_payload = {
+            'query': f"""
+                mutation createPlace {{
+                    createPlace(input: {{
+                    name: "{name}, description: {description}, 
+                        image: {image}, 
+                        isOpen: {isOpen}}}) {{
+                            id
+                    }}
+                }}
+            """
+        }
+    else:
+        create_place_payload = {
+            'query': f"""
+                mutation createPlace {{
+                    createPlace(input: {{
+                    name: "{name}, description: {description}, 
+                        isOpen: {isOpen}}}) {{
+                            id
+                    }}
+                }}
+            """
+        }
     response = requests.post(
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(create_place_payload))
 
-    return response.json()
+    if animal_id != None:
+        place_id = response.json()["data"]["createPlace"]["id"]
+        create_place_animal_payload = {
+            'query': f"""
+                mutation createPlaceAnimal {{
+                    createPlaceAnimal(input: {{
+                        animalID: "{animal_id},
+                        placeID: {place_id}}}) {{
+                            id
+                    }}
+                }}
+            """
+        }
+        requests.post(
+            APPSYNC_ENDPOINT, headers=headers, data=json.dumps(create_place_animal_payload))
 
 
 def delete_place(id):
     delete_place_mutation = f"""
-      mutation deletePlace {{
-        deletePlace(input: {{id: "{id}"}}) {{
+        mutation deletePlace {{
+            deletePlace(input: {{id: "{id}"}}) {{
+                id
+            }}
         }}
-      }}
     """
 
     payload = {
@@ -75,7 +98,5 @@ def delete_place(id):
     }
 
     # Send the POST request to the AppSync endpoint
-    response = requests.post(
+    requests.post(
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload))
-
-    return response.json()

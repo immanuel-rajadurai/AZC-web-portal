@@ -52,27 +52,50 @@ def get_events_list():
     return response.json()["data"]["listEvents"]["items"]
 
 
-def create_event(name, description, place_id, image=None, animal_id=None):
-    create_event_payload = {
-        'query': f"""
-            mutation createEvent {{
-               createEvent(input: {{id: {id},
-                name: "{name},
-                description: {description},
-                image: {image},
-                place_id: {place_id},
-                animal_id: {animal_id}}}) {{
-                 id
-               }}
-            }}
-      """
-    }
-
-    # Send the POST request to the AppSync endpoint
+def create_event(name, description, place_id=None, image=None):
+    if image != None:
+        create_event_payload = {
+            'query': f"""
+                mutation createEvent {{
+                    createEvent(input: {{id: {id},
+                        name: "{name},
+                        description: {description},
+                        image: {image}}}) {{
+                        id
+                    }}
+                }}
+            """
+        }
+    else:
+        create_event_payload = {
+            'query': f"""
+                mutation createEvent {{
+                    createEvent(input: {{id: {id},
+                        name: "{name},
+                        description: {description}}}) {{
+                            id
+                    }}
+                }}
+            """
+        }
     response = requests.post(
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(create_event_payload))
 
-    return response.json()
+    if place_id != None:
+        event_id = response.json()["data"]["createEvent"]["id"]
+        create_place_animal_payload = {
+            'query': f"""
+                mutation createEventPlace {{
+                    createEventPlace(input: {{
+                        placeID: "{place_id},
+                        eventID: {event_id}}}) {{
+                            id
+                    }}
+                }}
+            """
+        }
+        requests.post(
+            APPSYNC_ENDPOINT, headers=headers, data=json.dumps(create_place_animal_payload))
 
 
 def delete_event(id):
@@ -89,5 +112,3 @@ def delete_event(id):
     # Send the POST request to the AppSync endpoint
     response = requests.post(
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(delete_event_payload))
-
-    return response.json()

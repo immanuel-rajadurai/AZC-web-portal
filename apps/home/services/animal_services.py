@@ -48,10 +48,8 @@ def add_animal(name, image=None):
     }
 
     # Send the POST request to the AppSync endpoint
-    response = requests.post(
+    requests.post(
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(create_animal_payload))
-
-    return response.json()
 
 
 def delete_animal(id):
@@ -67,7 +65,5 @@ def delete_animal(id):
     }
 
     # Send the POST request to the AppSync endpoint
-    response = requests.post(
+    requests.post(
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload))
-
-    return response.json()
