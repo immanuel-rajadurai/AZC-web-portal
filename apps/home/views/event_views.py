@@ -5,6 +5,7 @@ Copyright (c) 2019 - present AppSeed.us
 
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+from django.shortcuts import redirect, render
 from django.template import loader
 from django.contrib import messages
 from ..services import event_services
@@ -23,15 +24,16 @@ def all_events(request):
 
             name = data['name']
             description = data['description']
-            place_id = data['place_id']
+            # place_id = data['place_id']
             image = data['image']
 
-            event_services.create_event(
-                name, description, place_id, image)
+            # event_services.create_event(
+            #     name, description, place_id, image)
+
+            event_services.create_event(name, description, image)
 
             messages.success(request, 'Event created successfully')
 
-            # return redirect('success')
     else:
         form = event_forms.CreateEventForm()
 
@@ -49,3 +51,16 @@ def all_events(request):
 
     print("HTML template ", html_template)
     return HttpResponse(html_template.render(context, request))
+
+@login_required(login_url="/login/")
+def delete_event(request, event_id):
+
+    print("attempting to delete event: ", event_id)
+    event_services.delete_event(event_id)
+
+    messages.success(request, 'Event deleted successfully')
+
+    # html_template = loader.get_template('home/show_events.html')
+
+    return redirect('events')
+

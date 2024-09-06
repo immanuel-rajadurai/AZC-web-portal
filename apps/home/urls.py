@@ -11,6 +11,7 @@ urlpatterns = [
     path('', miscellaneous_views.index, name='home'),
 
     path('events/', event_views.all_events, name='events'),
+    path('delete_event/<str:event_id>/', event_views.delete_event, name='delete_event'),
     path('places/', place_views.all_places, name='places'),
     path('animals/', animal_views.all_animals, name='animals'),
 
