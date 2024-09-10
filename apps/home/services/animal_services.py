@@ -1,6 +1,6 @@
 import requests
 import json
-from apps.home.services.api_info import *
+from .api_info import *
 
 # The headers for the HTTP request
 headers = {
@@ -52,18 +52,17 @@ def add_animal(name, image=None):
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(create_animal_payload))
 
 
-def delete_animal(id):
-    delete_animal_mutation = f"""
-      mutation deleteAnimal {{
-        deleteAnimal(input: {{id: "{id}"}}) {{
-        }}
-      }}
-    """
-
-    payload = {
-        'query': delete_animal_mutation
+def remove_animal(id):
+    remove_animal_payload = {
+        'query': f"""
+            mutation deleteAnimal {{
+                deleteAnimal(input: {{id: "{id}"}}) {{
+                    id
+                }}
+            }}
+        """
     }
 
     # Send the POST request to the AppSync endpoint
     requests.post(
-        APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload))
+        APPSYNC_ENDPOINT, headers=headers, data=json.dumps(remove_animal_payload))

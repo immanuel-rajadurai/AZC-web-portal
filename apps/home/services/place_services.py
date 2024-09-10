@@ -1,6 +1,6 @@
 import requests
 import json
-from apps.home.services.api_info import *
+from .api_info import *
 
 # The headers for the HTTP request
 headers = {
@@ -85,18 +85,16 @@ def create_place(name, description, isOpen, animal_id=None, image=None):
 
 
 def delete_place(id):
-    delete_place_mutation = f"""
-        mutation deletePlace {{
-            deletePlace(input: {{id: "{id}"}}) {{
-                id
+    delete_place_payload = {
+        'query': f"""
+            mutation deletePlace {{
+                deletePlace(input: {{id: "{id}"}}) {{
+                    id
+                }}
             }}
-        }}
-    """
-
-    payload = {
-        'query': delete_place_mutation
+        """
     }
 
     # Send the POST request to the AppSync endpoint
     requests.post(
-        APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload))
+        APPSYNC_ENDPOINT, headers=headers, data=json.dumps(delete_place_payload))

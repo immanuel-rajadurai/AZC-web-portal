@@ -52,9 +52,9 @@ def all_events(request):
     print("HTML template ", html_template)
     return HttpResponse(html_template.render(context, request))
 
+
 @login_required(login_url="/login/")
 def delete_event(request, event_id):
-
     print("attempting to delete event: ", event_id)
     event_services.delete_event(event_id)
 
@@ -63,4 +63,3 @@ def delete_event(request, event_id):
     # html_template = loader.get_template('home/show_events.html')
 
     return redirect('events')
-

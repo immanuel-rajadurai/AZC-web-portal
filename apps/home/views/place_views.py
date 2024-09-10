@@ -5,6 +5,7 @@ Copyright (c) 2019 - present AppSeed.us
 
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+from django.shortcuts import redirect
 from django.template import loader
 from django.contrib import messages
 from ..services import place_services
@@ -46,3 +47,15 @@ def all_places(request):
 
     html_template = loader.get_template('home/events.html')
     return HttpResponse(html_template.render(context, request))
+
+
+@login_required(login_url="/login/")
+def delete_event(request, place_id):
+    print("attempting to delete place: ", place_id)
+    place_services.delete_place(place_id)
+
+    messages.success(request, 'Event deleted successfully')
+
+    # html_template = loader.get_template('home/show_events.html')
+
+    return redirect('places')
