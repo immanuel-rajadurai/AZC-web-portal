@@ -37,13 +37,12 @@ def all_events(request):
     else:
         form = event_forms.CreateEventForm()
 
-    events_data = event_services.get_events_list()
-    places_data = place_services.get_places_list()
-
     context = {
         'segment': 'events',
-        'events': events_data,
-        'places': places_data,
+        # 'events': {},
+        'events': event_services.get_events_list(),
+        # 'places': {},
+        'places': place_services.get_places_list(),
         'form': form,
     }
 
@@ -60,7 +59,4 @@ def delete_event(request, event_id):
     event_services.delete_event(event_id)
 
     messages.success(request, 'Event deleted successfully')
-
-    # html_template = loader.get_template('home/show_events.html')
-
     return redirect('events')

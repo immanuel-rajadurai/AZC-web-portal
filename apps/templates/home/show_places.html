@@ -2,33 +2,46 @@
 
 {% load form_tags %}
 
+
+
 {% block title %}
-  Profile
+  Places
 {% endblock %}
+
+
 
 {% block content %}
   <div class="header pb-6 d-flex align-items-center" style="min-height: 500px; background-image: url(/static/assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
     <!-- Mask -->
     <span class="mask bg-gradient-default opacity-8"></span>
     <!-- Header container -->
-    <div class="col-lg-7 col-md-10">
-      <h1 class="display-2 text-white">Current Events</h1>
-      <div class="row mt-4">
-        <div class="col">
-          <div class="d-flex overflow-auto">
-            {% for event in events %}
-              <div class="card mr-3" style="min-width: 18rem;">
-                <img src="{{ event.image }}" class="card-img-top" alt="..." />
+    {% if places %}
+      <div class="col-lg-7 col-md-10">
+        <h1 class="display-2 text-white">Current Places</h1>
+        <div class="row mt-4">
+          <div class="col">
+            <div class="d-flex overflow-auto">
+              {% for place in places %}
+              <div class="card mr-3" style="width: 18rem; position: relative;">
+                <img src="{{ place.image }}" class="card-img-top card-img-fixed" alt="..." />
                 <div class="card-body">
-                  <h5 class="card-title">{{ event.name }}</h5>
-                  <p class="card-text">{{ event.description }}</p>
+                    <h5 class="card-title">{{ place.name }}</h5>
+                    <p class="card-text">{{ place.description }}</p>
+                    <small class="card-text">{{ place.id }}</small>
                 </div>
+                <form action="{% url 'delete_place' place.id %}" method="post" style="position: absolute; bottom: 10px; right: 10px;">
+                  {% csrf_token %}
+                  <button type="submit" class="delete-btn">
+                      <i class="fas fa-trash-alt"></i>
+                  </button>
+                </form>
               </div>
-            {% endfor %}
+              {% endfor %}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    {% endif %}
     <!--   <div class="container-fluid d-flex align-items-center">
     <div class="row">
       <div class="col-lg-7 col-md-10">
@@ -104,7 +117,7 @@
         <div class="card-header">
           <div class="row align-items-center">
             <div class="col-8">
-              <h3 class="mb-0">Add an event</h3>
+              <h3 class="mb-0">Add an place</h3>
             </div>
             <div class="col-4 text-right">
               <!-- <a href="#!" class="btn btn-sm btn-primary">Settings</a> -->
@@ -123,7 +136,7 @@
           <form method="post">
             {% csrf_token %}
 
-            <h6 class="heading-small text-muted mb-4">Event information</h6>
+            <h6 class="heading-small text-muted mb-4">Place information</h6>
             <div class="pl-lg-4">
               <div class="row">
                 <div class="col-lg-6">

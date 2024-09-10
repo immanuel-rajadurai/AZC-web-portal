@@ -37,14 +37,12 @@ def all_places(request):
     else:
         form = place_forms.AddPlaceForm()
 
-    places_data = place_services.get_places_list()
-
-    animals_data = animal_services.get_animals_list()
-
     context = {
         'segment': 'places',
-        'places': places_data,
-        'animals': animals_data,
+        # 'places': {},
+        'places': place_services.get_places_list(),
+        # 'animals': {},
+        'animals': animal_services.get_animals_list(),
         'form': form,
     }
 
@@ -56,12 +54,9 @@ def all_places(request):
 
 
 @login_required(login_url="/login/")
-def delete_event(request, place_id):
+def delete_place(request, place_id):
     print("attempting to delete place: ", place_id)
     place_services.delete_place(place_id)
 
-    messages.success(request, 'Event deleted successfully')
-
-    # html_template = loader.get_template('home/show_events.html')
-
+    messages.success(request, 'Place deleted successfully')
     return redirect('places')

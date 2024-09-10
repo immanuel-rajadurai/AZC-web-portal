@@ -15,31 +15,33 @@
     <!-- Mask -->
     <span class="mask bg-gradient-default opacity-8"></span>
     <!-- Header container -->
-    <div class="col-lg-7 col-md-10">
-      <h1 class="display-2 text-white">Current Events</h1>
-      <div class="row mt-4">
-        <div class="col">
-          <div class="d-flex overflow-auto">
-            {% for event in events %}
-            <div class="card mr-3" style="width: 18rem; position: relative;">
-              <img src="{{ event.image }}" class="card-img-top card-img-fixed" alt="..." />
-              <div class="card-body">
-                  <h5 class="card-title">{{ event.name }}</h5>
-                  <p class="card-text">{{ event.description }}</p>
-                  <small class="card-text">{{ event.id }}</small>
+    {% if events %}
+      <div class="col-lg-7 col-md-10">
+        <h1 class="display-2 text-white">Current Events</h1>
+        <div class="row mt-4">
+          <div class="col">
+            <div class="d-flex overflow-auto">
+              {% for event in events %}
+              <div class="card mr-3" style="width: 18rem; position: relative;">
+                <img src="{{ event.image }}" class="card-img-top card-img-fixed" alt="..." />
+                <div class="card-body">
+                    <h5 class="card-title">{{ event.name }}</h5>
+                    <p class="card-text">{{ event.description }}</p>
+                    <small class="card-text">{{ event.id }}</small>
+                </div>
+                <form action="{% url 'delete_event' event.id %}" method="post" style="position: absolute; bottom: 10px; right: 10px;">
+                  {% csrf_token %}
+                  <button type="submit" class="delete-btn">
+                      <i class="fas fa-trash-alt"></i>
+                  </button>
+                </form>
               </div>
-              <form action="{% url 'delete_event' event.id %}" method="post" style="position: absolute; bottom: 10px; right: 10px;">
-                {% csrf_token %}
-                <button type="submit" class="delete-btn">
-                    <i class="fas fa-trash-alt"></i>
-                </button>
-              </form>
+              {% endfor %}
             </div>
-            {% endfor %}
           </div>
         </div>
       </div>
-    </div>
+    {% endif %}
     <!--   <div class="container-fluid d-flex align-items-center">
     <div class="row">
       <div class="col-lg-7 col-md-10">

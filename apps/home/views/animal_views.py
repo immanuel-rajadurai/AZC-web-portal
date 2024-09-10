@@ -33,11 +33,10 @@ def all_animals(request):
     else:
         form = animal_forms.AddAnimalForm()
 
-    animals_data = animal_services.get_animals_list()
-
     context = {
         'segment': 'animals',
-        'animals': animals_data,
+        # 'animals': {},
+        'animals': animal_services.get_animals_list(),
         'form': form,
     }
 
@@ -49,12 +48,9 @@ def all_animals(request):
 
 
 @login_required(login_url="/login/")
-def delete_animal(request, animal_id):
+def remove_animal(request, animal_id):
     print("attempting to remove animal ", animal_id)
     animal_services.remove_animal(animal_id)
 
-    messages.success(request, 'Event deleted successfully')
-
-    # html_template = loader.get_template('home/show_events.html')
-
+    messages.success(request, 'Animal removed successfully')
     return redirect('animals')
