@@ -12,15 +12,15 @@ urlpatterns = [
 
 
     path('animals/', animal_views.all_animals, name='animals'),
-    path('delete_animal/<str:event_id>/',
-         animal_views.remove_animal, name='delete_animal'),
+    path('remove_animal/<str:animal_id>/',
+         animal_views.remove_animal, name='remove_animal'),
 
     path('events/', event_views.all_events, name='events'),
     path('delete_event/<str:event_id>/',
          event_views.delete_event, name='delete_event'),
 
     path('places/', place_views.all_places, name='places'),
-    path('delete_place/<str:event_id>/',
+    path('delete_place/<str:place_id>/',
          place_views.delete_place, name='delete_place'),
 
 

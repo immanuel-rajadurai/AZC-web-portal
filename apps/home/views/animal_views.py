@@ -8,6 +8,7 @@ from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.template import loader
 from django.contrib import messages
+
 from ..services import animal_services
 from ..forms import animal_forms
 
@@ -20,14 +21,14 @@ def all_animals(request):
         if form.is_valid():
             data = form.cleaned_data
 
-            # print("form data: ", data)
+            print("form data: ", data)
 
             name = data['name']
             image = data['image']
 
             animal_services.add_animal(name, image)
 
-            messages.success(request, 'Event created successfully')
+            messages.success(request, 'Animal created successfully')
 
             # return redirect('success')
     else:

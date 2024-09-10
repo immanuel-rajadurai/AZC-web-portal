@@ -25,10 +25,10 @@
               <div class="card mr-3" style="width: 18rem; position: relative;">
                 <img src="{{ animal.image }}" class="card-img-top card-img-fixed" alt="..." />
                 <div class="card-body">
-                    <h5 class="card-title">{{ animal.name }}</h5>
-                    <small class="card-text">{{ animal.id }}</small>
+                  <h5 class="card-title">{{ animal.name }}</h5>
+                  <small class="card-text">{{ animal.id }}</small>
                 </div>
-                <form action="{% url 'delete_animal' animal.id %}" method="post" style="position: absolute; bottom: 10px; right: 10px;">
+                <form action="{% url 'remove_animal' animal.id %}" method="post" style="position: absolute; bottom: 10px; right: 10px;">
                   {% csrf_token %}
                   <button type="submit" class="delete-btn">
                       <i class="fas fa-trash-alt"></i>
@@ -141,14 +141,14 @@
                 <div class="col-lg-6">
                   <div class="form-group">
                     <label class="form-control-label" for="id_name">Name</label>
-                    <!-- <input type="text" id="input-username" class="form-control" placeholder="The name of the event" value=""> -->
+                    <!-- <input type="text" id="input-username" class="form-control" placeholder="The name of the animal" value=""> -->
                     {{ form.name|add_class:'form-control' }}
                   </div>
                 </div>
                 <div class="col-lg-6">
                   <div class="form-group">
                     <label class="form-control-label" for="id_image">Image URL</label>
-                    <!-- <input type="email" id="input-email" class="form-control" placeholder="The URL to the descriptive image for that event"> -->
+                    <!-- <input type="email" id="input-email" class="form-control" placeholder="The URL to the descriptive image for that animal"> -->
                     {{ form.image|add_class:'form-control' }}
                   </div>
                 </div>

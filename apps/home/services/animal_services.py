@@ -36,20 +36,20 @@ def get_animals_list():
     return response.json()["data"]["listAnimals"]["items"]
 
 
-def add_animal(name, image=None):
-    create_animal_payload = {
+def add_animal(name, image):
+    payload = {
         'query': f"""
-                mutation createAnimal {{
-                  createAnimal(input: {{id: {id}, image: {image}, name: {name}}}) {{
+            mutation createAnimal {{
+                createAnimal(input: {{name: "{name}", image: "{image}"}}) {{
                     id
-                  }}
                 }}
+            }}
         """
     }
 
     # Send the POST request to the AppSync endpoint
     requests.post(
-        APPSYNC_ENDPOINT, headers=headers, data=json.dumps(create_animal_payload))
+        APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload))
 
 
 def remove_animal(id):

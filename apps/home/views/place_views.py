@@ -8,7 +8,7 @@ from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.template import loader
 from django.contrib import messages
-from ..services import animal_services, place_services
+from ..services import animal_services, place_services, animal_place_services
 from ..forms import place_forms
 
 
@@ -20,20 +20,17 @@ def all_places(request):
         if form.is_valid():
             data = form.cleaned_data
 
-            # print("form data: ", data)
+            print("form data: ", data)
 
             name = data['name']
             description = data['description']
-            animal_id = data['animal_id']
             isOpen = data['isOpen']
             image = data['image']
 
             place_services.create_place(
-                name, description, animal_id, isOpen, image)
+                name, description, isOpen, image)
 
-            messages.success(request, 'Event created successfully')
-
-            # return redirect('success')
+            messages.success(request, 'Place created successfully')
     else:
         form = place_forms.AddPlaceForm()
 
@@ -59,4 +56,14 @@ def delete_place(request, place_id):
     place_services.delete_place(place_id)
 
     messages.success(request, 'Place deleted successfully')
+    return redirect('places')
+
+
+@login_required(login_url="/login/")
+def add_animal_to_place(request, place_id, animal_id):
+    print("attemping to add animal to place")
+
+    animal_place_services.add_animal_to_place(animal_id, place_id)
+
+    messages.success(request, 'Animal assigned successfully')
     return redirect('places')

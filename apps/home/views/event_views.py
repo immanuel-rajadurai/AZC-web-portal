@@ -5,10 +5,11 @@ Copyright (c) 2019 - present AppSeed.us
 
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect
 from django.template import loader
 from django.contrib import messages
-from ..services import event_services, place_services
+
+from ..services import event_services, place_services, event_place_services
 from ..forms import event_forms
 
 
@@ -20,20 +21,15 @@ def all_events(request):
         if form.is_valid():
             data = form.cleaned_data
 
-            # print("form data: ", data)
+            print("form data: ", data)
 
             name = data['name']
             description = data['description']
-            # place_id = data['place_id']
             image = data['image']
-
-            # event_services.create_event(
-            #     name, description, place_id, image)
 
             event_services.create_event(name, description, image)
 
             messages.success(request, 'Event created successfully')
-
     else:
         form = event_forms.CreateEventForm()
 
@@ -59,4 +55,14 @@ def delete_event(request, event_id):
     event_services.delete_event(event_id)
 
     messages.success(request, 'Event deleted successfully')
+    return redirect('events')
+
+
+@login_required(login_url="/login/")
+def add_place_to_event(request, event_id, place_id):
+    print("attemping to add place to event")
+
+    event_place_services.add_event_to_place(event_id, place_id)
+
+    messages.success(request, 'Place assigned successfully')
     return redirect('events')

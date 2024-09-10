@@ -28,6 +28,28 @@
                     <h5 class="card-title">{{ place.name }}</h5>
                     <p class="card-text">{{ place.description }}</p>
                     <small class="card-text">{{ place.id }}</small>
+
+                    <div class="dropdown">
+                      <a href class="align-items-center text-white text-decoration-none" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded='false'>
+                        {% if places %}
+                          <button type="button" class="btn btn-outline-primary">Places <i class="bi bi-book"></i></button>
+                        {% endif %}
+                      </a>
+                    
+                      <ul class="dropdown-menu dropdown-menu-right dropdown-menu-dark text-small shadow" style='width: 275px'>
+                        <div class='container' style='max-height:80vh; overflow-y: auto; padding: 0'>
+                          {% for place in places %} 
+                            <li>
+                              <a class="dropdown-item text-wrap" style='overflow-wrap: break-word;'>
+                                <p>{{ place.name }}</p>
+                                <a class="btn btn-outline-danger" href="{% url 'add_animal_to_place' animal.id place.id %}"><i class="bi bi-dash-circle"></i></a>
+                              </a>
+                            </li>
+                          {% endfor %}
+                        </div>
+                      </ul>
+                    </div>
+                  </div>
                 </div>
                 <form action="{% url 'delete_place' place.id %}" method="post" style="position: absolute; bottom: 10px; right: 10px;">
                   {% csrf_token %}
@@ -157,7 +179,15 @@
               <div class="row">
                 <div class="col-lg-6">
                   <div class="form-group">
-                    <label class="form-control-label" for="id_description">Short description</label>
+                    <label class="form-control-label" for="id_isOpen">isOpen</label>
+                    {{ form.isOpen|add_class:'form-control' }}
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="id_description">Description</label>
                     <!-- <input type="text" id="input-first-name" class="form-control" placeholder="A short description that visitors can read in a few seconds" value=""> -->
                     {{ form.description|add_class:'form-control' }}
                   </div>

@@ -38,50 +38,20 @@ def get_places_list():
     return response.json()["data"]["listPlaces"]["items"]
 
 
-def create_place(name, description, isOpen, animal_id=None, image=None):
-    if image != None:
-        create_place_payload = {
-            'query': f"""
-                mutation createPlace {{
-                    createPlace(input: {{
-                    name: "{name}, description: {description}, 
-                        image: {image}, 
-                        isOpen: {isOpen}}}) {{
-                            id
-                    }}
+def create_place(name, description, isOpen, image):
+    payload = {
+        'query': f"""
+            mutation createPlace {{
+                createPlace(input: {{name: "{name}", description: "{description}", isOpen: "{isOpen}", image: "{image}"}}) {{
+                    id
                 }}
-            """
-        }
-    else:
-        create_place_payload = {
-            'query': f"""
-                mutation createPlace {{
-                    createPlace(input: {{
-                    name: "{name}, description: {description}, 
-                        isOpen: {isOpen}}}) {{
-                            id
-                    }}
-                }}
-            """
-        }
-    response = requests.post(
-        APPSYNC_ENDPOINT, headers=headers, data=json.dumps(create_place_payload))
+            }}
+        """
+    }
 
-    if animal_id != None:
-        place_id = response.json()["data"]["createPlace"]["id"]
-        create_place_animal_payload = {
-            'query': f"""
-                mutation createPlaceAnimal {{
-                    createPlaceAnimal(input: {{
-                        animalID: "{animal_id},
-                        placeID: {place_id}}}) {{
-                            id
-                    }}
-                }}
-            """
-        }
-        requests.post(
-            APPSYNC_ENDPOINT, headers=headers, data=json.dumps(create_place_animal_payload))
+    # Send the POST request to the AppSync endpoint
+    requests.post(
+        APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload))
 
 
 def delete_place(id):
