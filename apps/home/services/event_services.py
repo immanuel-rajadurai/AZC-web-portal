@@ -8,19 +8,6 @@ headers = {
     'x-api-key': API_KEY
 }
 
-list_events = """
-  query ListEvents {
-    listEvents {
-      items {
-        id
-        description
-        name
-        image
-      }
-    }
-  }
-"""
-
 
 def get_events_list():
     list_events = """
