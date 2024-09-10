@@ -8,7 +8,7 @@ from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.template import loader
 from django.contrib import messages
-from ..services import place_services
+from ..services import animal_services, place_services
 from ..forms import place_forms
 
 
@@ -39,13 +39,19 @@ def all_places(request):
 
     places_data = place_services.get_places_list()
 
+    animals_data = animal_services.get_animals_list()
+
     context = {
-        'segment': 'events',
-        'events': places_data,
+        'segment': 'places',
+        'places': places_data,
+        'animals': animals_data,
         'form': form,
     }
 
-    html_template = loader.get_template('home/events.html')
+    html_template = loader.get_template('home/show_places.html')
+
+    # print("HTML template ", html_template)
+
     return HttpResponse(html_template.render(context, request))
 
 

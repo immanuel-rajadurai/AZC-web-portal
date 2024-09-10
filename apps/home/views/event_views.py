@@ -8,7 +8,7 @@ from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.template import loader
 from django.contrib import messages
-from ..services import event_services
+from ..services import event_services, place_services
 from ..forms import event_forms
 
 
@@ -38,18 +38,19 @@ def all_events(request):
         form = event_forms.CreateEventForm()
 
     events_data = event_services.get_events_list()
-
-    # events_data = {}
+    places_data = place_services.get_places_list()
 
     context = {
         'segment': 'events',
         'events': events_data,
+        'places': places_data,
         'form': form,
     }
 
     html_template = loader.get_template('home/show_events.html')
 
-    print("HTML template ", html_template)
+    # print("HTML template ", html_template)
+
     return HttpResponse(html_template.render(context, request))
 
 

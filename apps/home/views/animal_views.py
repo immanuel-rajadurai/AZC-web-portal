@@ -36,12 +36,15 @@ def all_animals(request):
     animals_data = animal_services.get_animals_list()
 
     context = {
-        'segment': 'events',
-        'events': animals_data,
+        'segment': 'animals',
+        'animals': animals_data,
         'form': form,
     }
 
-    html_template = loader.get_template('home/events.html')
+    html_template = loader.get_template('home/show_animals.html')
+
+    # print("HTML template ", html_template)
+
     return HttpResponse(html_template.render(context, request))
 
 
