@@ -25,30 +25,41 @@
               <div class="card mr-3" style="width: 18rem; position: relative;">
                 <img src="{{ event.image }}" class="card-img-top card-img-fixed" alt="..." />
                 <div class="card-body">
-                    <h5 class="card-title">{{ event.name }}</h5>
-                    <p class="card-text">{{ event.description }}</p>
-                    <small class="card-text">{{ event.id }}</small>
+                  <h5 class="card-title">{{ event.name }}</h5>
+                  <p class="card-text">{{ event.description }}</p>
+                  <small class="card-text">{{ event.id }}</small>
 
-                    <div class="dropdown">
-                      <a href class="align-items-center text-white text-decoration-none" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded='false'>
-                        {% if places %}
-                          <button type="button" class="btn btn-outline-primary">Places<i class="bi bi-book"></i></button>
-                        {% endif %}
-                      </a>
-                    
-                      <ul class="dropdown-menu dropdown-menu-right dropdown-menu-dark text-small shadow" style='width: 275px'>
-                        <div class='container' style='max-height:80vh; overflow-y: auto; padding: 0'>
-                          {% for place in places %} 
-                            <li>
-                              <a class="dropdown-item text-wrap" style='overflow-wrap: break-word;'>
-                                <p>{{ place.name }}</p>
-                                <a class="btn btn-outline-danger" href="{% url 'add_place_to_event' place.id event.id %}"><i class="bi bi-dash-circle"></i></a>
-                              </a>
-                            </li>
-                          {% endfor %}
-                        </div>
-                      </ul>
+                  <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Places
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      {% for place in places %}
+                        <a class="dropdown-item text-wrap" href="{% url 'add_place_to_event' event.id place.id %}" style='overflow-wrap: break-word;'>{{ place.name }}</a>
+                      {% endfor %}
                     </div>
+                  </div>
+
+                  {% comment %} <div class="dropdown">
+                    <a href class="align-items-center text-white text-decoration-none" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded='false'>
+                      {% if places %}
+                        <button type="button" class="btn btn-outline-primary">Places <i class="bi bi-book"></i></button>
+                      {% endif %}
+                    </a>
+                  
+                    <ul class="dropdown-menu dropdown-menu-right dropdown-menu-dark text-small shadow" style='width: 275px'>
+                      <div class='container' style='max-height:80vh; overflow-y: auto; padding: 0'>
+                        {% for animal in animals %} 
+                          <li>
+                            <a class="dropdown-item text-wrap" style='overflow-wrap: break-word;'>
+                              <p>{{ animal.name }}</p>
+                              <a class="btn btn-outline-danger" href="{% url 'add_animal_to_place' place.id animal.id %}"><i class="bi bi-dash-circle"></i></a>
+                            </a>
+                          </li>
+                        {% endfor %}
+                      </div>
+                    </ul>
+                  </div> {% endcomment %}
                 </div>
                 <form action="{% url 'delete_event' event.id %}" method="post" style="position: absolute; bottom: 10px; right: 10px;">
                   {% csrf_token %}

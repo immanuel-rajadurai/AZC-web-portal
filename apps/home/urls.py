@@ -16,13 +16,16 @@ urlpatterns = [
          animal_views.remove_animal, name='remove_animal'),
 
     path('events/', event_views.all_events, name='events'),
-    path('delete_event/<str:event_id>/',
+    path('delete_event/<str:event_id>',
          event_views.delete_event, name='delete_event'),
+    path('add_place_to_event/<str:event_id>/<str:place_id>',
+         event_views.add_place_to_event, name='add_place_to_event'),
 
     path('places/', place_views.all_places, name='places'),
-    path('delete_place/<str:place_id>/',
+    path('delete_place/<str:place_id>',
          place_views.delete_place, name='delete_place'),
-
+    path('add_animal_to_place/<str:place_id>/<str:animal_id>',
+         place_views.add_animal_to_place, name='add_animal_to_place'),
 
     # Matches any html file
     re_path(r'^.*\.*', miscellaneous_views.pages),

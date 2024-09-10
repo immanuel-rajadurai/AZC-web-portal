@@ -63,7 +63,7 @@ def delete_place(request, place_id):
 def add_animal_to_place(request, place_id, animal_id):
     print("attemping to add animal to place")
 
-    animal_place_services.add_animal_to_place(animal_id, place_id)
+    animal_place_services.add_animal_to_place(place_id, animal_id)
 
     messages.success(request, 'Animal assigned successfully')
     return redirect('places')
