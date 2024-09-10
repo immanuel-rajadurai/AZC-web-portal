@@ -12,14 +12,14 @@ headers = {
 def add_animal_to_place(animal_id, place_id):
     create_animal_place_payload = {
         'query': f"""
-                mutation createAnimalPlace {{
-                    createAnimalPlace(input: {{
-                        placeID: "{place_id},
-                        animalID: {animal_id}}}) {{
-                            id
-                    }}
+            mutation createPlaceAnimal {{
+                createPlaceAnimal(input: {{
+                    placeID: "{place_id},
+                    animalID: {animal_id}}}) {{
+                        id
                 }}
-            """
+            }}
+        """
     }
     requests.post(
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(create_animal_place_payload))
