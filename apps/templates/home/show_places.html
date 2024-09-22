@@ -13,6 +13,7 @@
   <div class="header pb-6 d-flex align-items-center" style="min-height: 500px; background-image: url(/static/assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
     <!-- Mask -->
     <span class="mask bg-gradient-default opacity-8"></span>
+    
     <!-- Header container -->
     {% if places %}
       <div class="col-lg-7 col-md-10">
@@ -22,8 +23,8 @@
             <div class="d-flex overflow-auto">
               {% for place in places %}
               <div class="card mr-3" style="width: 18rem; position: relative;">
-                <img src="{{ place.image }}" class="card-img-top card-img-fixed" alt="..." />
-                <div class="card-body">
+                <img src="{{ place.image }}" class="card-img-top card-img-fixed" alt="..." style="max-height:300px;"/>
+                <div class="card-body d-flex flex-column align-items-center">
                   <h5 class="card-title">{{ place.name }}</h5>
                   <p class="card-text">{{ place.description }}</p>
                   {% comment %} <small class="card-text">{{ place.id }}</small> {% endcomment %}
@@ -60,12 +61,19 @@
                     </ul>
                   </div> {% endcomment %}
                 </div>
-                <form action="{% url 'delete_place' place.id %}" method="post" style="position: absolute; bottom: 10px; right: 10px;">
-                  {% csrf_token %}
-                  <button type="submit" class="delete-btn">
-                      <i class="fas fa-trash-alt"></i>
-                  </button>
-                </form>
+
+                  <form action="{% url 'edit_place' place.id %}" method="GET" style="position: absolute; bottom: 10px; right: 45px;">
+                    {% csrf_token %}
+                    <button type="submit" class="delete-btn" style="color: black">
+                        <i class="fas fa-pencil-alt"></i>
+                    </button>
+                  </form>
+                  <form action="{% url 'delete_place' place.id %}" method="POST" style="position: absolute; bottom: 10px; right: 10px;">
+                    {% csrf_token %}
+                    <button type="submit" class="delete-btn">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                  </form>
               </div>
               {% endfor %}
             </div>
