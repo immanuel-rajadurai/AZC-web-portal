@@ -70,8 +70,6 @@ def edit_animal(request, animal_id):
 
             animal_services.edit_animal(animal_id, name, image)
 
-            c
-
             return redirect('animals')
     else:
         form = animal_forms.AnimalForm()
