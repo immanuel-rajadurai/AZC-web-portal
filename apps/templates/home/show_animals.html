@@ -23,18 +23,18 @@
             <div class="d-flex overflow-auto">
               {% for animal in animals %}
               <div class="card mr-3" style="width: 18rem; position: relative;">
-                <img src="{{ animal.image }}" class="card-img-top card-img-fixed" alt="..." style="max-height:300px;"/>
+                <img src="{{ animal.image }}" class="card-img-top card-img-fixed card-photo" alt="..."/>
                 <div class="card-body d-flex flex-column align-items-center">
                   <h5 class="card-title">{{ animal.name }}</h5>
                   {% comment %} <small class="card-text">{{ animal.id }}</small> {% endcomment %}
 
-                  <form action="{% url 'edit_animal' animal.id %}" method="GET" style="position: absolute; bottom: 10px; right: 45px;">
+                  <form action="{% url 'edit_animal' animal.id %}" method="GET">
                     {% csrf_token %}
-                    <button type="submit" class="delete-btn" style="color: black">
+                    <button type="submit" class="edit-btn">
                         <i class="fas fa-pencil-alt"></i>
                     </button>
                   </form>
-                  <form action="{% url 'remove_animal' animal.id %}" method="POST" style="position: absolute; bottom: 10px; right: 10px;">
+                  <form action="{% url 'remove_animal' animal.id %}" method="POST">
                     {% csrf_token %}
                     <button type="submit" class="delete-btn">
                         <i class="fas fa-trash-alt"></i>

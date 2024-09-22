@@ -86,7 +86,7 @@ def edit_event(request, event_id):
 
             messages.success(request, f""""{name}" edited successfully""")
 
-            return redirect('animals')
+            return redirect('events')
     else:
         form = event_forms.EventForm()
         form.fields['name'].initial = event['name']

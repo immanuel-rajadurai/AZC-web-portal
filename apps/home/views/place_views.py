@@ -85,7 +85,7 @@ def edit_place(request, place_id):
 
             messages.success(request, f""""{name}" edited successfully""")
 
-            return redirect('animals')
+            return redirect('places')
     else:
         form = place_forms.PlaceForm()
 
