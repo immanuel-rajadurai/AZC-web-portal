@@ -117,4 +117,4 @@ def delete_event(id):
     response = requests.post(
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(delete_event_payload))
 
-    print(response.json())
+    # print(response.json())

@@ -31,7 +31,7 @@ def get_animals_list():
     response = requests.post(
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload))
 
-    print(response.json())
+    # print(response.json())
 
     return response.json()["data"]["listAnimals"]["items"]
 

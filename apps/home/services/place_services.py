@@ -39,19 +39,41 @@ def get_places_list():
 
 
 def create_place(name, description, isOpen, image):
+
+    print("calling create place")
+
+    # payload = f'''
+    #             mutation {{
+    #                 createPlace(input: {{
+    #                     description: "{description}",
+    #                     image: "{image}",
+    #                     isOpen: {str(isOpen).lower()},
+    #                     name: "{name}"
+    #                 }}) {{
+    #                     id
+    #                     description
+    #                     image
+    #                     isOpen
+    #                     name
+    #                 }}
+    #             }}
+    #             '''
+
     payload = {
         'query': f"""
             mutation createPlace {{
-                createPlace(input: {{name: "{name}", description: "{description}", isOpen: "{isOpen}", image: "{image}"}}) {{
+                createPlace(input: {{name: "{name}", description: "{description}", isOpen: {str(isOpen).lower()}, image: "{image}"}}) {{
                     id
                 }}
             }}
         """
     }
 
+
     # Send the POST request to the AppSync endpoint
-    requests.post(
-        APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload))
+    response = requests.post(APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload))
+
+    print("create place response: ", response.json())
 
 
 def delete_place(id):

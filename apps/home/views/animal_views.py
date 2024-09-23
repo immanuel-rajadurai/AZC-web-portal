@@ -21,7 +21,7 @@ def all_animals(request):
         if form.is_valid():
             data = form.cleaned_data
 
-            print("form data: ", data)
+            # print("form data: ", data)
 
             name = data['name']
             image = data['image']
