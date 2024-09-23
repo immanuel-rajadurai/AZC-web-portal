@@ -30,3 +30,9 @@ apps/static/assets/yarn.lock
 apps/static/assets/.temp
 
 .python-version
+
+# vscode files
+.vscode
+
+# Jupyter Notebooks
+*.ipynb
