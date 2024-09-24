@@ -11,7 +11,7 @@ headers = {
 
 def get_events_list():
     list_events = """
-        query ListEvents {
+        query listEvents {
             listEvents {
                 items {
                     id
@@ -53,7 +53,6 @@ def create_event(name, description, image):
     # Send the POST request to the AppSync endpoint
     response = requests.post(
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload))
-
     return response.json()
 
 
@@ -98,8 +97,9 @@ def create_event(name, description, image):
 #             }}
 #         """
 #     }
-#     requests.post(
+#   response = requests.post(
 #         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(create_event_place_payload))
+    # print(response.json())
 
 
 def delete_event(id):
@@ -116,5 +116,42 @@ def delete_event(id):
     # Send the POST request to the AppSync endpoint
     response = requests.post(
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(delete_event_payload))
+    # print(response.json())
+
+
+def edit_event(event_id, name, description, image):
+    edit_event_payload = {
+        'query': f"""
+            mutation updateEvent {{
+                updateEvent(input: {{id: "{event_id}", name: "{name}", description: "{description}", image: "{image}"}}, condition: null) {{
+                    id
+                }}
+            }}
+        """
+    }
+
+    # Send the POST request to the AppSync endpoint
+    response = requests.post(
+        APPSYNC_ENDPOINT, headers=headers, data=json.dumps(edit_event_payload))
+    # print(response.json())
+
+
+def get_event(id):
+    payload = {
+        'query': f"""
+            query listEvents {{
+                getEvent(id: "{id}") {{
+                    name
+                    description
+                    image
+                }}
+            }}
+        """
+    }
+
+    # Send the POST request to the AppSync endpoint
+    response = requests.post(
+        APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload))
 
     # print(response.json())
+    return response.json()["data"]["getEvent"]
