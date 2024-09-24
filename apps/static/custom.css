@@ -1,0 +1,35 @@
+.card-photo {
+    height: 200px;
+    width: auto;
+    object-fit: cover
+}
+
+.edit-btn {
+    position: absolute;
+    bottom: 5px;
+    right: 35px;
+    background-color: transparent;
+    border: none;
+    color: grey;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.edit-btn:hover {
+    color: black;
+}
+
+.delete-btn {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background-color: transparent;
+    border: none;
+    color: red;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.delete-btn:hover {
+    color: darkred;
+}

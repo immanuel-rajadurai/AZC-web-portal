@@ -11,7 +11,7 @@ headers = {
 
 def get_places_list():
     list_places = """
-        query ListPlaces {
+        query listPlaces {
             listPlaces {
                 items {
                     id
@@ -33,8 +33,7 @@ def get_places_list():
     response = requests.post(
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload))
 
-    print(response.json())
-
+    # print(response.json())
     return response.json()["data"]["listPlaces"]["items"]
 
 
@@ -69,8 +68,6 @@ def create_place(name, description, isOpen, image):
         """
     }
 
-
-    # Send the POST request to the AppSync endpoint
     response = requests.post(APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload))
 
     print("create place response: ", response.json())
@@ -88,5 +85,45 @@ def delete_place(id):
     }
 
     # Send the POST request to the AppSync endpoint
-    requests.post(
+    response = requests.post(
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(delete_place_payload))
+    # print(response.json())
+
+
+def edit_place(place_id, name, description, isOpen, image):
+    edit_place_payload = {
+        'query': f"""
+            mutation updatePlace {{
+                updatePlace(input: {{id: "{place_id}", name: "{name}", description: "{description}", isOpen: "{isOpen}", image: "{image}"}}, condition: null) {{
+                    id
+                }}
+            }}
+        """
+    }
+
+    # Send the POST request to the AppSync endpoint
+    response = requests.post(
+        APPSYNC_ENDPOINT, headers=headers, data=json.dumps(edit_place_payload))
+    # print(response.json())
+
+
+def get_place(id):
+    payload = {
+        'query': f"""
+            query listPlaces {{
+                getPlace(id: "{id}") {{
+                    name
+                    description
+                    isOpen
+                    image
+                }}
+            }}
+        """
+    }
+
+    # Send the POST request to the AppSync endpoint
+    response = requests.post(
+        APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload))
+
+    # print(response.json())
+    return response.json()["data"]["getPlace"]
