@@ -19,30 +19,42 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link {% if 'index' in segment %} active {% endif %}" href="{% url 'events' %}">
-              <i class="ni ni-tv-2 text-primary"></i>
+            <a class="nav-link {% if 'animals' in segment %} active {% endif %}" href="{% url 'animals' %}">
+              <i class="ni ni-bullet-list-67 text-primary"></i>
+              <span class="nav-link-text">Animals</span>
+            </a>
+          </li>
+           <li class="nav-item">
+            <a class="nav-link {% if 'events' in segment %} active {% endif %}" href="{% url 'events' %}">
+              <i class="ni ni-bullet-list-67 text-primary"></i>
               <span class="nav-link-text">Events</span>
             </a>
           </li>
-          <li class="nav-item">
+           <li class="nav-item">
+            <a class="nav-link {% if 'places' in segment %} active {% endif %}" href="{% url 'places' %}">
+              <i class="ni ni-bullet-list-67 text-primary"></i>
+              <span class="nav-link-text">Places</span>
+            </a>
+          </li>
+          {% comment %} <li class="nav-item">
             <a class="nav-link {% if 'icons' in segment %} active {% endif %}" href="/icons.html">
               <i class="ni ni-planet text-orange"></i>
               <span class="nav-link-text">Icons</span>
             </a>
-          </li>
+          </li> {% endcomment %}
           <li class="nav-item">
             <a class="nav-link {% if 'map' in segment %} active {% endif %}" href="/map.html">
               <i class="ni ni-pin-3 text-primary"></i>
               <span class="nav-link-text">Google</span>
             </a>
           </li>
-          <li class="nav-item">
+          {% comment %} <li class="nav-item">
             <a class="nav-link {% if 'profile' in segment %} active {% endif %}" href="/profile.html">
               <i class="ni ni-single-02 text-yellow"></i>
               <span class="nav-link-text">Profile</span>
             </a>
-          </li>
-          <li class="nav-item">
+          </li> {% endcomment %}
+          {% comment %} <li class="nav-item">
             <a class="nav-link {% if 'tables' in segment %} active {% endif %}" href="/tables.html">
               <i class="ni ni-bullet-list-67 text-default"></i>
               <span class="nav-link-text">Tables</span>
@@ -59,16 +71,16 @@
               <i class="ni ni-circle-08 text-pink"></i>
               <span class="nav-link-text">Register (template)</span>
             </a>
-          </li>
+          </li> {% endcomment %}
 
-          <li class="nav-item">
+          {% comment %} <li class="nav-item">
             <a class="nav-link" href="{% url 'logout' %}">
               <i class="ni ni-user-run text-red"></i>
               <span class="nav-link-text">Logout</span>
             </a>
-          </li>            
+          </li>             {% endcomment %}
         </ul>
-        <!-- Divider -->
+        {% comment %} <!-- Divider -->
         <hr class="my-3">
         <!-- Heading -->
         <h6 class="navbar-heading p-0 text-muted">
@@ -103,7 +115,7 @@
               <span class="nav-link-text">AppSeed</span>
             </a>
           </li>
-        </ul>
+        </ul> {% endcomment %}
       </div>
     </div>
   </div>
