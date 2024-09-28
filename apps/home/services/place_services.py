@@ -68,7 +68,9 @@ def create_place(name, description, isOpen, image):
         """
     }
 
-    response = requests.post(APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload))
+    # Send the POST request to the AppSync endpoint
+    response = requests.post(
+        APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload))
 
     print("create place response: ", response.json())
 
@@ -94,7 +96,7 @@ def edit_place(place_id, name, description, isOpen, image):
     edit_place_payload = {
         'query': f"""
             mutation updatePlace {{
-                updatePlace(input: {{id: "{place_id}", name: "{name}", description: "{description}", isOpen: "{isOpen}", image: "{image}"}}, condition: null) {{
+                updatePlace(input: {{id: "{place_id}", name: "{name}", description: "{description}", isOpen: {str(isOpen).lower()}, image: "{image}"}}, condition: null) {{
                     id
                 }}
             }}

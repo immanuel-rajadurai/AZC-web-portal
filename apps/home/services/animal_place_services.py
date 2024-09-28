@@ -14,8 +14,8 @@ def add_animal_to_place(animal_id, place_id):
         'query': f"""
             mutation createPlaceAnimal {{
                 createPlaceAnimal(input: {{
-                    placeID: "{place_id},
-                    animalID: {animal_id}}}) {{
+                    placeID: "{place_id}",
+                    animalID: "{animal_id}"}}) {{
                         id
                 }}
             }}
