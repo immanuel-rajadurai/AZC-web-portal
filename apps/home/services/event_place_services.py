@@ -14,8 +14,8 @@ def add_event_to_place(event_id, place_id):
         'query': f"""
             mutation createEventPlace {{
                 createEventPlace(input: {{
-                    placeID: "{place_id},
-                    eventID: {event_id}}}) {{
+                    placeID: "{place_id}",
+                    eventID: "{event_id}"}}) {{
                         id
                 }}
             }}
