@@ -76,12 +76,13 @@ def edit_place(request, place_id):
 
             print("place form data: ", data)
 
+
             name = data['name']
             description = data['description']
             isOpen = data['isOpen']
             image = data['image']
 
-            place_services.edit_place(name, description, isOpen, image)
+            place_services.edit_place(place_id, name, description, isOpen, image)
 
             messages.success(request, f""""{name}" edited successfully""")
 
