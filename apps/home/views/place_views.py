@@ -74,7 +74,7 @@ def edit_place(request, place_id):
         if form.is_valid():
             data = form.cleaned_data
 
-            # print("form data: ", data)
+            print("place form data: ", data)
 
             name = data['name']
             description = data['description']
