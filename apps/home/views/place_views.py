@@ -15,7 +15,7 @@ from ..forms import place_forms
 @login_required(login_url="/login/")
 def all_places(request):
     if request.method == 'POST':
-        print("executing post request")
+        # print("executing post request")
         form = place_forms.PlaceForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
@@ -74,14 +74,15 @@ def edit_place(request, place_id):
         if form.is_valid():
             data = form.cleaned_data
 
-            print("place form data: ", data)
+            # print("place form data: ", data)
 
             name = data['name']
             description = data['description']
             isOpen = data['isOpen']
             image = data['image']
 
-            place_services.edit_place(place_id, name, description, isOpen, image)
+            place_services.edit_place(
+                place_id, name, description, isOpen, image)
 
             messages.success(request, f""""{name}" edited successfully""")
 

@@ -44,7 +44,7 @@ def all_animals(request):
 
 @login_required(login_url="/login/")
 def remove_animal(request, animal_id):
-    print("attempting to remove animal ", animal_id)
+    # print("attempting to remove animal ", animal_id)
     animal_services.remove_animal(animal_id)
 
     messages.success(request, 'Animal removed successfully')
@@ -55,7 +55,7 @@ def remove_animal(request, animal_id):
 def edit_animal(request, animal_id):
     animal = animal_services.get_animal(animal_id)\
 
-    print(request.method)
+    # print(request.method)
 
     if request.method == 'POST':
         # print("executing post request")

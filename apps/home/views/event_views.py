@@ -71,7 +71,7 @@ def edit_event(request, event_id):
     # print(event)
 
     if request.method == 'POST':
-        print("executing post request")
+        # print("executing post request")
         form = event_forms.EventForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
