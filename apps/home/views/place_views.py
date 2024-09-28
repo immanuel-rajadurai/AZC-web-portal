@@ -76,7 +76,6 @@ def edit_place(request, place_id):
 
             print("place form data: ", data)
 
-
             name = data['name']
             description = data['description']
             isOpen = data['isOpen']
