@@ -34,7 +34,10 @@ def get_places_list():
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload))
 
     # print(response.json())
-    return response.json()["data"]["listPlaces"]["items"]
+    if response.json()["data"] != None:
+        return response.json()["data"]["listPlaces"]["items"]
+
+    return None
 
 
 def create_place(name, description, isOpen, image):
@@ -128,4 +131,7 @@ def get_place(id):
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload))
 
     # print(response.json())
-    return response.json()["data"]["getPlace"]
+    if response.json()["data"] != None:
+        return response.json()["data"]["getPlace"]
+
+    return None

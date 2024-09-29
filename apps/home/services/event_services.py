@@ -33,8 +33,10 @@ def get_events_list():
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload))
 
     # print(response.json())
+    if response.json()["data"] != None:
+        return response.json()["data"]["listEvents"]["items"]
 
-    return response.json()["data"]["listEvents"]["items"]
+    return None
 
 
 def create_event(name, description, image):
@@ -154,4 +156,7 @@ def get_event(id):
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload))
 
     # print(response.json())
-    return response.json()["data"]["getEvent"]
+    if response.json()["data"] != None:
+        return response.json()["data"]["getEvent"]
+
+    return None

@@ -23,3 +23,25 @@ def add_animal_to_place(animal_id, place_id):
     }
     requests.post(
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(create_animal_place_payload))
+
+
+def get_animals_linked_to_place(place_id):
+    payload = {
+        'query': f"""
+            query listPlaceAnimal {{
+                getPlaceAnimal(placeID: "{place_id}") {{
+                    animalID
+                }}
+            }}
+        """
+    }
+
+    # Send the POST request to the AppSync endpoint
+    response = requests.post(
+        APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload))
+
+    # print(response.json())
+    if response.json()["data"] != None:
+        return response.json()["data"]["listPlaceAnimal"]
+
+    return None

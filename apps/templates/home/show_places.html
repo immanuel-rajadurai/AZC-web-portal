@@ -40,6 +40,17 @@
                     </div>
                   </div>
 
+                   <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Remove an animal
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      {% for animal in linked_animals %}
+                        <a class="dropdown-item text-wrap" href="{% url 'remove_animal_from_place' place.id animal.id %}" style='overflow-wrap: break-word;'>{{ animal.name }}</a>
+                      {% endfor %}
+                    </div>
+                  </div>
+
                   {% comment %} <div class="dropdown">
                     <a href class="align-items-center text-white text-decoration-none" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded='false'>
                       {% if places %}

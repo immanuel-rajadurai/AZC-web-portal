@@ -33,12 +33,27 @@ def all_events(request):
     else:
         form = event_forms.EventForm()
 
+    events = place_services.get_places_list(),
+    linked_places = {}
+
+    for event in events:
+        rels = event_place_services.get_places_linked_to_event(
+            event['ID']),
+
+        tmp = []
+        for rel in rels:
+            tmp.append(place_services.get_place(rel['placeID']))
+
+        linked_places.update({event['ID']: tmp})
+        print(linked_places)
+
     context = {
         'segment': 'events',
         # 'events': {},
-        'events': event_services.get_events_list(),
+        'events': events,
         # 'places': {},
         'places': place_services.get_places_list(),
+        'linked_places': linked_places,
         'form': form,
     }
 

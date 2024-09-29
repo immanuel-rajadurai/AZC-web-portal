@@ -34,10 +34,27 @@ def all_places(request):
     else:
         form = place_forms.PlaceForm()
 
+    places = place_services.get_places_list(),
+    linked_animals = {}
+
+    for place in places:
+        # print(place)
+        # print(place[0]["id"])
+        rels = animal_place_services.get_animals_linked_to_place(
+            place[0]["id"]),
+
+        tmp = []
+        for rel in rels:
+            tmp.append(animal_services.get_animal(rel['animalID']))
+
+        linked_animals.update({place['ID']: tmp})
+        print(linked_animals)
+
     context = {
         'segment': 'places',
-        'places': place_services.get_places_list(),
+        'places': places,
         'animals': animal_services.get_animals_list(),
+        'linked_animals': linked_animals,
         'form': form,
     }
 
@@ -45,7 +62,7 @@ def all_places(request):
     return HttpResponse(html_template.render(context, request))
 
 
-@login_required(login_url="/login/")
+@ login_required(login_url="/login/")
 def delete_place(request, place_id):
     # print("attempting to delete place: ", place_id)
     place_services.delete_place(place_id)
@@ -54,7 +71,7 @@ def delete_place(request, place_id):
     return redirect('places')
 
 
-@login_required(login_url="/login/")
+@ login_required(login_url="/login/")
 def add_animal_to_place(request, place_id, animal_id):
     # print("attemping to add animal to place")
 
@@ -64,7 +81,7 @@ def add_animal_to_place(request, place_id, animal_id):
     return redirect('places')
 
 
-@login_required(login_url="/login/")
+@ login_required(login_url="/login/")
 def edit_place(request, place_id):
     place = place_services.get_place(place_id)
 

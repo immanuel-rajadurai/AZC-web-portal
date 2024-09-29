@@ -9,7 +9,7 @@ headers = {
 }
 
 
-def add_event_to_place(event_id, place_id):
+def add_place_to_event(event_id, place_id):
     create_event_place_payload = {
         'query': f"""
             mutation createEventPlace {{
@@ -23,3 +23,25 @@ def add_event_to_place(event_id, place_id):
     }
     requests.post(
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(create_event_place_payload))
+
+
+def get_places_linked_to_event(event_id):
+    payload = {
+        'query': f"""
+            query listEventPlace {{
+                getEventPlace(eventID: "{event_id}") {{
+                    placeID
+                }}
+            }}
+        """
+    }
+
+    # Send the POST request to the AppSync endpoint
+    response = requests.post(
+        APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload))
+
+    # print(response.json())
+    if response.json()["data"] != None:
+        return response.json()["data"]["getEventPlace"]
+
+    return Nones

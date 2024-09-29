@@ -32,8 +32,10 @@ def get_animals_list():
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload))
 
     # print(response.json())
+    if response.json()["data"] != None:
+        return response.json()["data"]["listAnimals"]["items"]
 
-    return response.json()["data"]["listAnimals"]["items"]
+    return None
 
 
 def add_animal(name, image):
@@ -104,4 +106,7 @@ def get_animal(id):
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload))
 
     # print(response.json())
-    return response.json()["data"]["getAnimal"]
+    if response.json()["data"] != None:
+        return response.json()["data"]["getAnimal"]
+
+    return None

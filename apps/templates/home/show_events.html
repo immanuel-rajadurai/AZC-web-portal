@@ -31,11 +31,21 @@
 
                   <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Add to a Place
+                      Add to a place
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                       {% for place in places %}
                         <a class="dropdown-item text-wrap" href="{% url 'add_place_to_event' event.id place.id %}" style='overflow-wrap: break-word;'>{{ place.name }}</a>
+                      {% endfor %}
+                    </div>
+                  </div>
+                  <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Remove a place
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      {% for place in linked_places %}
+                        <a class="dropdown-item text-wrap" href="{% url 'remove_place_from_event' event.id place.id %}" style='overflow-wrap: break-word;'>{{ place.name }}</a>
                       {% endfor %}
                     </div>
                   </div>
