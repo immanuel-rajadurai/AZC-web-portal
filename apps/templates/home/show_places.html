@@ -25,7 +25,25 @@
               <div class="card mr-3" style="width: 18rem; position: relative;">
                 <img src="{{ place.image }}" class="card-img-top card-img-fixed card-photo" alt="..."/>
                 <div class="card-body d-flex flex-column align-items-center">
-                  <h5 class="card-title">{{ place.name }}</h5>
+                  <h1 class="card-title">{{ place.name }}</h1>
+                  {% if linked_animals %}
+                    <div class="listbox-area">
+                      <div>
+                        <span class="listbox-label">
+                          Animals(s): 
+                        </span>
+                        <ul tabindex="0" role="listbox">
+                          {% for animal in linked_animals %}
+                            <li role="option">
+                              <span class="checkmark" aria-hidden="true"></span>
+                              {{ animal.name }}
+                            </li>
+                          {% endfor %}
+                        </ul>
+                      </div>
+                    </div>
+                  {% endif %}
+
                   <p class="card-text">{{ place.description }}</p>
                   {% comment %} <small class="card-text">{{ place.id }}</small> {% endcomment %}
 
@@ -35,7 +53,7 @@
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                       {% for animal in animals %}
-                        <a class="dropdown-item text-wrap" href="{% url 'add_animal_to_place' place.id animal.id %}" style='overflow-wrap: break-word;'>{{ animal.name }}</a>
+                        <a class="dropdown-item text-wrap" href="{% url 'add_animal_to_place' animal.id place.id %}" style='overflow-wrap: break-word;'>{{ animal.name }}</a>
                       {% endfor %}
                     </div>
                   </div>
@@ -44,11 +62,13 @@
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       Remove an animal
                     </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                      {% for animal in linked_animals %}
-                        <a class="dropdown-item text-wrap" href="{% url 'remove_animal_from_place' place.id animal.id %}" style='overflow-wrap: break-word;'>{{ animal.name }}</a>
-                      {% endfor %}
-                    </div>
+                      {% if linked_animals %}
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        {% for animal in linked_animals %}
+                          <a class="dropdown-item text-wrap" href="{% url 'remove_animal_from_place' animal.id place.id %}" style='overflow-wrap: break-word;'>{{ animal.name }}</a>
+                        {% endfor %}
+                      </div>
+                    {% endif %}
                   </div>
 
                   {% comment %} <div class="dropdown">

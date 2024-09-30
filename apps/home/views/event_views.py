@@ -9,7 +9,7 @@ from django.shortcuts import redirect
 from django.template import loader
 from django.contrib import messages
 
-from ..services import event_services, place_services, event_place_services
+from ..services import event_services, place_event_services, place_services
 from ..forms import event_forms
 
 
@@ -33,26 +33,17 @@ def all_events(request):
     else:
         form = event_forms.EventForm()
 
-    events = place_services.get_places_list(),
+    events = event_services.get_events_list()
     linked_places = {}
-
     for event in events:
-        rels = event_place_services.get_places_linked_to_event(
-            event['ID']),
+        tmp = place_event_services.get_places_linked_to_event(event['id'])
+        linked_places.update({event['id']: tmp})
 
-        tmp = []
-        for rel in rels:
-            tmp.append(place_services.get_place(rel['placeID']))
-
-        linked_places.update({event['ID']: tmp})
-        print(linked_places)
+    print(linked_places)
 
     context = {
         'segment': 'events',
-        # 'events': {},
         'events': events,
-        # 'places': {},
-        'places': place_services.get_places_list(),
         'linked_places': linked_places,
         'form': form,
     }
@@ -71,10 +62,10 @@ def delete_event(request, event_id):
 
 
 @login_required(login_url="/login/")
-def add_place_to_event(request, event_id, place_id):
+def add_place_to_event(request, place_id, event_id):
     # print("attemping to add place to event")
 
-    event_place_services.add_event_to_place(event_id, place_id)
+    place_event_services.add_event_to_place(event_id, place_id)
 
     messages.success(request, 'Place assigned successfully')
     return redirect('events')
@@ -116,3 +107,12 @@ def edit_event(request, event_id):
 
     html_template = loader.get_template('home/edit_event.html')
     return HttpResponse(html_template.render(context, request))
+
+
+@login_required(login_url="/login/")
+def remove_place_from_event(request, place_id, event_id):
+    # print("attempting to delete event: ", event_id)
+    place_event_services.remove_place_from_event(place_id, event_id)
+
+    messages.success(request, 'Place detached successfully')
+    return redirect('events')

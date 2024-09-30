@@ -45,3 +45,20 @@ def get_animals_linked_to_place(place_id):
         return response.json()["data"]["listPlaceAnimal"]
 
     return None
+
+
+def remove_animal_from_place(animal_id, place_id):
+    delete_rel_payload = {
+        'query': f"""
+            mutation deletePlaceAnimal {{
+                deletePlaceAnimal(input: {{animalID: "{animal_id}", placeID:"{place_id}"}}) {{
+                    id
+                }}
+            }}
+        """
+    }
+
+    # Send the POST request to the AppSync endpoint
+    response = requests.post(
+        APPSYNC_ENDPOINT, headers=headers, data=json.dumps(delete_rel_payload))
+    # print(response.json())

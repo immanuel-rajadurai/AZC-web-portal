@@ -24,8 +24,26 @@
               {% for event in events %}
               <div class="card mr-3" style="width: 18rem; position: relative;">
                 <img src="{{ event.image }}" class="card-img-top card-img-fixed card-photo" alt="..."/>
-                <div class="card-body d-flex flex-column align-items-center">
-                  <h5 class="card-title">{{ event.name }}</h5>
+                <div class="card-body d-flex flex-column align-items-center">                  
+                  <h1 class="card-title">{{ event.name }}</h1>
+                  {% if linked_places %}
+                    <div class="listbox-area">
+                      <div>
+                        <span class="listbox-label">
+                          Place(s): 
+                        </span>
+                        <ul tabindex="0" role="listbox">
+                          {% for place in linked_places %}
+                            <li role="option">
+                              <span class="checkmark" aria-hidden="true"></span>
+                              {{ place.name }}
+                            </li>
+                          {% endfor %}
+                        </ul>
+                      </div>
+                    </div>
+                  {% endif %}
+
                   <p class="card-text">{{ event.description }}</p>
                   {% comment %} <small class="card-text">{{ event.id }}</small> {% endcomment %}
 
@@ -35,7 +53,7 @@
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                       {% for place in places %}
-                        <a class="dropdown-item text-wrap" href="{% url 'add_place_to_event' event.id place.id %}" style='overflow-wrap: break-word;'>{{ place.name }}</a>
+                        <a class="dropdown-item text-wrap" href="{% url 'add_place_to_event' place.id event.id %}" style='overflow-wrap: break-word;'>{{ place.name }}</a>
                       {% endfor %}
                     </div>
                   </div>
@@ -43,11 +61,13 @@
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       Remove a place
                     </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                      {% for place in linked_places %}
-                        <a class="dropdown-item text-wrap" href="{% url 'remove_place_from_event' event.id place.id %}" style='overflow-wrap: break-word;'>{{ place.name }}</a>
-                      {% endfor %}
-                    </div>
+                    {% if linked_places %}
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        {% for place in linked_places %}
+                          <a class="dropdown-item text-wrap" href="{% url 'remove_place_from_event' place.id event.id %}" style='overflow-wrap: break-word;'>{{ place.name }}</a>
+                        {% endfor %}
+                      </div>
+                    {% endif %}
                   </div>
 
                   {% comment %} <div class="dropdown">
@@ -70,7 +90,7 @@
                       </div>
                     </ul>
                   </div> {% endcomment %}
-                </div>
+                </div> 
 
                 <form action="{% url 'edit_event' event.id %}" method="GET">
                   {% csrf_token %}
@@ -80,7 +100,7 @@
                 </form>
                 <form action="{% url 'delete_event' event.id %}" method="POST">
                   {% csrf_token %}
-                  <button type="submit" class="delete-btn"">
+                  <buttontype="submit" class="delete-btn">
                       <i class="fas fa-trash-alt"></i>
                   </button>
                 </form>
