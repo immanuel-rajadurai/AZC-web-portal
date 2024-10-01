@@ -26,11 +26,23 @@ def add_place_to_event(event_id, place_id):
 
 
 def get_places_linked_to_event(event_id):
+    # payload = {
+    #     'query': f"""
+    #         query listEventPlace {{
+    #             getEventPlace(eventID: "{event_id}") {{
+    #                 placeID
+    #             }}
+    #         }}
+    #     """
+    # }
+
     payload = {
         'query': f"""
             query listEventPlace {{
-                getEventPlace(eventID: "{event_id}") {{
-                    placeID
+                listEventPlaces(filter: {{ eventID: {{eq: "{ event_id }"}} }}) {{
+                    items {{
+                        placeID
+                    }}
                 }}
             }}
         """
@@ -40,9 +52,15 @@ def get_places_linked_to_event(event_id):
     response = requests.post(
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload))
 
-    # print(response.json())
+    # print(event_id)
+
     if response.json()["data"] != None:
-        return response.json()["data"]["getEventPlace"]
+        response = response.json()["data"]["listEventPlaces"]["items"]
+        if len(response) > 0:
+            response = response[0]
+
+        print("listEventPlaces", response)
+        return response
 
     return None
 

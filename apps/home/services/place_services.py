@@ -42,7 +42,7 @@ def get_places_list():
 
 def create_place(name, description, isOpen, image):
 
-    print("calling create place")
+    # print("calling create place")
 
     # payload = f'''
     #             mutation {{

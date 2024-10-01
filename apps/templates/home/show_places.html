@@ -47,7 +47,7 @@
                   <p class="card-text">{{ place.description }}</p>
                   {% comment %} <small class="card-text">{{ place.id }}</small> {% endcomment %}
 
-                  <div class="dropdown">
+                  {% comment %} <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       Add an animal
                     </button>
@@ -69,7 +69,7 @@
                         {% endfor %}
                       </div>
                     {% endif %}
-                  </div>
+                  </div> {% endcomment %}
 
                   {% comment %} <div class="dropdown">
                     <a href class="align-items-center text-white text-decoration-none" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded='false'>

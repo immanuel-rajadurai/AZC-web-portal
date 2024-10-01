@@ -39,7 +39,7 @@ def all_events(request):
         tmp = place_event_services.get_places_linked_to_event(event['id'])
         linked_places.update({event['id']: tmp})
 
-    print(linked_places)
+    print("linked-places: ", linked_places)
 
     context = {
         'segment': 'events',
