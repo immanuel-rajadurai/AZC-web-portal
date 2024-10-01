@@ -1,7 +1,7 @@
 {% extends 'layouts/base.html' %}
 
 {% load form_tags %}
-{% load place_event_extras %}
+{% load miscellaneous_extras %}
 {% load place_extras %}
 
 
@@ -27,14 +27,14 @@
                 <img src="{{ event.image }}" class="card-img-top card-img-fixed card-photo" alt="..."/>
                 <div class="card-body d-flex flex-column align-items-center">                  
                   <h1 class="card-title">{{ event.name }}</h1>
-                  {% if linked_places|get_list_placeIDs:event.id %}
+                  {% if linked_places|get_list_from_dict:event.id %}
                     <div class="listbox-area">
                       <div>
                         <span class="listbox-label">
                           Place(s): 
                         </span>
                         <ul tabindex="0" role="listbox">
-                          {% for place in linked_places|get_list_placeIDs:event.id  %}
+                          {% for place in linked_places|get_list_from_dict:event.id  %}
                             <li role="option">
                               <span class="checkmark" aria-hidden="true"></span>
                               {{ place|get_place_name }}

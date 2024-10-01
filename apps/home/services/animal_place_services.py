@@ -26,11 +26,23 @@ def add_animal_to_place(animal_id, place_id):
 
 
 def get_animals_linked_to_place(place_id):
+    # payload = {
+    #     'query': f"""
+    #         query listPlaceAnimal {{
+    #             getPlaceAnimal(placeID: "{place_id}") {{
+    #                 animalID
+    #             }}
+    #         }}
+    #     """
+    # }
+
     payload = {
         'query': f"""
             query listPlaceAnimal {{
-                getPlaceAnimal(placeID: "{place_id}") {{
-                    animalID
+                listAnimalPlaces(filter: {{ eventID: {{eq: "{ place_id }"}} }}) {{
+                    items {{
+                        animalID
+                    }}
                 }}
             }}
         """
@@ -40,9 +52,15 @@ def get_animals_linked_to_place(place_id):
     response = requests.post(
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload))
 
-    # print(response.json())
+    # print(place_id)
+
     if response.json()["data"] != None:
-        return response.json()["data"]["listPlaceAnimal"]
+        response = response.json()["data"]["listPlaceAnimals"]["items"]
+        if len(response) > 0:
+            response = response[0]
+
+        print("listPlaceAnimals", response)
+        return response
 
     return None
 

@@ -4,7 +4,7 @@ register = template.Library()
 
 
 @register.filter
-def get_list_placeIDs(dictionary, key):
+def get_list_from_dict(dictionary, key):
     tmp = dictionary.get(key)
     print("tmp:", tmp)
 
