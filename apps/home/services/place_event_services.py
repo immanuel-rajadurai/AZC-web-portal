@@ -9,28 +9,28 @@ headers = {
 }
 
 
-def add_animal_to_place(animal_id, place_id):
-    create_animal_place_payload = {
+def add_place_to_event(event_id, place_id):
+    create_event_place_payload = {
         'query': f"""
-            mutation createPlaceAnimal {{
-                createPlaceAnimal(input: {{
+            mutation createEventPlace {{
+                createEventPlace(input: {{
                     placeID: "{place_id}",
-                    animalID: "{animal_id}"}}) {{
+                    eventID: "{event_id}"}}) {{
                         id
                 }}
             }}
         """
     }
     requests.post(
-        APPSYNC_ENDPOINT, headers=headers, data=json.dumps(create_animal_place_payload))
+        APPSYNC_ENDPOINT, headers=headers, data=json.dumps(create_event_place_payload))
 
 
-def get_animals_linked_to_place(place_id):
+def get_places_linked_to_event(event_id):
     # payload = {
     #     'query': f"""
-    #         query listPlaceAnimal {{
-    #             getPlaceAnimal(placeID: "{place_id}") {{
-    #                 animalID
+    #         query listEventPlace {{
+    #             getEventPlace(eventID: "{event_id}") {{
+    #                 placeID
     #             }}
     #         }}
     #     """
@@ -38,10 +38,10 @@ def get_animals_linked_to_place(place_id):
 
     payload = {
         'query': f"""
-            query listPlaceAnimal {{
-                listPlaceAnimals(filter: {{ placeID: {{eq: "{ place_id }"}} }}) {{
+            query listEventPlace {{
+                listEventPlaces(filter: {{ eventID: {{eq: "{ event_id }"}} }}) {{
                     items {{
-                        animalID
+                        placeID
                     }}
                 }}
             }}
@@ -52,24 +52,24 @@ def get_animals_linked_to_place(place_id):
     response = requests.post(
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload))
 
-    print(place_id)
-    print("data: ", response.json()["data"])
+    # print(event_id)
+
     if response.json()["data"] != None:
-        response = response.json()["data"]["listPlaceAnimals"]["items"]
+        response = response.json()["data"]["listEventPlaces"]["items"]
         if len(response) > 0:
             response = response[0]
 
-        print("listPlaceAnimal", response)
+        print("listEventPlace", response)
         return response
 
     return None
 
 
-def remove_animal_from_place(animal_id, place_id):
+def remove_place_from_event(place_id, event_id):
     delete_rel_payload = {
         'query': f"""
-            mutation deletePlaceAnimal {{
-                deletePlaceAnimal(input: {{animalID: "{animal_id}", placeID:"{place_id}"}}) {{
+            mutation deleteEventPlace {{
+                deleteEventPlace(input: {{placeID: "{place_id}", eventID:"{event_id}"}}) {{
                     id
                 }}
             }}

@@ -15,7 +15,7 @@ from ..forms import place_forms
 @login_required(login_url="/login/")
 def all_places(request):
     if request.method == 'POST':
-        print("executing post request")
+        # print("executing post request")
         form = place_forms.PlaceForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
@@ -34,10 +34,18 @@ def all_places(request):
     else:
         form = place_forms.PlaceForm()
 
+    places = place_services.get_places_list()
+    linked_animals = {}
+    for place in places:
+        tmp = animal_place_services.get_animals_linked_to_place(place['id'])
+        linked_animals.update({place['id']: tmp})
+
+    print("linked-places: ", linked_animals)
+
     context = {
         'segment': 'places',
-        'places': place_services.get_places_list(),
-        'animals': animal_services.get_animals_list(),
+        'places': places,
+        'linked_animals': linked_animals,
         'form': form,
     }
 
@@ -45,7 +53,7 @@ def all_places(request):
     return HttpResponse(html_template.render(context, request))
 
 
-@login_required(login_url="/login/")
+@ login_required(login_url="/login/")
 def delete_place(request, place_id):
     # print("attempting to delete place: ", place_id)
     place_services.delete_place(place_id)
@@ -54,8 +62,8 @@ def delete_place(request, place_id):
     return redirect('places')
 
 
-@login_required(login_url="/login/")
-def add_animal_to_place(request, place_id, animal_id):
+@ login_required(login_url="/login/")
+def add_animal_to_place(request, animal_id, place_id):
     # print("attemping to add animal to place")
 
     animal_place_services.add_animal_to_place(place_id, animal_id)
@@ -64,7 +72,7 @@ def add_animal_to_place(request, place_id, animal_id):
     return redirect('places')
 
 
-@login_required(login_url="/login/")
+@ login_required(login_url="/login/")
 def edit_place(request, place_id):
     place = place_services.get_place(place_id)
 
@@ -74,14 +82,15 @@ def edit_place(request, place_id):
         if form.is_valid():
             data = form.cleaned_data
 
-            print("place form data: ", data)
+            # print("place form data: ", data)
 
             name = data['name']
             description = data['description']
             isOpen = data['isOpen']
             image = data['image']
 
-            place_services.edit_place(place_id, name, description, isOpen, image)
+            place_services.edit_place(
+                place_id, name, description, isOpen, image)
 
             messages.success(request, f""""{name}" edited successfully""")
 
@@ -102,3 +111,13 @@ def edit_place(request, place_id):
 
     html_template = loader.get_template('home/edit_place.html')
     return HttpResponse(html_template.render(context, request))
+
+
+@login_required(login_url="/login/")
+def remove_animal_from_place(request, animal_id, place_id):
+
+    # print("attempting to delete event: ", event_id)
+    animal_place_services.remove_animal_from_place(animal_id, place_id)
+
+    messages.success(request, 'Animal detached successfully')
+    return redirect('places')
