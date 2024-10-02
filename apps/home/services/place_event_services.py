@@ -59,7 +59,7 @@ def get_places_linked_to_event(event_id):
         if len(response) > 0:
             response = response[0]
 
-        print("listEventPlaces", response)
+        print("listEventPlace", response)
         return response
 
     return None
