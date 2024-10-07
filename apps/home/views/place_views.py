@@ -40,7 +40,7 @@ def all_places(request):
         tmp = animal_place_services.get_animals_linked_to_place(place['id'])
         linked_animals.update({place['id']: tmp})
 
-    print("linked-places: ", linked_animals)
+    # print("linked_animals: ", linked_animals)
 
     context = {
         'segment': 'places',

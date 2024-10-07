@@ -1,6 +1,7 @@
 {% extends 'layouts/base.html' %}
 
 {% load form_tags %}
+{% load place_extras %}
 
 
 
@@ -23,6 +24,29 @@
             <div class="card-body d-flex flex-column align-items-center">
               <h5 class="card-title">{{ event.name }}</h5>
               <p class="card-text">{{ event.description }}</p>
+
+              <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Add to a place
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  {% for place in all_places %}
+                    <a class="dropdown-item text-wrap" href="{% url 'add_place_to_event' place.id event_id %}" style='overflow-wrap: break-word;'>{{ place.name }}</a>
+                  {% endfor %}
+                </div>
+              </div>
+              {% if linked_places %}
+                <div class="dropdown">
+                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Remove a place
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    {% for place in linked_places %}
+                      <a class="dropdown-item text-wrap" href="{% url 'remove_place_from_event' place event_id %}" style='overflow-wrap: break-word;'>{{ place|get_place_name }}</a>
+                    {% endfor %}
+                  </div>
+                </div>
+              {% endif %}
             </div>
           </div>
         </div>

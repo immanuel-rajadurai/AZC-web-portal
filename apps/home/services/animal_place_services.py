@@ -52,14 +52,14 @@ def get_animals_linked_to_place(place_id):
     response = requests.post(
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload))
 
-    print(place_id)
-    print("data: ", response.json()["data"])
+    # print(place_id)
+    # print("data: ", response.json()["data"])
     if response.json()["data"] != None:
         response = response.json()["data"]["listPlaceAnimals"]["items"]
         if len(response) > 0:
             response = response[0]
 
-        print("listPlaceAnimal", response)
+        # print("listPlaceAnimal", response)
         return response
 
     return None
