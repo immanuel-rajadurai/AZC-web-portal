@@ -43,10 +43,9 @@ def get_places_linked_to_event(event_id):
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload))
 
     tmp = response.json()["data"]["listEventPlaces"]["items"]
-    print("tmp: ", tmp)
 
     if tmp:
-        print("listEventPlace: ", tmp)
+        # print("listEventPlace: ", tmp)
         return tmp
 
     return None

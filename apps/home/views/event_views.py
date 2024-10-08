@@ -37,6 +37,7 @@ def all_events(request):
     linked_places = {}
     for event in events:
         tmp = place_event_services.get_places_linked_to_event(event['id'])
+        # print("tmp: ", event['id'], " ", tmp)
         linked_places.update({event['id']: tmp})
 
     # print("linked_places: ", linked_places)
@@ -99,14 +100,9 @@ def edit_event(request, event_id):
         form.fields['description'].initial = event['description']
         form.fields['image'].initial = event['image']
 
-    tmp = place_event_services.get_places_linked_to_event(
+    linked_places = place_event_services.get_places_linked_to_event(
         event_id)
-    print("tmp: ", tmp)
-
-    linked_places = []
-    if tmp:
-        # linked_places = list(tmp.values())
-        print("linked_places: ", linked_places)
+    print("linked_places: ", linked_places)
 
     context = {
         'segment': 'animals',

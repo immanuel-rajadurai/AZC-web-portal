@@ -42,7 +42,7 @@
                   </button>
                   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     {% for place in linked_places %}
-                      <a class="dropdown-item text-wrap" href="{% url 'remove_place_from_event' place event_id %}" style='overflow-wrap: break-word;'>{{ place|get_place_name }}</a>
+                      <a class="dropdown-item text-wrap" href="{% url 'remove_place_from_event' place.placeID event_id %}" style='overflow-wrap: break-word;'>{{ place.placeID|get_place_name }}</a>
                     {% endfor %}
                   </div>
                 </div>

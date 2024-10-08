@@ -103,13 +103,9 @@ def edit_place(request, place_id):
         form.fields['isOpen'].initial = place['isOpen']
         form.fields['image'].initial = place['image']
 
-    tmp = animal_place_services.get_animals_linked_to_place(place_id)
-    print("tmp: ", tmp)
-
-    linked_animals = []
-    if tmp:
-        # linked_animals = list(tmp.values())
-        print("linked_animals: ", linked_animals)
+    linked_animals = animal_place_services.get_animals_linked_to_place(
+        place_id)
+    print("linked_animals: ", linked_animals)
 
     context = {
         'segment': 'animals',
