@@ -66,7 +66,7 @@ def delete_place(request, place_id):
 def add_animal_to_place(request, animal_id, place_id):
     # print("attemping to add animal to place")
 
-    animal_place_services.add_animal_to_place(place_id, animal_id)
+    animal_place_services.add_animal_to_place(animal_id, place_id)
 
     messages.success(request, 'Animal assigned successfully')
     return redirect('places')
@@ -75,6 +75,7 @@ def add_animal_to_place(request, animal_id, place_id):
 @ login_required(login_url="/login/")
 def edit_place(request, place_id):
     place = place_services.get_place(place_id)
+    print("place: ", place)
 
     if request.method == 'POST':
         # print("executing post request")
@@ -82,7 +83,7 @@ def edit_place(request, place_id):
         if form.is_valid():
             data = form.cleaned_data
 
-            # print("place form data: ", data)
+            # print("place_form data: ", data)
 
             name = data['name']
             description = data['description']
@@ -97,15 +98,25 @@ def edit_place(request, place_id):
             return redirect('places')
     else:
         form = place_forms.PlaceForm()
-
         form.fields['name'].initial = place['name']
         form.fields['description'].initial = place['description']
         form.fields['isOpen'].initial = place['isOpen']
         form.fields['image'].initial = place['image']
 
+    tmp = animal_place_services.get_animals_linked_to_place(place_id)
+    print("tmp: ", tmp)
+
+    linked_animals = []
+    if tmp:
+        # linked_animals = list(tmp.values())
+        print("linked_animals: ", linked_animals)
+
     context = {
         'segment': 'animals',
         'place': place,
+        'place_id': place_id,
+        'all_animals': animal_services.get_animals_list(),
+        'linked_animals': linked_animals,
         'form': form,
     }
 
@@ -115,7 +126,6 @@ def edit_place(request, place_id):
 
 @login_required(login_url="/login/")
 def remove_animal_from_place(request, animal_id, place_id):
-
     # print("attempting to delete event: ", event_id)
     animal_place_services.remove_animal_from_place(animal_id, place_id)
 

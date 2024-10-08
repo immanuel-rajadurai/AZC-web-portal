@@ -43,11 +43,10 @@ def get_places_linked_to_event(event_id):
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload))
 
     tmp = response.json()["data"]["listEventPlaces"]["items"]
-    if tmp:
-        if len(tmp) > 0:
-            tmp = tmp[0]
+    print("tmp: ", tmp)
 
-        # print("listEventPlace: ", tmp)
+    if tmp:
+        print("listEventPlace: ", tmp)
         return tmp
 
     return None
@@ -59,7 +58,7 @@ def remove_place_from_event(place_id, event_id):
             query ListEventPlacesFilter {{
                 listEventPlaces(filter: {{eventID: {{eq: "{event_id}"}}, placeID: {{eq: "{place_id}"}}}}) {{
                     items {{
-                    id
+                        id
                     }}
                 }}
             }}
@@ -69,6 +68,7 @@ def remove_place_from_event(place_id, event_id):
     response = requests.post(
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(get_rel_payload))
     # print("response.json():", response.json())
+
     rel_id = response.json()["data"]["listEventPlaces"]["items"][0]['id']
     # print("rel_id: ", rel_id)
 

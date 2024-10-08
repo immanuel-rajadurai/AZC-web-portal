@@ -74,7 +74,7 @@ def add_place_to_event(request, place_id, event_id):
 @login_required(login_url="/login/")
 def edit_event(request, event_id):
     event = event_services.get_event(event_id)
-    print(event)
+    print("event: ", event)
 
     if request.method == 'POST':
         # print("executing post request")
@@ -82,7 +82,7 @@ def edit_event(request, event_id):
         if form.is_valid():
             data = form.cleaned_data
 
-            # print("form data: ", data)
+            # print("event_form data: ", data)
 
             name = data['name']
             description = data['description']
@@ -101,10 +101,12 @@ def edit_event(request, event_id):
 
     tmp = place_event_services.get_places_linked_to_event(
         event_id)
+    print("tmp: ", tmp)
+
     linked_places = []
     if tmp:
-        linked_places = list(tmp.values())
-        # print("linked_places: ", linked_places)
+        # linked_places = list(tmp.values())
+        print("linked_places: ", linked_places)
 
     context = {
         'segment': 'animals',
