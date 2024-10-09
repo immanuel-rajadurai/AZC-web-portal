@@ -55,8 +55,9 @@ def pages(request):
 def get_ids_from_filter(lst, key):
     tmp = []
 
-    for item in lst:
-        tmp2 = item[key]
-        tmp.append(tmp2)
+    if lst:
+        for item in lst:
+            tmp2 = item[key]
+            tmp.append(tmp2)
 
     return tmp
