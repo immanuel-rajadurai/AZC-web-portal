@@ -11,6 +11,7 @@ from django.contrib import messages
 
 from ..services import event_services, place_event_services, place_services
 from ..forms import event_forms
+from .miscellaneous_views import get_ids_from_filter
 
 
 @login_required(login_url="/login/")
@@ -37,6 +38,7 @@ def all_events(request):
     linked_places = {}
     for event in events:
         tmp = place_event_services.get_places_linked_to_event(event['id'])
+        tmp = get_ids_from_filter(tmp, "placeID")
         # print("tmp: ", event['id'], " ", tmp)
         linked_places.update({event['id']: tmp})
 
@@ -75,7 +77,7 @@ def add_place_to_event(request, place_id, event_id):
 @login_required(login_url="/login/")
 def edit_event(request, event_id):
     event = event_services.get_event(event_id)
-    print("event: ", event)
+    # print("event: ", event)
 
     if request.method == 'POST':
         # print("executing post request")
@@ -102,6 +104,7 @@ def edit_event(request, event_id):
 
     linked_places = place_event_services.get_places_linked_to_event(
         event_id)
+    linked_places = get_ids_from_filter(linked_places, "placeID")
     print("linked_places: ", linked_places)
 
     context = {

@@ -50,3 +50,13 @@ def pages(request):
     except:
         html_template = loader.get_template('home/page-500.html')
         return HttpResponse(html_template.render(context, request))
+
+
+def get_ids_from_filter(lst, key):
+    tmp = []
+
+    for item in lst:
+        tmp2 = item[key]
+        tmp.append(tmp2)
+
+    return tmp

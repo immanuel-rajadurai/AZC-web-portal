@@ -3,8 +3,6 @@
 {% load form_tags %}
 {% load place_extras %}
 
-
-
 {% block title %}
   Edit Event
 {% endblock %}
@@ -12,7 +10,7 @@
 
 
 {% block content %}
-  <div class="header pb-6 d-flex align-items-center" style="min-height: 500px; background-image: url(/static/assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
+  <div class="header pb-6 d-flex align-items-center" style="min-height: 600px; background-image: url(/static/assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
     <!-- Mask -->
     <span class="mask bg-gradient-default opacity-8"></span>
 
@@ -42,7 +40,7 @@
                   </button>
                   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     {% for place in linked_places %}
-                      <a class="dropdown-item text-wrap" href="{% url 'remove_place_from_event' place.placeID event_id %}" style='overflow-wrap: break-word;'>{{ place.placeID|get_place_name }}</a>
+                      <a class="dropdown-item text-wrap" href="{% url 'remove_place_from_event' place event_id %}" style='overflow-wrap: break-word;'>{{ place|get_place_name }}</a>
                     {% endfor %}
                   </div>
                 </div>

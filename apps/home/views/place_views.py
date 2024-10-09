@@ -8,8 +8,10 @@ from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.template import loader
 from django.contrib import messages
+
 from ..services import animal_services, place_services, animal_place_services
 from ..forms import place_forms
+from .miscellaneous_views import get_ids_from_filter
 
 
 @login_required(login_url="/login/")
@@ -38,6 +40,7 @@ def all_places(request):
     linked_animals = {}
     for place in places:
         tmp = animal_place_services.get_animals_linked_to_place(place['id'])
+        tmp = get_ids_from_filter(tmp, "animalID")
         linked_animals.update({place['id']: tmp})
 
     # print("linked_animals: ", linked_animals)
@@ -105,6 +108,7 @@ def edit_place(request, place_id):
 
     linked_animals = animal_place_services.get_animals_linked_to_place(
         place_id)
+    linked_animals = get_ids_from_filter(linked_animals, "animalID")
     print("linked_animals: ", linked_animals)
 
     context = {
