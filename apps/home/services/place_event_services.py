@@ -13,9 +13,9 @@ def add_place_to_event(event_id, place_id):
     check_event_place_payload = {
         'query': f"""
             query listEventPlace {{
-                listEventPlaces(filter: {{ eventID: {{eq: "{ event_id }"}} }}) {{
+                listEventPlaces(filter: {{ eventID: {{eq: "{ event_id }"}}, placeID: {{eq: "{ place_id }"}} }}) {{
                     items {{
-                        placeID
+                        id
                     }}
                 }}
             }}
@@ -23,6 +23,7 @@ def add_place_to_event(event_id, place_id):
     }
     response = requests.post(
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(check_event_place_payload))
+    # print(response.json())
 
     if len(response.json()["data"]["listEventPlaces"]["items"]) <= 0:
         create_event_place_payload = {
