@@ -10,19 +10,34 @@ headers = {
 
 
 def add_place_to_event(event_id, place_id):
-    create_event_place_payload = {
+    check_event_place_payload = {
         'query': f"""
-            mutation createEventPlace {{
-                createEventPlace(input: {{
-                    placeID: "{place_id}",
-                    eventID: "{event_id}"}}) {{
-                        id
+            query listEventPlace {{
+                listEventPlaces(filter: {{ eventID: {{eq: "{ event_id }"}} }}) {{
+                    items {{
+                        placeID
+                    }}
                 }}
             }}
         """
     }
-    requests.post(
-        APPSYNC_ENDPOINT, headers=headers, data=json.dumps(create_event_place_payload))
+    response = requests.post(
+        APPSYNC_ENDPOINT, headers=headers, data=json.dumps(check_event_place_payload))
+
+    if len(response.json()["data"]["listEventPlaces"]["items"]) <= 0:
+        create_event_place_payload = {
+            'query': f"""
+                    mutation createEventPlace {{
+                        createEventPlace(input: {{
+                            placeID: "{place_id}",
+                            eventID: "{event_id}"}}) {{
+                                id
+                        }}
+                    }}
+                """
+        }
+        requests.post(
+            APPSYNC_ENDPOINT, headers=headers, data=json.dumps(create_event_place_payload))
 
 
 def get_places_linked_to_event(event_id):
