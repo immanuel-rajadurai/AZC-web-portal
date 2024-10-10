@@ -1,13 +1,15 @@
 {% extends 'layouts/base.html' %}
 
 {% load form_tags %}
+{% load animal_extras %}
+
 
 {% block title %}
   Edit Event
 {% endblock %}
 
 {% block content %}
-  <div class="header pb-6 d-flex align-items-center" style="min-height: 500px; background-image: url(/static/assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
+  <div class="header pb-6 d-flex align-items-center" style="min-height: 600px; background-image: url(/static/assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
     <!-- Mask -->
     <span class="mask bg-gradient-default opacity-8"></span>
 
@@ -19,6 +21,29 @@
             <div class="card-body d-flex flex-column align-items-center">
               <h5 class="card-title">{{ place.name }}</h5>
               <p class="card-text">{{ place.description }}</p>
+
+              <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Add an animal
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  {% for animal in all_animals %}
+                    <a class="dropdown-item text-wrap" href="{% url 'add_animal_to_place' animal.id place_id %}" style='overflow-wrap: break-word;'>{{ animal.name }}</a>
+                  {% endfor %}
+                </div>
+              </div>
+              {% if linked_animals %}
+                <div class="dropdown">
+                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Remove an animal
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    {% for animal in linked_animals %}
+                      <a class="dropdown-item text-wrap" href="{% url 'remove_animal_from_place' animal place_id %}" style='overflow-wrap: break-word;'>{{ animal|get_animal_name }}</a>
+                    {% endfor %}
+                  </div>
+                </div>
+              {% endif %}
             </div>
           </div>
         </div>

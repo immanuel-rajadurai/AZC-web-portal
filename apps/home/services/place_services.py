@@ -75,7 +75,7 @@ def create_place(name, description, isOpen, image):
     response = requests.post(
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload))
 
-    print("create place response: ", response.json())
+    # print("create place response: ", response.json())
 
 
 def delete_place(id):

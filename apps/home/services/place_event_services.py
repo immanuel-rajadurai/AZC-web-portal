@@ -26,16 +26,6 @@ def add_place_to_event(event_id, place_id):
 
 
 def get_places_linked_to_event(event_id):
-    # payload = {
-    #     'query': f"""
-    #         query listEventPlace {{
-    #             getEventPlace(eventID: "{event_id}") {{
-    #                 placeID
-    #             }}
-    #         }}
-    #     """
-    # }
-
     payload = {
         'query': f"""
             query listEventPlace {{
@@ -52,24 +42,39 @@ def get_places_linked_to_event(event_id):
     response = requests.post(
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload))
 
-    # print(event_id)
+    tmp = response.json()["data"]["listEventPlaces"]["items"]
 
-    if response.json()["data"] != None:
-        response = response.json()["data"]["listEventPlaces"]["items"]
-        if len(response) > 0:
-            response = response[0]
-
-        print("listEventPlace", response)
-        return response
+    if tmp:
+        # print("listEventPlace: ", tmp)
+        return tmp
 
     return None
 
 
 def remove_place_from_event(place_id, event_id):
+    get_rel_payload = {
+        'query': f"""
+            query ListEventPlacesFilter {{
+                listEventPlaces(filter: {{eventID: {{eq: "{event_id}"}}, placeID: {{eq: "{place_id}"}}}}) {{
+                    items {{
+                        id
+                    }}
+                }}
+            }}
+        """
+    }
+
+    response = requests.post(
+        APPSYNC_ENDPOINT, headers=headers, data=json.dumps(get_rel_payload))
+    # print("response.json():", response.json())
+
+    rel_id = response.json()["data"]["listEventPlaces"]["items"][0]['id']
+    # print("rel_id: ", rel_id)
+
     delete_rel_payload = {
         'query': f"""
             mutation deleteEventPlace {{
-                deleteEventPlace(input: {{placeID: "{place_id}", eventID:"{event_id}"}}) {{
+                deleteEventPlace(input: {{id: "{rel_id}"}}) {{
                     id
                 }}
             }}
@@ -77,6 +82,6 @@ def remove_place_from_event(place_id, event_id):
     }
 
     # Send the POST request to the AppSync endpoint
-    response = requests.post(
+    response2 = requests.post(
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(delete_rel_payload))
-    # print(response.json())
+    # print("response2.json(): ", response2.json())
