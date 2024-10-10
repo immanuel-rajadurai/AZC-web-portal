@@ -109,10 +109,10 @@ def edit_place(request, place_id):
     linked_animals = animal_place_services.get_animals_linked_to_place(
         place_id)
     linked_animals = get_ids_from_filter(linked_animals, "animalID")
-    print("linked_animals: ", linked_animals)
+    # print("linked_animals: ", linked_animals)
 
     context = {
-        'segment': 'animals',
+        'segment': 'places',
         'place': place,
         'place_id': place_id,
         'all_animals': animal_services.get_animals_list(),

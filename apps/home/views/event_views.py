@@ -108,7 +108,7 @@ def edit_event(request, event_id):
     print("linked_places: ", linked_places)
 
     context = {
-        'segment': 'animals',
+        'segment': 'events',
         'event': event,
         'event_id': event_id,
         'all_places': place_services.get_places_list(),
