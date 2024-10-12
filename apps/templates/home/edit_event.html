@@ -20,19 +20,39 @@
           <div class="card shadow border" style="width: 18rem; position: relative;">
             <img src="{{ event.image }}" class="card-img-top card-img-fixed card-photo" alt="..."/>
             <div class="card-body d-flex flex-column align-items-center">
-              <h5 class="card-title">{{ event.name }}</h5>
-              <p class="card-text">{{ event.description }}</p>
-
-              <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Add to a place
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  {% for place in all_places %}
-                    <a class="dropdown-item text-wrap" href="{% url 'add_place_to_event' place.id event_id %}" style='overflow-wrap: break-word;'>{{ place.name }}</a>
-                  {% endfor %}
+              <h1 class="card-title">{{ event.name }}</h1>
+              {% if linked_places %}
+                <div class="listbox-area">
+                  <div>
+                    <span class="listbox-label">
+                      Place(s): 
+                    </span>
+                    <ul tabindex="0" role="listbox">
+                      {% for place in linked_places %}
+                        <li role="option">
+                          <span class="checkmark" aria-hidden="true"></span>
+                          {{ place|get_place_name }}
+                        </li>
+                      {% endfor %}
+                    </ul>
+                  </div>
                 </div>
-              </div>
+              {% endif %}
+
+              <p class="card-text">{{ event.description }}</p>
+              
+              {% if places %}
+                <div class="dropdown">
+                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Add to a place
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    {% for place in places %}
+                      <a class="dropdown-item text-wrap" href="{% url 'add_place_to_event' place.id event_id %}" style='overflow-wrap: break-word;'>{{ place.name }}</a>
+                    {% endfor %}
+                  </div>
+                </div>
+              {% endif %}
               {% if linked_places %}
                 <div class="dropdown">
                   <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
