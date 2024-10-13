@@ -64,7 +64,7 @@ def get_places_linked_to_event(event_id):
         # print("listEventPlace: ", tmp)
         return tmp
 
-    return None
+    return []
 
 
 def remove_place_from_event(place_id, event_id):

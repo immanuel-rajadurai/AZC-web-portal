@@ -12,6 +12,7 @@ from django.contrib import messages
 from ..services import event_services, place_event_services, place_services, event_tag_services
 from ..forms import event_forms
 from .miscellaneous_views import get_ids_from_filter
+from .views_extras import split_tags
 
 
 @login_required(login_url="/login/")
@@ -27,8 +28,10 @@ def all_events(request):
             name = data['name']
             description = data['description']
             image = data['image']
-
             event_services.create_event(name, description, image)
+
+            tags = data['tags']
+            tags = split_tags(tags)
 
             messages.success(request, 'Event created successfully')
     else:
@@ -99,6 +102,12 @@ def edit_event(request, event_id):
 
             event_services.edit_event(event_id, name, description, image)
 
+            # tags = data['tags']
+            # tags = split_tags(tags)
+
+            # for tag in tags:
+            #     event_tag_services.create_tag(event_id, tag)
+
             messages.success(request, f""""{name}" edited successfully""")
 
             return redirect('events')
@@ -107,6 +116,9 @@ def edit_event(request, event_id):
         form.fields['name'].initial = event['name']
         form.fields['description'].initial = event['description']
         form.fields['image'].initial = event['image']
+
+        # tags = event_tag_services.get_tags(event_id)
+        # form.fields['tags'].initial = ', '.join(tags)
 
     linked_places = place_event_services.get_places_linked_to_event(
         event_id)

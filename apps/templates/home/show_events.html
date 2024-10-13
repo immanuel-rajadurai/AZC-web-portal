@@ -11,15 +11,15 @@
 
 
 {% block content %}
-  <div class="header pb-6 d-flex align-items-center" style="min-height: 500px; background-image: url(/static/assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
+  <div class="header pb-6" style="background-image: url(/static/assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
     <!-- Mask -->
     <span class="mask bg-gradient-default opacity-8"></span>
 
     <!-- Header container -->
     {% if events %}
-      <div class="col-lg-7 col-md-10">
+      <div class="col">
         <h1 class="display-2 text-white">Current Events</h1>
-        <div class="row mt-4">
+        <div class="row">
           <div class="col">
             <div class="d-flex overflow-auto">
               {% for event in events %}
@@ -31,7 +31,7 @@
                       <div class="listbox-area">
                         <div>
                           <span class="listbox-label">
-                            Place(s): 
+                            Place(s):
                           </span>
                           <ul tabindex="0" role="listbox">
                             {% for place in linked_places|get_item:event.id  %}

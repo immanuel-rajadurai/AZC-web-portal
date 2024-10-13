@@ -32,7 +32,7 @@ def get_tags(event_id):
         # print("listEventTags: ", tmp)
         return tmp
 
-    return None
+    return []
 
 
 def create_tag(event_id, tagName):
