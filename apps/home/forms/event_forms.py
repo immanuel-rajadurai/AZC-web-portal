@@ -6,4 +6,4 @@ class EventForm(forms.Form):
     description = forms.CharField(widget=forms.Textarea)
     image = forms.CharField(max_length=500, required=False)
 
-    tags = forms.CharField(max_length=500)
+    tags = forms.CharField(max_length=500, required=False)

@@ -42,6 +42,12 @@
 
               <p class="card-text">{{ event.description }}</p>
               
+              <p style="font-size: 12px;">
+                {% for tag in linked_tags %}
+                  #{{ tag }}
+                {% endfor %}
+              </p>
+              
               {% if places %}
                 <div class="dropdown">
                   <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -122,6 +128,13 @@
                     <label class="form-control-label" for="id_description">Description</label>
                     <!-- <input type="text" id="input-first-name" class="form-control" placeholder="A short description that visitors can read in a few seconds" value=""> -->
                     {{ form.description|add_class:'form-control' }}
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="id_tags">Tags</label>
+                    <!-- <input type="text" id="input-first-name" class="form-control" placeholder="A short description that visitors can read in a few seconds" value=""> -->
+                    {{ form.tags|add_class:'form-control' }}
                   </div>
                 </div>
               </div>

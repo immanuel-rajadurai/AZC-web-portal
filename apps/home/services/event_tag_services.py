@@ -15,7 +15,7 @@ def get_tags(event_id):
             query listEventTasg {{
                 listEventTags(filter: {{ eventID: {{eq: "{ event_id }"}} }}) {{
                     items {{
-                        id
+                        tagName
                     }}
                 }}
             }}
@@ -36,53 +36,54 @@ def get_tags(event_id):
 
 
 def create_tag(event_id, tagName):
-    payload = {
-        'query': f"""
-            mutation listEventTag {{
-                listEventTags(filter: {{ eventID: {{eq: "{event_id}"}}, tagName: {{eq: "{tagName}" }} }}) {{
-                    items {{
-                        id
-                    }}
-                }}
-            }}
-        """
-    }
-
-    # Send the POST request to the AppSync endpoint
-    response = requests.post(
-        APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload))
-    # print(response.json())
-
-    if len(response.json()["data"]["listEventTags"]["items"]) > 0:
-        payload2 = {
+    if tagName != "":
+        payload = {
             'query': f"""
-                mutation createTag {{
-                    createTag(input: {{ tagName: "{tagName}" }}) {{
-                        id
+                query listEventTag {{
+                    listEventTags(filter: {{ eventID: {{eq: "{event_id}"}}, tagName: {{eq: "{tagName}" }} }}) {{
+                        items {{
+                            id
+                        }}
                     }}
                 }}
             """
         }
 
         # Send the POST request to the AppSync endpoint
-        response2 = requests.post(
-            APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload2))
-        # print(response2.json())
+        response = requests.post(
+            APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload))
+        print(response.json())
 
-    payload3 = {
-        'query': f"""
-            mutation createEventTag {{
-                createEventTag(input: {{ eventID: "{event_id}", tagName: "{tagName}" }}) {{
-                    id
-                }}
-            }}
-        """
-    }
+        if not response.json()["data"]['listEventTags']['items']:
+            payload2 = {
+                'query': f"""
+                    mutation createTag {{
+                        createTag(input: {{ name: "{tagName}" }}) {{
+                            name
+                        }}
+                    }}
+                """
+            }
 
-    # Send the POST request to the AppSync endpoint
-    response3 = requests.post(
-        APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload3))
-    # print(response3.json())
+            # Send the POST request to the AppSync endpoint
+            response2 = requests.post(
+                APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload2))
+            # print(response2.json())
+
+            payload3 = {
+                'query': f"""
+                    mutation createEventTag {{
+                        createEventTag(input: {{ eventID: "{event_id}", tagName: "{tagName}" }}) {{
+                            id
+                        }}
+                    }}
+                """
+            }
+
+            # Send the POST request to the AppSync endpoint
+            response3 = requests.post(
+                APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload3))
+            # print(response3.json())
 
 
 def delete_tag(event_id, tagName):

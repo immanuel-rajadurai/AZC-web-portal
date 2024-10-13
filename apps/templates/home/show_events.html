@@ -46,52 +46,13 @@
                     {% endif %}
 
                     <p class="card-text">{{ event.description }}</p>
-                    {% comment %} <small class="card-text">{{ event.id }}</small> {% endcomment %}
 
-                    {% comment %} <div class="dropdown">
-                      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Add to a place
-                      </button>
-                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        {% for place in places %}
-                          <a class="dropdown-item text-wrap" href="{% url 'add_place_to_event' place.id event.id %}" style='overflow-wrap: break-word;'>{{ place.name }}</a>
-                        {% endfor %}
-                      </div>
-                    </div>
-                    <div class="dropdown">
-                      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Remove a place
-                      </button>
-                      {% if linked_places %}
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                          {% for place in linked_places %}
-                            <a class="dropdown-item text-wrap" href="{% url 'remove_place_from_event' place.id event.id %}" style='overflow-wrap: break-word;'>{{ place.name }}</a>
-                          {% endfor %}
-                        </div>
-                      {% endif %}
-                    </div> {% endcomment %}
-
-                    {% comment %} <div class="dropdown">
-                      <a href class="align-items-center text-white text-decoration-none" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded='false'>
-                        {% if places %}
-                          <button type="button" class="btn btn-outline-primary">Places <i class="bi bi-book"></i></button>
-                        {% endif %}
-                      </a>
-                    
-                      <ul class="dropdown-menu dropdown-menu-right dropdown-menu-dark text-small shadow" style='width: 275px'>
-                        <div class='container' style='max-height:80vh; overflow-y: auto; padding: 0'>
-                          {% for animal in animals %} 
-                            <li>
-                              <a class="dropdown-item text-wrap" style='overflow-wrap: break-word;'>
-                                <p>{{ animal.name }}</p>
-                                <a class="btn btn-outline-danger" href="{% url 'add_animal_to_place' place.id animal.id %}"><i class="bi bi-dash-circle"></i></a>
-                              </a>
-                            </li>
-                          {% endfor %}
-                        </div>
-                      </ul>
-                    </div> {% endcomment %}
-                  </div> 
+                    <p style="font-size: 12px;">
+                      {% for tag in linked_tags|get_item:event.id %}
+                        #{{ tag }}
+                      {% endfor %}
+                    </p>
+                  </div>
 
                   <br>
 
@@ -114,76 +75,10 @@
         </div>
       </div>
     {% endif %}
-    <!--   <div class="container-fluid d-flex align-items-center">
-    <div class="row">
-      <div class="col-lg-7 col-md-10">
-        <h1 class="display-2 text-white"> 
-          Current Events at your park 
-        </h1>
-        <a href="#!" class="btn btn-neutral">Edit profile</a>
-      </div>
-    </div>
-  </div>   -->
   </div>
 
   <!-- Page content -->
   <div class="container-fluid mt--6">
-    <!--           <div class="row">
-    <div class="col-xl-4 order-xl-2">
-      <div class="card card-profile">
-        <img src="/static/assets/img/theme/img-1-1000x600.jpg" alt="Image placeholder" class="card-img-top">
-        <div class="row justify-content-center">
-          <div class="col-lg-3 order-lg-2">
-            <div class="card-profile-image">
-              <a href="#">
-                <img src="/static/assets/img/theme/team-4.jpg" class="rounded-circle">
-              </a>
-            </div>
-          </div>
-        </div>
-        <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
-          <div class="d-flex justify-content-between">
-            <a href="#" class="btn btn-sm btn-info  mr-4 ">Connect</a>
-            <a href="#" class="btn btn-sm btn-default float-right">Message</a>
-          </div>
-        </div>
-        <div class="card-body pt-0">
-          <div class="row">
-            <div class="col">
-              <div class="card-profile-stats d-flex justify-content-center">
-                <div>
-                  <span class="heading">22</span>
-                  <span class="description">Friends</span>
-                </div>
-                <div>
-                  <span class="heading">10</span>
-                  <span class="description">Photos</span>
-                </div>
-                <div>
-                  <span class="heading">89</span>
-                  <span class="description">Comments</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="text-center">
-            <h5 class="h3">
-              {{ request.user.username }}
-            </h5>
-            <div class="h5 font-weight-300">
-              {{ request.user.email }}
-            </div>
-            <div class="h5 mt-4">
-              <i class="ni business_briefcase-24 mr-2"></i>Solution Manager - Creative Tim Officer
-            </div>
-            <div>
-              <i class="ni education_hat mr-2"></i>University of Computer Science
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>           -->
-
     <div class="col-xl-8 order-xl-1">
       <div class="card">
         <div class="card-header">
@@ -232,6 +127,13 @@
                     <label class="form-control-label" for="id_description">Description</label>
                     <!-- <input type="text" id="input-first-name" class="form-control" placeholder="A short description that visitors can read in a few seconds" value=""> -->
                     {{ form.description|add_class:'form-control' }}
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="id_tags">Tags</label>
+                    <!-- <input type="text" id="input-first-name" class="form-control" placeholder="A short description that visitors can read in a few seconds" value=""> -->
+                    {{ form.tags|add_class:'form-control' }}
                   </div>
                 </div>
               </div>

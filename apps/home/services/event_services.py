@@ -55,7 +55,7 @@ def create_event(name, description, image):
     # Send the POST request to the AppSync endpoint
     response = requests.post(
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload))
-    return response.json()
+    return response.json()['data']['createEvent']['id']
 
 
 def delete_attached_relationships(event_id):
@@ -94,11 +94,11 @@ def delete_attached_relationships(event_id):
     # print("response2.json(): ", response2.json())
 
 
-def delete_event(id):
+def delete_event(event_id):
     delete_event_payload = {
         'query': f"""
             mutation deleteEvent {{
-                deleteEvent(input: {{id: "{id}"}}) {{
+                deleteEvent(input: {{id: "{event_id}"}}) {{
                     id
                 }}
             }}
@@ -110,7 +110,7 @@ def delete_event(id):
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(delete_event_payload))
     # print(response.json())
 
-    delete_attached_relationships(id)
+    delete_attached_relationships(event_id)
 
 
 def edit_event(event_id, name, description, image):
@@ -130,11 +130,11 @@ def edit_event(event_id, name, description, image):
     # print(response.json())
 
 
-def get_event(id):
+def get_event(event_id):
     payload = {
         'query': f"""
             query listEvents {{
-                getEvent(id: "{id}") {{
+                getEvent(id: "{event_id}") {{
                     name
                     description
                     image

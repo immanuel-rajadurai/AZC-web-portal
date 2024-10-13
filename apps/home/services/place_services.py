@@ -150,11 +150,11 @@ def delete_attached_relationships(place_id):
     # print("response4.json(): ", response4.json())
 
 
-def delete_place(id):
+def delete_place(place_id):
     delete_place_payload = {
         'query': f"""
             mutation deletePlace {{
-                deletePlace(input: {{id: "{id}"}}) {{
+                deletePlace(input: {{id: "{place_id}"}}) {{
                     id
                 }}
             }}
@@ -166,7 +166,7 @@ def delete_place(id):
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(delete_place_payload))
     # print(response.json())
 
-    delete_attached_relationships(id)
+    delete_attached_relationships(place_id)
 
 
 def edit_place(place_id, name, description, isOpen, image):
@@ -186,11 +186,11 @@ def edit_place(place_id, name, description, isOpen, image):
     # print(response.json())
 
 
-def get_place(id):
+def get_place(place_id):
     payload = {
         'query': f"""
             query listPlaces {{
-                getPlace(id: "{id}") {{
+                getPlace(id: "{place_id}") {{
                     name
                     description
                     isOpen

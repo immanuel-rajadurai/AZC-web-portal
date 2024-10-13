@@ -69,6 +69,8 @@ def edit_animal(request, animal_id):
             image = data['image']
 
             animal_services.edit_animal(animal_id, name, image)
+            
+            messages.success(request, f""""{name}" edited successfully""")
 
             return redirect('animals')
     else:
