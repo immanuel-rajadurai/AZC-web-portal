@@ -61,7 +61,7 @@ def all_events(request):
         linked_tags.update({event['id']: tmp})
 
     # print("linked_places: ", linked_places)
-    print("linked_tags: ", linked_tags)
+    # print("linked_tags: ", linked_tags)
 
     context = {
         'segment': 'events',
@@ -114,18 +114,20 @@ def edit_event(request, event_id):
             event_services.edit_event(event_id, name, description, image)
 
             existing_tags = event_tag_services.get_tags(event_id)
-            # print("existing_tags", existing_tags)
+            print("existing_tags", existing_tags)
 
             input_tags = data['tags']
             input_tags = split_tags(input_tags)
-            # print("tags", tags)
+            print("input_tags", input_tags)
 
             for tag in input_tags:
                 if not tag in existing_tags:
+                    print("tag_create: ", tag)
                     event_tag_services.create_tag(event_id, tag)
 
             for tag in existing_tags:
-                if not tag in input_tags:
+                if not tag['tagName'] in input_tags:
+                    print("tag_delete: ", tag['tagName'])
                     event_tag_services.delete_tag(event_id, tag['tagName'])
 
             messages.success(request, f""""{name}" edited successfully""")
