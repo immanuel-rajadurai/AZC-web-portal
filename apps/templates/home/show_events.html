@@ -93,6 +93,8 @@
                     </div> {% endcomment %}
                   </div> 
 
+                  <br>
+
                   <form action="{% url 'edit_event' event.id %}" method="GET">
                     {% csrf_token %}
                     <button type="submit" class="edit-btn">

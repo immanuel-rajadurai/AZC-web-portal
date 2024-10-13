@@ -33,3 +33,9 @@
 .delete-btn:hover {
     color: darkred;
 }
+
+.is-open-status {
+    background-color: transparent;
+    border: none;
+    font-size: 2rem;
+}

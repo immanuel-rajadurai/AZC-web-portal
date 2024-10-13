@@ -6,4 +6,8 @@ register = template.Library()
 
 @register.filter
 def get_place_name(place_id):
-    return place_services.get_place(place_id)["name"]
+    tmp = place_services.get_place(place_id)
+
+    if tmp:
+        return tmp["name"]
+    return "Undefined"
