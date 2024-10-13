@@ -78,7 +78,7 @@ def add_animal_to_place(request, animal_id, place_id):
 @ login_required(login_url="/login/")
 def edit_place(request, place_id):
     place = place_services.get_place(place_id)
-    print("place: ", place)
+    # print("place: ", place)
 
     if request.method == 'POST':
         # print("executing post request")

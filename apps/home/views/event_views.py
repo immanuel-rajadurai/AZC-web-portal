@@ -32,6 +32,8 @@ def all_events(request):
 
             tags = data['tags']
             tags = split_tags(tags)
+            # print("tags", tags)
+
             for tagName in tags:
                 event_tag_services.create_tag(event_id, tagName)
 
@@ -110,6 +112,11 @@ def edit_event(request, event_id):
             image = data['image']
 
             event_services.edit_event(event_id, name, description, image)
+
+            existing_tags = event_tag_services.get_tags(event_id)
+            print("existing_tags", existing_tags)
+            for tag in existing_tags:
+                event_tag_services.delete_tag(event_id, tag['tagName'])
 
             tags = data['tags']
             tags = split_tags(tags)
