@@ -9,7 +9,7 @@ from django.shortcuts import redirect
 from django.template import loader
 from django.contrib import messages
 
-from ..services import event_services, place_event_services, place_services, event_tag_services
+from ..services import event_services, place_event_services, place_services, event_tag_services, tag_services
 from ..forms import event_forms
 from .miscellaneous_views import get_ids_from_filter
 from .views_extras import split_tags
@@ -62,10 +62,12 @@ def all_events(request):
 
     # print("linked_places: ", linked_places)
     # print("linked_tags: ", linked_tags)
+    print(tag_services.get_tags_list())
 
     context = {
         'segment': 'events',
         'events': events,
+        'all_tags': tag_services.get_tags_list(),
         'linked_places': linked_places,
         'linked_tags': linked_tags,
         'form': form,
@@ -168,6 +170,7 @@ def edit_event(request, event_id):
     context = {
         'segment': 'events',
         'event': event,
+        'all_tags': tag_services.get_tags_list(),
         'event_id': event_id,
         'places': places,
         'linked_places': linked_places,

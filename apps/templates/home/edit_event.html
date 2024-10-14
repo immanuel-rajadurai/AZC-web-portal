@@ -21,7 +21,7 @@
           <div class="card shadow border" style="width: 18rem; position: relative;">
             <img src="{{ event.image }}" class="card-img-top card-img-fixed card-photo" alt="..."/>
             <div class="card-body d-flex flex-column align-items-center">
-              <h1 class="card-title">{{ event.name }}</h1>
+              <h1 class="card-title" style="text-align: center">{{ event.name }}</h1>
               {% if linked_places %}
                 <div class="listbox-area">
                   <div>
@@ -104,7 +104,6 @@
 
           <form method="post">
             {% csrf_token %}
-
             <div class="pl-lg-4">
               <div class="row">
                 <div class="col-lg-6">
@@ -131,10 +130,23 @@
                   </div>
                 </div>
                 <div class="col-lg-6">
-                  <div class="form-group">
-                    <label class="form-control-label" for="id_tags">Tags</label>
-                    <!-- <input type="text" id="input-first-name" class="form-control" placeholder="A short description that visitors can read in a few seconds" value=""> -->
-                    {{ form.tags|add_class:'form-control' }}
+                  <div class="row">
+                    <div class="form-group">
+                      <label class="form-control-label" for="id_tags">Tags</label>
+                      <!-- <input type="text" id="input-first-name" class="form-control" placeholder="A short description that visitors can read in a few seconds" value=""> -->
+                      {{ form.tags|add_class:'form-control' }}
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="list-container">
+                      {% if all_tags %}
+                        <ul>
+                          {% for tag in all_tags %}
+                            <li>{{ tag.name }}</li>
+                          {% endfor %}
+                        </ul>
+                      {% endif %}
+                    </div>
                   </div>
                 </div>
               </div>
