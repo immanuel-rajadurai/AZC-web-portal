@@ -6,4 +6,8 @@ register = template.Library()
 
 @register.filter
 def get_animal_name(animal_id):
-    return animal_services.get_animal(animal_id)["name"]
+    tmp = animal_services.get_animal(animal_id)
+
+    if tmp:
+        return tmp["name"]
+    return "Undefined"

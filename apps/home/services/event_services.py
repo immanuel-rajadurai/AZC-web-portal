@@ -33,10 +33,10 @@ def get_events_list():
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload))
 
     # print(response.json())
-    if response.json()["data"] != None:
+    if response.json()["data"]:
         return response.json()["data"]["listEvents"]["items"]
 
-    return None
+    return []
 
 
 def create_event(name, description, image):
@@ -55,60 +55,50 @@ def create_event(name, description, image):
     # Send the POST request to the AppSync endpoint
     response = requests.post(
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload))
-    return response.json()
+    return response.json()['data']['createEvent']['id']
 
 
-# def create_event_and_place(name, description, place_id, image=None):
-#     if image != None:
-#         create_event_payload = {
-#             'query': f"""
-#                 mutation createEvent {{
-#                     createEvent(input: {{id: {id},
-#                         name: "{name},
-#                         description: {description},
-#                         image: {image}}}) {{
-#                         id
-#                     }}
-#                 }}
-#             """
-#         }
-#     else:
-#         create_event_payload = {
-#             'query': f"""
-#                 mutation createEvent {{
-#                     createEvent(input: {{id: {id},
-#                         name: "{name},
-#                         description: {description}}}) {{
-#                             id
-#                     }}
-#                 }}
-#             """
-#         }
-#     response = requests.post(
-#         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(create_event_payload))
+def delete_attached_relationships(event_id):
+    get_rel_payload = {
+        'query': f"""
+                query listEventPlace {{
+                    listEventPlaces(filter: {{ eventID: {{eq: "{ event_id }"}} }}) {{
+                        items {{
+                            id
+                        }}
+                    }}
+                }}
+            """
+    }
 
-#     event_id = response.json()["data"]["createEvent"]["id"]
-#     create_event_place_payload = {
-#         'query': f"""
-#             mutation createEventPlace {{
-#                 createEventPlace(input: {{
-#                     placeID: "{place_id},
-#                     eventID: {event_id}}}) {{
-#                         id
-#                 }}
-#             }}
-#         """
-#     }
-#   response = requests.post(
-#         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(create_event_place_payload))
-    # print(response.json())
+    # Send the POST request to the AppSync endpoint
+    response = requests.post(
+        APPSYNC_ENDPOINT, headers=headers, data=json.dumps(get_rel_payload))
+
+    rel_id = response.json()["data"]["listEventPlaces"]["items"][0]['id']
+    # print("rel_id: ", rel_id)
+
+    delete_rel_payload = {
+        'query': f"""
+            mutation deleteEventPlace {{
+                deleteEventPlace(input: {{id: "{rel_id}"}}) {{
+                    id
+                }}
+            }}
+        """
+    }
+
+    # Send the POST request to the AppSync endpoint
+    response2 = requests.post(
+        APPSYNC_ENDPOINT, headers=headers, data=json.dumps(delete_rel_payload))
+    # print("response2.json(): ", response2.json())
 
 
-def delete_event(id):
+def delete_event(event_id):
     delete_event_payload = {
         'query': f"""
             mutation deleteEvent {{
-                deleteEvent(input: {{id: "{id}"}}) {{
+                deleteEvent(input: {{id: "{event_id}"}}) {{
                     id
                 }}
             }}
@@ -119,6 +109,8 @@ def delete_event(id):
     response = requests.post(
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(delete_event_payload))
     # print(response.json())
+
+    delete_attached_relationships(event_id)
 
 
 def edit_event(event_id, name, description, image):
@@ -138,11 +130,11 @@ def edit_event(event_id, name, description, image):
     # print(response.json())
 
 
-def get_event(id):
+def get_event(event_id):
     payload = {
         'query': f"""
             query listEvents {{
-                getEvent(id: "{id}") {{
+                getEvent(id: "{event_id}") {{
                     name
                     description
                     image
@@ -156,7 +148,7 @@ def get_event(id):
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload))
 
     # print(response.json())
-    if response.json()["data"] != None:
+    if response.json()["data"]:
         return response.json()["data"]["getEvent"]
 
-    return None
+    return []

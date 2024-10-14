@@ -96,7 +96,7 @@ def get_animals_linked_to_place(place_id):
         # print("listPlaceAnimals: ", tmp)
         return tmp
 
-    return None
+    return []
 
 
 def remove_animal_from_place(animal_id, place_id):

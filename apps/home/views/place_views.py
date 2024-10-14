@@ -111,11 +111,21 @@ def edit_place(request, place_id):
     linked_animals = get_ids_from_filter(linked_animals, "animalID")
     # print("linked_animals: ", linked_animals)
 
+    all_animals = animal_services.get_animals_list()
+    # print("all_animals",  all_animals)
+    animals = []
+    for item in all_animals:
+        # print("item['id']", item['id'])
+        if not item['id'] in linked_animals:
+            animals.append(item)
+
+    # print("animals", animals)
+
     context = {
         'segment': 'places',
         'place': place,
         'place_id': place_id,
-        'all_animals': animal_services.get_animals_list(),
+        'animals': animals,
         'linked_animals': linked_animals,
         'form': form,
     }

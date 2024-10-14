@@ -11,9 +11,10 @@
 
 
 {% block content %}
-  <div class="header pb-6 d-flex align-items-center" style="min-height: 500px; background-image: url(/static/assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
+  <div class="header pb-6" style="background-image: url(/static/assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
     <!-- Mask -->
     <span class="mask bg-gradient-default opacity-8"></span>
+    <br>
 
     <div class="container">
       <div class="row align-items-center">
@@ -21,7 +22,7 @@
           <div class="card shadow border" style="width: 18rem; position: relative;">
             <img src="{{ animal.image }}" class="card-img-top card-img-fixed card-photo" alt="..."/>
             <div class="card-body d-flex flex-column align-items-center">
-              <h5 class="card-title">{{ animal.name }}</h5>
+              <h1 class="card-title">{{ animal.name }}</h1>
             </div>
           </div>
         </div>

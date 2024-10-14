@@ -32,10 +32,10 @@ def get_animals_list():
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload))
 
     # print(response.json())
-    if response.json()["data"] != None:
+    if response.json()["data"]:
         return response.json()["data"]["listAnimals"]["items"]
 
-    return None
+    return []
 
 
 def add_animal(name, image):
@@ -55,6 +55,42 @@ def add_animal(name, image):
     # print(response.json())
 
 
+def delete_attached_relationships(animal_id):
+    get_rel_payload = {
+        'query': f"""
+                query listPlaceAnimal {{
+                    listPlaceAnimals(filter: {{ animalID: {{eq: "{ animal_id }"}} }}) {{
+                        items {{
+                            id
+                        }}
+                    }}
+                }}
+            """
+    }
+
+    # Send the POST request to the AppSync endpoint
+    response = requests.post(
+        APPSYNC_ENDPOINT, headers=headers, data=json.dumps(get_rel_payload))
+
+    rel_id = response.json()["data"]["listPlaceAnimals"]["items"][0]['id']
+    # print("rel_id: ", rel_id)
+
+    delete_rel_payload = {
+        'query': f"""
+            mutation deletePlaceAnimal {{
+                deletePlaceAnimal(input: {{id: "{rel_id}"}}) {{
+                    id
+                }}
+            }}
+        """
+    }
+
+    # Send the POST request to the AppSync endpoint
+    response2 = requests.post(
+        APPSYNC_ENDPOINT, headers=headers, data=json.dumps(delete_rel_payload))
+    # print("response2.json(): ", response2.json())
+
+
 def remove_animal(id):
     remove_animal_payload = {
         'query': f"""
@@ -70,6 +106,8 @@ def remove_animal(id):
     response = requests.post(
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(remove_animal_payload))
     # print(response.json())
+
+    delete_attached_relationships(id)
 
 
 def edit_animal(animal_id, name, image):
@@ -106,7 +144,7 @@ def get_animal(id):
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload))
 
     # print(response.json())
-    if response.json()["data"] != None:
+    if response.json()["data"]:
         return response.json()["data"]["getAnimal"]
 
-    return None
+    return []
