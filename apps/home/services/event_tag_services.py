@@ -120,4 +120,4 @@ def delete_tag(event_id, tagName):
     # Send the POST request to the AppSync endpoint
     response2 = requests.post(
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(deletion_payload))
-    print("response2.json(): ", response2.json())
+    # print("response2.json(): ", response2.json())
