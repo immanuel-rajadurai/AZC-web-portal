@@ -104,20 +104,20 @@ def delete_tag(event_id, tagName):
     # print("response.json():", response.json())
 
     # if (response.json()["data"]["listEventTags"]["items"])
-    event_tag_id = response.json()["data"]["listEventTags"]["items"][0]['id']
-    # print("event_tag_id: ", event_tag_id)
+    event_tags = response.json()["data"]["listEventTags"]["items"]
 
-    deletion_payload = {
-        'query': f"""
-                mutation deleteEventTag {{
-                    deleteEventTag(input: {{id: "{event_tag_id}"}}) {{
-                        id
+    for event_tag in event_tags:
+        deletion_payload = {
+            'query': f"""
+                    mutation deleteEventTag {{
+                        deleteEventTag(input: {{id: "{event_tag['id']}"}}) {{
+                            id
+                        }}
                     }}
-                }}
-            """
-    }
+                """
+        }
 
-    # Send the POST request to the AppSync endpoint
-    response2 = requests.post(
-        APPSYNC_ENDPOINT, headers=headers, data=json.dumps(deletion_payload))
-    # print("response2.json(): ", response2.json())
+        # Send the POST request to the AppSync endpoint
+        response2 = requests.post(
+            APPSYNC_ENDPOINT, headers=headers, data=json.dumps(deletion_payload))
+        # print("response2.json(): ", response2.json())

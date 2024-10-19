@@ -84,20 +84,20 @@ def remove_place_from_event(place_id, event_id):
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(get_rel_payload))
     # print("response.json():", response.json())
 
-    rel_id = response.json()["data"]["listEventPlaces"]["items"][0]['id']
-    # print("rel_id: ", rel_id)
+    rels = response.json()["data"]["listEventPlaces"]["items"]
 
-    delete_rel_payload = {
-        'query': f"""
-            mutation deleteEventPlace {{
-                deleteEventPlace(input: {{id: "{rel_id}"}}) {{
-                    id
+    for rel in rels:
+        delete_rel_payload = {
+            'query': f"""
+                mutation deleteEventPlace {{
+                    deleteEventPlace(input: {{id: "{rel['id']}"}}) {{
+                        id
+                    }}
                 }}
-            }}
-        """
-    }
+            """
+        }
 
-    # Send the POST request to the AppSync endpoint
-    response2 = requests.post(
-        APPSYNC_ENDPOINT, headers=headers, data=json.dumps(delete_rel_payload))
-    # print("response2.json(): ", response2.json())
+        # Send the POST request to the AppSync endpoint
+        response2 = requests.post(
+            APPSYNC_ENDPOINT, headers=headers, data=json.dumps(delete_rel_payload))
+        # print("response2.json(): ", response2.json())

@@ -24,9 +24,18 @@ def all_animals(request):
             # print("form data: ", data)
 
             name = data['name']
+            scientificName = data['scientificName']
+            habitat = data['habitat']
+            diet = data['diet']
+            behaviour = data['behaviour']
+            weightMale = data['weightMale']
+            weightFemale = data['weightFemale']
             image = data['image']
+            conservationStatus = data['conservationStatus']
+            funFacts = data['funFacts']
 
-            animal_services.add_animal(name, image)
+            animal_services.add_animal(name, scientificName, habitat, diet, behaviour,
+                                       weightMale, weightFemale, image, conservationStatus, funFacts)
 
             messages.success(request, 'Animal created successfully')
     else:
@@ -66,18 +75,34 @@ def edit_animal(request, animal_id):
             # print("form data: ", data)
 
             name = data['name']
+            scientificName = data['scientificName']
+            habitat = data['habitat']
+            diet = data['diet']
+            behaviour = data['behaviour']
+            weightMale = data['weightMale']
+            weightFemale = data['weightFemale']
             image = data['image']
+            conservationStatus = data['conservationStatus']
+            funFacts = data['funFacts']
 
-            animal_services.edit_animal(animal_id, name, image)
-            
+            animal_services.edit_animal(animal_id, name, scientificName, habitat, diet,
+                                        behaviour, weightMale, weightFemale, image, conservationStatus, funFacts)
+
             messages.success(request, f""""{name}" edited successfully""")
 
             return redirect('animals')
     else:
         form = animal_forms.AnimalForm()
-
         form.fields['name'].initial = animal['name']
+        form.fields['scientificName'].initial = animal['scientificName']
+        form.fields['habitat'].initial = animal['habitat']
+        form.fields['diet'].initial = animal['diet']
+        form.fields['behaviour'].initial = animal['behaviour']
+        form.fields['weightMale'].initial = animal['weightMale']
+        form.fields['weightFemale'].initial = animal['weightFemale']
         form.fields['image'].initial = animal['image']
+        form.fields['conservationStatus'].initial = animal['conservationStatus']
+        form.fields['funFacts'].initial = animal['funFacts']
 
     context = {
         'segment': 'animals',

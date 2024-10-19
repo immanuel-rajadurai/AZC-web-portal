@@ -68,8 +68,68 @@
                 </div>
                 <div class="col-lg-6">
                   <div class="form-group">
+                    <label class="form-control-label" for="id_scientificName" >Scientific Name</label>
+                    {{ form.scientificName|add_class:'form-control' }}
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="id_habitat">Habitat</label>
+                    <!-- <input type="text" id="input-username" class="form-control" placeholder="The name of the animal" value=""> -->
+                    {{ form.habitat|add_class:'form-control' }}
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="id_diet" >Diet</label>
+                    {{ form.diet|add_class:'form-control' }}
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="id_behaviour">Baheviour</label>
+                    <!-- <input type="text" id="input-username" class="form-control" placeholder="The name of the animal" value=""> -->
+                    {{ form.behaviour|add_class:'form-control' }}
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="id_weightMale" >Weight (Male)</label>
+                    {{ form.weightMale|add_class:'form-control' }}
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="id_weightFemale">Weight (Female)</label>
+                    <!-- <input type="text" id="input-username" class="form-control" placeholder="The name of the animal" value=""> -->
+                    {{ form.weightFemale|add_class:'form-control' }}
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
                     <label class="form-control-label" for="id_image" >Image URL</label>
                     {{ form.image|add_class:'form-control' }}
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="id_conservationStatus">Conservation Status</label>
+                    <!-- <input type="text" id="input-username" class="form-control" placeholder="The name of the animal" value=""> -->
+                    {{ form.conservationStatus|add_class:'form-control' }}
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="id_funFacts" >Fun Facts</label>
+                    {{ form.funFacts|add_class:'form-control' }}
                   </div>
                 </div>
               </div>

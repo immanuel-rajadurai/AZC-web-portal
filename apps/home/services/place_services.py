@@ -97,23 +97,23 @@ def delete_attached_relationships(place_id):
     response = requests.post(
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(get_rel_payload))
 
-    rel_id = response.json()["data"]["listPlaceAnimals"]["items"][0]['id']
-    # print("rel_id: ", rel_id)
+    rels = response.json()["data"]["listPlaceAnimals"]["items"]
 
-    delete_rel_payload = {
-        'query': f"""
-            mutation deletePlaceAnimal {{
-                deletePlaceAnimal(input: {{id: "{rel_id}"}}) {{
-                    id
+    for rel in rels:
+        delete_rel_payload = {
+            'query': f"""
+                mutation deletePlaceAnimal {{
+                    deletePlaceAnimal(input: {{id: "{rel['id']}"}}) {{
+                        id
+                    }}
                 }}
-            }}
-        """
-    }
+            """
+        }
 
-    # Send the POST request to the AppSync endpoint
-    response2 = requests.post(
-        APPSYNC_ENDPOINT, headers=headers, data=json.dumps(delete_rel_payload))
-    # print("response2.json(): ", response2.json())
+        # Send the POST request to the AppSync endpoint
+        response2 = requests.post(
+            APPSYNC_ENDPOINT, headers=headers, data=json.dumps(delete_rel_payload))
+        # print("response2.json(): ", response2.json())
 
     get_rel_payload2 = {
         'query': f"""
@@ -131,7 +131,7 @@ def delete_attached_relationships(place_id):
     response3 = requests.post(
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(get_rel_payload2))
 
-    rel_id = response3.json()["data"]["listEventPlaces"]["items"][0]['id']
+    rel_id = response3.json()["data"]["listEventPlaces"]["items"]['id']
     # print("rel_id: ", rel_id)
 
     delete_rel_payload2 = {
