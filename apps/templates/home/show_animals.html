@@ -70,80 +70,11 @@
             </div>
           {% endif %}
 
-          <form method="post">
+          form method="post">
             {% csrf_token %}
-            <div class="pl-lg-4">
-              <div class="row">
-                <div class="col-lg-6">
-                  <div class="form-group">
-                    <label class="form-control-label" for="id_name">Name</label>
-                    {{ form.name|add_class:'form-control' }}
-                  </div>
-                </div>
-                <div class="col-lg-6">
-                  <div class="form-group">
-                    <label class="form-control-label" for="id_scientificName" >Scientific Name</label>
-                    {{ form.scientificName|add_class:'form-control' }}
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-lg-6">
-                  <div class="form-group">
-                    <label class="form-control-label" for="id_habitat">Habitat</label>
-                    {{ form.habitat|add_class:'form-control' }}
-                  </div>
-                </div>
-                <div class="col-lg-6">
-                  <div class="form-group">
-                    <label class="form-control-label" for="id_diet" >Diet</label>
-                    {{ form.diet|add_class:'form-control' }}
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-lg-6">
-                  <div class="form-group">
-                    <label class="form-control-label" for="id_behaviour">Behaviour</label>
-                    {{ form.behaviour|add_class:'form-control' }}
-                  </div>
-                </div>
-                <div class="col-lg-6">
-                  <div class="form-group">
-                    <label class="form-control-label" for="id_weightMale" >Weight (Male)</label>
-                    {{ form.weightMale|add_class:'form-control' }}
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-lg-6">
-                  <div class="form-group">
-                    <label class="form-control-label" for="id_weightFemale">Weight (Female)</label>
-                    {{ form.weightFemale|add_class:'form-control' }}
-                  </div>
-                </div>
-                <div class="col-lg-6">
-                  <div class="form-group">
-                    <label class="form-control-label" for="id_image">Image URL</label>
-                    {{ form.image|add_class:'form-control' }}
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-lg-6">
-                  <div class="form-group">
-                    <label class="form-control-label" for="id_funFacts">Fun Facts</label>
-                    {{ form.funFacts|add_class:'form-control' }}
-                  </div>
-                </div>
-                <div class="col-lg-6">
-                  <div class="form-group">
-                    <label class="form-control-label" for="id_conservationStatus">Conservation Status</label>
-                    {{ form.conservationStatus|add_class:'form-control' }}
-                  </div>
-                </div>
-              </div>
-            </div>
+
+            {% include 'partials/animal_form.html' %}
+
             <button class="btn btn-sm btn-primary" type="submit">Submit</button>
           </form>
         </div>
