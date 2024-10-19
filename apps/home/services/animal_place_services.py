@@ -12,7 +12,7 @@ headers = {
 def add_place_to_event(event_id, place_id):
     check_event_place_payload = {
         'query': f"""
-            query listEventPlace {{
+            query listEventPlaces {{
                 listEventPlaces(filter: {{ eventID: {{eq: "{ event_id }"}} }}) {{
                     items {{
                         placeID
@@ -43,7 +43,7 @@ def add_place_to_event(event_id, place_id):
 def add_animal_to_place(animal_id, place_id):
     check_animal_place_payload = {
         'query': f"""
-            query listPlaceAnimal {{
+            query listPlaceAnimals {{
                 listPlaceAnimals(filter: {{ placeID: {{eq: "{ place_id }"}}, animalID: {{eq: "{ animal_id }"}} }}) {{
                     items {{
                         id
@@ -56,7 +56,7 @@ def add_animal_to_place(animal_id, place_id):
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(check_animal_place_payload))
     # print(response.json())
 
-    if len(response.json()["data"]["listPlaceAnimals"]["items"]) <= 0:
+    if len(response.json()["data"]["listPlaceAnimals"]["items"]) == 0:
         create_animal_place_payload = {
             'query': f"""
                 mutation createPlaceAnimal {{
@@ -75,7 +75,7 @@ def add_animal_to_place(animal_id, place_id):
 def get_animals_linked_to_place(place_id):
     payload = {
         'query': f"""
-            query listPlaceAnimal {{
+            query listPlaceAnimals {{
                 listPlaceAnimals(filter: {{ placeID: {{eq: "{ place_id }"}} }}) {{
                     items {{
                         animalID
@@ -102,7 +102,7 @@ def get_animals_linked_to_place(place_id):
 def remove_animal_from_place(animal_id, place_id):
     get_rel_payload = {
         'query': f"""
-            query ListPlaceAnimalsFilter {{
+            query listPlaceAnimals {{
                 listPlaceAnimals(filter: {{animalID: {{eq: "{animal_id}"}}, placeID: {{eq: "{place_id}"}}}}) {{
                     items {{
                         id

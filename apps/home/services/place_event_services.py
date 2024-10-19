@@ -12,7 +12,7 @@ headers = {
 def add_place_to_event(event_id, place_id):
     check_event_place_payload = {
         'query': f"""
-            query listEventPlace {{
+            query listEventPlaces {{
                 listEventPlaces(filter: {{ eventID: {{eq: "{ event_id }"}}, placeID: {{eq: "{ place_id }"}} }}) {{
                     items {{
                         id
@@ -44,7 +44,7 @@ def add_place_to_event(event_id, place_id):
 def get_places_linked_to_event(event_id):
     payload = {
         'query': f"""
-            query listEventPlace {{
+            query listEventPlaces {{
                 listEventPlaces(filter: {{ eventID: {{eq: "{ event_id }"}} }}) {{
                     items {{
                         placeID
@@ -70,7 +70,7 @@ def get_places_linked_to_event(event_id):
 def remove_place_from_event(place_id, event_id):
     get_rel_payload = {
         'query': f"""
-            query ListEventPlacesFilter {{
+            query listEventPlaces {{
                 listEventPlaces(filter: {{eventID: {{eq: "{event_id}"}}, placeID: {{eq: "{place_id}"}}}}) {{
                     items {{
                         id

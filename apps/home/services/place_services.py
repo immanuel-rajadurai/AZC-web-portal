@@ -43,26 +43,6 @@ def get_places_list():
 
 
 def create_place(name, description, isOpen, image):
-
-    # print("calling create place")
-
-    # payload = f'''
-    #             mutation {{
-    #                 createPlace(input: {{
-    #                     description: "{description}",
-    #                     image: "{image}",
-    #                     isOpen: {str(isOpen).lower()},
-    #                     name: "{name}"
-    #                 }}) {{
-    #                     id
-    #                     description
-    #                     image
-    #                     isOpen
-    #                     name
-    #                 }}
-    #             }}
-    #             '''
-
     payload = {
         'query': f"""
             mutation createPlace {{
@@ -83,7 +63,7 @@ def create_place(name, description, isOpen, image):
 def delete_attached_relationships(place_id):
     get_rel_payload = {
         'query': f"""
-                query listPlaceAnimal {{
+                query listPlaceAnimals {{
                     listPlaceAnimals(filter: {{ placeID: {{eq: "{ place_id }"}} }}) {{
                         items {{
                             id
@@ -117,7 +97,7 @@ def delete_attached_relationships(place_id):
 
     get_rel_payload2 = {
         'query': f"""
-                query listEventPlace {{
+                query listEventPlaces {{
                     listEventPlaces(filter: {{ placeID: {{eq: "{ place_id }"}} }}) {{
                         items {{
                             id
@@ -189,7 +169,7 @@ def edit_place(place_id, name, description, isOpen, image):
 def get_place(place_id):
     payload = {
         'query': f"""
-            query listPlaces {{
+            query getPlace {{
                 getPlace(id: "{place_id}") {{
                     name
                     description

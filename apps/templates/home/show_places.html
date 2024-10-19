@@ -85,7 +85,6 @@
               <h3 class="mb-0">Add an place</h3>
             </div>
             <div class="col-4 text-right">
-              <!-- <a href="#!" class="btn btn-sm btn-primary">Settings</a> -->
             </div>
           </div>
         </div>
@@ -105,14 +104,12 @@
                 <div class="col-lg-6">
                   <div class="form-group">
                     <label class="form-control-label" for="id_name">Name</label>
-                    <!-- <input type="text" id="input-username" class="form-control" placeholder="The name of the event" value=""> -->
                     {{ form.name|add_class:'form-control' }}
                   </div>
                 </div>
                 <div class="col-lg-6">
                   <div class="form-group">
                     <label class="form-control-label" for="id_image">Image URL</label>
-                    <!-- <input type="email" id="input-email" class="form-control" placeholder="The URL to the descriptive image for that event"> -->
                     {{ form.image|add_class:'form-control' }}
                   </div>
                 </div>
@@ -127,7 +124,6 @@
                 <div class="col-10">
                   <div class="form-group">
                     <label class="form-control-label" for="id_description">Description</label>
-                    <!-- <input type="text" id="input-first-name" class="form-control" placeholder="A short description that visitors can read in a few seconds" value=""> -->
                     {{ form.description|add_class:'form-control' }}
                   </div>
                 </div>
@@ -143,7 +139,4 @@
   {% include 'includes/footer.html' %}
 {% endblock %}
 
-<!-- Specific JS goes HERE -->
-{% block javascripts %}
-
-{% endblock %}
+{% block javascripts %} {% endblock %}

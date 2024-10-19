@@ -77,7 +77,7 @@ def add_animal(name, scientificName, habitat, diet, behaviour, weightMale, weigh
 def delete_attached_relationships(animal_id):
     get_rel_payload = {
         'query': f"""
-                query listPlaceAnimal {{
+                query listPlaceAnimals {{
                     listPlaceAnimals(filter: {{ animalID: {{eq: "{ animal_id }"}} }}) {{
                         items {{
                             id
@@ -161,7 +161,7 @@ def edit_animal(animal_id, name, scientificName, habitat, diet, behaviour, weigh
 def get_animal(id):
     payload = {
         'query': f"""
-            query listAnimals {{
+            query getAnimal {{
                 getAnimal(id: "{id}") {{
                     name
                     image

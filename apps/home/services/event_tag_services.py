@@ -12,7 +12,7 @@ headers = {
 def get_tags(event_id):
     payload = {
         'query': f"""
-            query listEventTasg {{
+            query listEventTags {{
                 listEventTags(filter: {{ eventID: {{eq: "{ event_id }"}} }}) {{
                     items {{
                         tagName
@@ -39,7 +39,7 @@ def create_tag(event_id, tagName):
     if tagName != "":
         payload = {
             'query': f"""
-                query listEventTag {{
+                query listEventTags {{
                     listEventTags(filter: {{ eventID: {{eq: "{event_id}"}}, tagName: {{eq: "{tagName}" }} }}) {{
                         items {{
                             id
@@ -89,7 +89,7 @@ def create_tag(event_id, tagName):
 def delete_tag(event_id, tagName):
     get_payload = {
         'query': f"""
-            query ListEventTagFilter {{
+            query listEventTags {{
                 listEventTags(filter: {{eventID: {{eq: "{event_id}"}}, tagName: {{eq: "{tagName}" }}}}) {{
                     items {{
                         id

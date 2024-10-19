@@ -61,7 +61,7 @@ def create_event(name, description, image):
 def delete_attached_relationships(event_id):
     get_rel_payload = {
         'query': f"""
-                query listEventPlace {{
+                query listEventPlaces {{
                     listEventPlaces(filter: {{ eventID: {{eq: "{ event_id }"}} }}) {{
                         items {{
                             id
@@ -133,7 +133,7 @@ def edit_event(event_id, name, description, image):
 def get_event(event_id):
     payload = {
         'query': f"""
-            query listEvents {{
+            query getEvent {{
                 getEvent(id: "{event_id}") {{
                     name
                     description
