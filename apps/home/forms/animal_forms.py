@@ -13,10 +13,10 @@ class AnimalForm(forms.Form):
     behaviour = forms.CharField(required=False)
 
     weightMale = forms.CharField(required=False)
-    weightMale = forms.CharField(required=False)
+    weightFemale = forms.CharField(required=False)
 
     image = forms.CharField(max_length=500, required=False)
 
     conservationStatus = forms.CharField(required=False)
 
-    funFacts = forms.CharField(max_length=500)
+    funFacts = forms.CharField(widget=forms.Textarea, max_length=500)
