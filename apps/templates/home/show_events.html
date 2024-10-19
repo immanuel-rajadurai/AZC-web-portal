@@ -1,6 +1,5 @@
 {% extends 'layouts/base.html' %}
 
-{% load form_tags %}
 {% load miscellaneous_extras %}
 {% load place_extras %}
 
@@ -100,7 +99,7 @@
           <form method="post">
             {% csrf_token %}
 
-            {% include 'partials/event_form.html' %}
+            {% include 'home/partials/event_form.html' with form=form %}
 
             <button class="btn btn-sm btn-primary" type="submit">Submit</button>
           </form>
