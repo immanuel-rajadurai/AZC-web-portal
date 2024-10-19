@@ -38,8 +38,8 @@ def all_animals(request):
                                        weightMale, weightFemale, image, conservationStatus, funFacts)
 
             messages.success(request, 'Animal created successfully')
-    else:
-        form = animal_forms.AnimalForm()
+
+    form = animal_forms.AnimalForm()
 
     context = {
         'segment': 'animals',
