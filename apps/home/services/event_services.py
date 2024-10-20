@@ -1,11 +1,4 @@
-import requests
-import json
-from .api_info import *
-
-headers = {
-    'Content-Type': 'application/json',
-    'x-api-key': API_KEY
-}
+from .services_extras import *
 
 
 def get_events_list():
@@ -22,18 +15,7 @@ def get_events_list():
         }
     """
 
-    payload = {
-        'query': list_events
-    }
-
-    response = requests.post(
-        APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload))
-
-    # print(response.json())
-    if response.json()["data"]:
-        return response.json()["data"]["listEvents"]["items"]
-
-    return []
+    return sendAWSQuery(list_events).json()["data"]["listEvents"]["items"]
 
 
 def create_event(name, description, image):

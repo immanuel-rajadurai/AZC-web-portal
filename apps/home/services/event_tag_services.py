@@ -1,11 +1,4 @@
-import requests
-import json
-from .api_info import *
-
-headers = {
-    'Content-Type': 'application/json',
-    'x-api-key': API_KEY
-}
+from .services_extras import *
 
 
 def get_tags(event_id):

@@ -1,132 +1,92 @@
-import requests
-import json
-from .api_info import *
-
-headers = {
-    'Content-Type': 'application/json',
-    'x-api-key': API_KEY
-}
+from .services_extras import *
 
 
 def add_place_to_event(event_id, place_id):
-    check_event_place_payload = {
-        'query': f"""
-            query listEventPlaces {{
-                listEventPlaces(filter: {{ eventID: {{eq: "{ event_id }"}} }}) {{
-                    items {{
-                        placeID
-                    }}
+    check_event_place = f"""
+        query listEventPlaces {{
+            listEventPlaces(filter: {{ eventID: {{eq: "{ event_id }"}} }}) {{
+                items {{
+                    placeID
+                }}
+            }}
+        }}
+    """
+    response = sendAWSQuery(check_event_place)
+
+    if len(response.json()["data"]["listEventPlaces"]["items"]) <= 0:
+        create_event_place = f"""
+            mutation createEventPlace {{
+                createEventPlace(input: {{
+                    placeID: "{place_id}",
+                    eventID: "{event_id}"}}) {{
+                        id
                 }}
             }}
         """
-    }
-    response = requests.post(
-        APPSYNC_ENDPOINT, headers=headers, data=json.dumps(check_event_place_payload))
-
-    if len(response.json()["data"]["listEventPlaces"]["items"]) <= 0:
-        create_event_place_payload = {
-            'query': f"""
-                    mutation createEventPlace {{
-                        createEventPlace(input: {{
-                            placeID: "{place_id}",
-                            eventID: "{event_id}"}}) {{
-                                id
-                        }}
-                    }}
-                """
-        }
-        requests.post(
-            APPSYNC_ENDPOINT, headers=headers, data=json.dumps(create_event_place_payload))
+        sendAWSQuery(create_event_place)
 
 
 def add_animal_to_place(animal_id, place_id):
-    check_animal_place_payload = {
-        'query': f"""
-            query listPlaceAnimals {{
-                listPlaceAnimals(filter: {{ placeID: {{eq: "{ place_id }"}}, animalID: {{eq: "{ animal_id }"}} }}) {{
-                    items {{
+    check_animal_place = f"""
+        query listPlaceAnimals {{
+            listPlaceAnimals(filter: {{ placeID: {{eq: "{ place_id }"}}, animalID: {{eq: "{ animal_id }"}} }}) {{
+                items {{
+                    id
+                }}
+            }}
+        }}
+    """
+    response = sendAWSQuery(check_animal_place)
+
+    if len(response.json()["data"]["listPlaceAnimals"]["items"]) == 0:
+        create_animal_place = f"""
+            mutation createPlaceAnimal {{
+                createPlaceAnimal(input: {{
+                    placeID: "{place_id}",
+                    animalID: "{animal_id}"}}) {{
                         id
-                    }}
                 }}
             }}
         """
-    }
-    response = requests.post(
-        APPSYNC_ENDPOINT, headers=headers, data=json.dumps(check_animal_place_payload))
-    # print(response.json())
-
-    if len(response.json()["data"]["listPlaceAnimals"]["items"]) == 0:
-        create_animal_place_payload = {
-            'query': f"""
-                mutation createPlaceAnimal {{
-                    createPlaceAnimal(input: {{
-                        placeID: "{place_id}",
-                        animalID: "{animal_id}"}}) {{
-                            id
-                    }}
-                }}
-            """
-        }
-        requests.post(
-            APPSYNC_ENDPOINT, headers=headers, data=json.dumps(create_animal_place_payload))
+        sendAWSQuery(create_animal_place)
 
 
 def get_animals_linked_to_place(place_id):
-    payload = {
-        'query': f"""
-            query listPlaceAnimals {{
-                listPlaceAnimals(filter: {{ placeID: {{eq: "{ place_id }"}} }}) {{
-                    items {{
-                        animalID
-                    }}
+    list_place_animals = f"""
+        query listPlaceAnimals {{
+            listPlaceAnimals(filter: {{ placeID: {{eq: "{ place_id }"}} }}) {{
+                items {{
+                    animalID
                 }}
             }}
-        """
-    }
+        }}
+    """
 
-    response = requests.post(
-        APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload))
-
-    tmp = response.json()["data"]["listPlaceAnimals"]["items"]
-    # print("tmp: ", tmp)
-
-    if tmp:
-        # print("listPlaceAnimals: ", tmp)
-        return tmp
-
-    return []
+    return sendAWSQuery(list_place_animals).json()[
+        "data"]["listPlaceAnimals"]["items"]
 
 
 def remove_animal_from_place(animal_id, place_id):
-    get_rel_payload = {
-        'query': f"""
-            query listPlaceAnimals {{
-                listPlaceAnimals(filter: {{animalID: {{eq: "{animal_id}"}}, placeID: {{eq: "{place_id}"}}}}) {{
-                    items {{
-                        id
-                    }}
+    get_relationships = f"""
+        query listPlaceAnimals {{
+            listPlaceAnimals(filter: {{animalID: {{eq: "{animal_id}"}}, placeID: {{eq: "{place_id}"}}}}) {{
+                items {{
+                    id
+                }}
+            }}
+        }}
+    """
+
+    relationships = sendAWSQuery(get_relationships).json()[
+        "data"]["listPlaceAnimals"]["items"]
+
+    for rel in relationships:
+        delete_relationship = f"""
+            mutation deletePlaceAnimal {{
+                deletePlaceAnimal(input: {{id: "{rel['id']}"}}) {{
+                    id
                 }}
             }}
         """
-    }
 
-    response = requests.post(
-        APPSYNC_ENDPOINT, headers=headers, data=json.dumps(get_rel_payload))
-    # print("response.json():", response.json())
-
-    rels = response.json()["data"]["listPlaceAnimals"]["items"]
-
-    for rel in rels:
-        delete_rel_payload = {
-            'query': f"""
-                mutation deletePlaceAnimal {{
-                    deletePlaceAnimal(input: {{id: "{rel['id']}"}}) {{
-                        id
-                    }}
-                }}
-            """
-        }
-
-        response2 = requests.post(
-            APPSYNC_ENDPOINT, headers=headers, data=json.dumps(delete_rel_payload))
-        # print("response2.json(): ", response2.json())
+        sendAWSQuery(delete_relationship)

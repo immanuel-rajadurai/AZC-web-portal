@@ -1,11 +1,4 @@
-import requests
-import json
-from .api_info import *
-
-headers = {
-    'Content-Type': 'application/json',
-    'x-api-key': API_KEY
-}
+from .services_extras import *
 
 
 def get_animals_list():
@@ -29,153 +22,112 @@ def get_animals_list():
         }
     """
 
-    payload = {
-        'query': list_animals
-    }
-
-    response = requests.post(
-        APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload))
-
-    print(response.json())
-    if response.json()["data"]:
-        return response.json()["data"]["listAnimals"]["items"]
-
-    return []
+    return sendAWSQuery(list_animals).json()["data"]["listAnimals"]["items"]
 
 
 def add_animal(name, scientificName, habitat, diet, behaviour, weightMale, weightFemale, image, conservationStatus, funFacts):
-    payload = {
-        'query': f"""
-            mutation createAnimal {{
-                createAnimal(input: {{ 
-                    name: "{name}", 
-                    scientificName: "{scientificName}", 
-                    habitat: "{habitat}", 
-                    diet: "{diet}", 
-                    behaviour: "{behaviour}", 
-                    weightMale: "{weightMale}", 
-                    weightFemale: "{weightFemale}", 
-                    image: "{image}", 
-                    conservationStatus: "{conservationStatus}", 
-                    funFacts: "{funFacts}" 
-                }} ) {{
-                    id
-                }}
+    add_animal = f"""
+        mutation createAnimal {{
+            createAnimal(input: {{ 
+                name: "{name}", 
+                scientificName: "{scientificName}", 
+                habitat: "{habitat}", 
+                diet: "{diet}", 
+                behaviour: "{behaviour}", 
+                weightMale: "{weightMale}", 
+                weightFemale: "{weightFemale}", 
+                image: "{image}", 
+                conservationStatus: "{conservationStatus}", 
+                funFacts: "{funFacts}" 
+            }} ) {{
+                id
             }}
-        """
-    }
+        }}
+    """
 
-    response = requests.post(
-        APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload))
-    # print(response.json())
+    sendAWSQuery(add_animal)
 
 
 def delete_attached_relationships(animal_id):
-    get_rel_payload = {
-        'query': f"""
-                query listPlaceAnimals {{
-                    listPlaceAnimals(filter: {{ animalID: {{eq: "{ animal_id }"}} }}) {{
-                        items {{
-                            id
-                        }}
-                    }}
+    get_relationships = f"""
+        query listPlaceAnimals {{
+            listPlaceAnimals(filter: {{ animalID: {{eq: "{ animal_id }"}} }}) {{
+                items {{
+                    id
                 }}
-            """
-    }
+            }}
+        }}
+    """
 
-    response = requests.post(
-        APPSYNC_ENDPOINT, headers=headers, data=json.dumps(get_rel_payload))
-
-    rels = response.json()["data"]["listPlaceAnimals"]["items"]
+    rels = sendAWSQuery(get_relationships).json()[
+        "data"]["listPlaceAnimals"]["items"]
 
     for rel in rels:
-        delete_rel_payload = {
-            'query': f"""
-                mutation deletePlaceAnimal {{
-                    deletePlaceAnimal(input: {{id: "{rel['id']}"}}) {{
-                        id
-                    }}
-                }}
-            """
-        }
-
-        response2 = requests.post(
-            APPSYNC_ENDPOINT, headers=headers, data=json.dumps(delete_rel_payload))
-        # print("response2.json(): ", response2.json())
-
-
-def remove_animal(id):
-    remove_animal_payload = {
-        'query': f"""
-            mutation deleteAnimal {{
-                deleteAnimal(input: {{id: "{id}"}}) {{
+        delete_relationships = f"""
+            mutation deletePlaceAnimal {{
+                deletePlaceAnimal(input: {{id: "{rel['id']}"}}) {{
                     id
                 }}
             }}
         """
-    }
 
-    response = requests.post(
-        APPSYNC_ENDPOINT, headers=headers, data=json.dumps(remove_animal_payload))
-    # print(response.json())
+        sendAWSQuery(delete_relationships)
 
+
+def remove_animal(id):
+    remove_animal = f"""
+        mutation deleteAnimal {{
+            deleteAnimal(input: {{id: "{id}"}}) {{
+                id
+            }}
+        }}
+    """
+
+    sendAWSQuery(remove_animal)
     delete_attached_relationships(id)
 
 
 def edit_animal(animal_id, name, scientificName, habitat, diet, behaviour, weightMale, weightFemale, image, conservationStatus, funFacts):
-    edit_animal_payload = {
-        'query': f"""
-            mutation updateAnimal {{
-                updateAnimal(input: {{ 
-                    id: "{animal_id}", 
-                    name: "{name}", 
-                    scientificName: "{scientificName}", 
-                    habitat: "{habitat}", 
-                    diet: "{diet}", 
-                    behaviour: "{behaviour}", 
-                    weightMale: "{weightMale}", 
-                    weightFemale: "{weightFemale}", 
-                    image: "{image}", 
-                    conservationStatus: "{conservationStatus}", 
-                    funFacts: "{funFacts}" 
-                }}, condition: null) {{
-                    id
-                }}
+    edit_animal = f"""
+        mutation updateAnimal {{
+            updateAnimal(input: {{ 
+                id: "{animal_id}", 
+                name: "{name}", 
+                scientificName: "{scientificName}", 
+                habitat: "{habitat}", 
+                diet: "{diet}", 
+                behaviour: "{behaviour}", 
+                weightMale: "{weightMale}", 
+                weightFemale: "{weightFemale}", 
+                image: "{image}", 
+                conservationStatus: "{conservationStatus}", 
+                funFacts: "{funFacts}" 
+            }}, condition: null) {{
+                id
             }}
-        """
-    }
+        }}
+    """
 
-    response = requests.post(
-        APPSYNC_ENDPOINT, headers=headers, data=json.dumps(edit_animal_payload))
-    # print(response.json())
+    sendAWSQuery(edit_animal)
 
 
 def get_animal(id):
-    payload = {
-        'query': f"""
-            query getAnimal {{
-                getAnimal(id: "{id}") {{
-                    name
-                    image
-                    scientificName
-                    habitat
-                    diet
-                    behaviour
-                    weightMale
-                    weightFemale
-                    image
-                    conservationStatus
-                    funFacts
-                }}
+    get_animal = f"""
+        query getAnimal {{
+            getAnimal(id: "{id}") {{
+                name
+                image
+                scientificName
+                habitat
+                diet
+                behaviour
+                weightMale
+                weightFemale
+                image
+                conservationStatus
+                funFacts
             }}
-        """
-    }
+        }}
+    """
 
-    response = requests.post(
-        APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload))
-
-    # print(response.json())
-    if response.json()["data"]:
-        return response.json()["data"]["getAnimal"]
-
-    return []
+    return sendAWSQuery(get_animal)

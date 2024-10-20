@@ -57,7 +57,7 @@ def all_events(request):
 
     # print("linked_places: ", linked_places)
     # print("linked_tags: ", linked_tags)
-    print(tag_services.get_tags_list())
+    # print(tag_services.get_tags_list())
 
     context = {
         'segment': 'events',
