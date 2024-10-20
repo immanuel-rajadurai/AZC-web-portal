@@ -130,4 +130,4 @@ def get_animal(id):
         }}
     """
 
-    return sendAWSQuery(get_animal)
+    return sendAWSQuery(get_animal).json()['data']['getAnimal']
