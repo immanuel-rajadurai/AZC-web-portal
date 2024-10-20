@@ -2,7 +2,6 @@ import requests
 import json
 from .api_info import *
 
-# The headers for the HTTP request
 headers = {
     'Content-Type': 'application/json',
     'x-api-key': API_KEY
@@ -22,7 +21,6 @@ def get_tags(event_id):
         """
     }
 
-    # Send the POST request to the AppSync endpoint
     response = requests.post(
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload))
 
@@ -49,7 +47,6 @@ def create_tag(event_id, tagName):
             """
         }
 
-        # Send the POST request to the AppSync endpoint
         response = requests.post(
             APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload))
         # print(response.json())
@@ -65,7 +62,6 @@ def create_tag(event_id, tagName):
                 """
             }
 
-            # Send the POST request to the AppSync endpoint
             response2 = requests.post(
                 APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload2))
             # print(response2.json())
@@ -80,7 +76,6 @@ def create_tag(event_id, tagName):
                 """
             }
 
-            # Send the POST request to the AppSync endpoint
             response3 = requests.post(
                 APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload3))
             # print(response3.json())
@@ -117,7 +112,6 @@ def delete_tag(event_id, tagName):
                 """
         }
 
-        # Send the POST request to the AppSync endpoint
         response2 = requests.post(
             APPSYNC_ENDPOINT, headers=headers, data=json.dumps(deletion_payload))
         # print("response2.json(): ", response2.json())

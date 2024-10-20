@@ -2,7 +2,6 @@ import requests
 import json
 from .api_info import *
 
-# The headers for the HTTP request
 headers = {
     'Content-Type': 'application/json',
     'x-api-key': API_KEY
@@ -23,12 +22,10 @@ def get_events_list():
         }
     """
 
-    # The payload for the HTTP request
     payload = {
         'query': list_events
     }
 
-    # Send the POST request to the AppSync endpoint
     response = requests.post(
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload))
 
@@ -52,7 +49,6 @@ def create_event(name, description, image):
         'query': create_event_mutation
     }
 
-    # Send the POST request to the AppSync endpoint
     response = requests.post(
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload))
     return response.json()['data']['createEvent']['id']
@@ -71,7 +67,6 @@ def delete_attached_relationships(event_id):
             """
     }
 
-    # Send the POST request to the AppSync endpoint
     response = requests.post(
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(get_rel_payload))
 
@@ -88,7 +83,6 @@ def delete_attached_relationships(event_id):
             """
         }
 
-        # Send the POST request to the AppSync endpoint
         response2 = requests.post(
             APPSYNC_ENDPOINT, headers=headers, data=json.dumps(delete_rel_payload))
         # print("response2.json(): ", response2.json())
@@ -105,7 +99,6 @@ def delete_event(event_id):
         """
     }
 
-    # Send the POST request to the AppSync endpoint
     response = requests.post(
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(delete_event_payload))
     # print(response.json())
@@ -124,7 +117,6 @@ def edit_event(event_id, name, description, image):
         """
     }
 
-    # Send the POST request to the AppSync endpoint
     response = requests.post(
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(edit_event_payload))
     # print(response.json())

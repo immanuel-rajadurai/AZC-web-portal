@@ -11,10 +11,8 @@
 
 {% block content %}
   <div class="header pb-6" style="background-image: url(/static/assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
-    <!-- Mask -->
     <span class="mask bg-gradient-default opacity-8"></span>
 
-    <!-- Header container -->
     {% if events %}
       <div class="col">
         <h1 class="display-2 text-white">Current Events</h1>
@@ -75,6 +73,7 @@
       </div>
     {% endif %}
   </div>
+  
   <div class="container-fluid mt--6">
     <div class="col-xl-8 order-xl-1">
       <div class="card">
@@ -110,5 +109,6 @@
 
   {% include 'includes/footer.html' %}
 {% endblock %}
+
 
 {% block javascripts %} {% endblock %}

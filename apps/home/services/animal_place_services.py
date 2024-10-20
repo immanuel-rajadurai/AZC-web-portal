@@ -2,7 +2,6 @@ import requests
 import json
 from .api_info import *
 
-# The headers for the HTTP request
 headers = {
     'Content-Type': 'application/json',
     'x-api-key': API_KEY
@@ -85,7 +84,6 @@ def get_animals_linked_to_place(place_id):
         """
     }
 
-    # Send the POST request to the AppSync endpoint
     response = requests.post(
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload))
 
@@ -129,7 +127,6 @@ def remove_animal_from_place(animal_id, place_id):
             """
         }
 
-        # Send the POST request to the AppSync endpoint
         response2 = requests.post(
             APPSYNC_ENDPOINT, headers=headers, data=json.dumps(delete_rel_payload))
         # print("response2.json(): ", response2.json())

@@ -2,7 +2,6 @@ import requests
 import json
 from .api_info import *
 
-# The headers for the HTTP request
 headers = {
     'Content-Type': 'application/json',
     'x-api-key': API_KEY
@@ -30,12 +29,10 @@ def get_animals_list():
         }
     """
 
-    # The payload for the HTTP request
     payload = {
         'query': list_animals
     }
 
-    # Send the POST request to the AppSync endpoint
     response = requests.post(
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload))
 
@@ -68,7 +65,6 @@ def add_animal(name, scientificName, habitat, diet, behaviour, weightMale, weigh
         """
     }
 
-    # Send the POST request to the AppSync endpoint
     response = requests.post(
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload))
     # print(response.json())
@@ -87,7 +83,6 @@ def delete_attached_relationships(animal_id):
             """
     }
 
-    # Send the POST request to the AppSync endpoint
     response = requests.post(
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(get_rel_payload))
 
@@ -104,7 +99,6 @@ def delete_attached_relationships(animal_id):
             """
         }
 
-        # Send the POST request to the AppSync endpoint
         response2 = requests.post(
             APPSYNC_ENDPOINT, headers=headers, data=json.dumps(delete_rel_payload))
         # print("response2.json(): ", response2.json())
@@ -121,7 +115,6 @@ def remove_animal(id):
         """
     }
 
-    # Send the POST request to the AppSync endpoint
     response = requests.post(
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(remove_animal_payload))
     # print(response.json())
@@ -152,7 +145,6 @@ def edit_animal(animal_id, name, scientificName, habitat, diet, behaviour, weigh
         """
     }
 
-    # Send the POST request to the AppSync endpoint
     response = requests.post(
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(edit_animal_payload))
     # print(response.json())
@@ -179,7 +171,6 @@ def get_animal(id):
         """
     }
 
-    # Send the POST request to the AppSync endpoint
     response = requests.post(
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload))
 
