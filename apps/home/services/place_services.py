@@ -16,7 +16,7 @@ def get_places_list():
         }
     """
 
-    return sendAWSQuery(list_places).json()["data"]["list_places"]["items"]
+    return sendAWSQuery(list_places).json()["data"]["listPlaces"]["items"]
 
 
 def create_place(name, description, isOpen, image):
@@ -119,4 +119,4 @@ def get_place(place_id):
         }}
     """
 
-    return sendAWSQuery(get_place)
+    return sendAWSQuery(get_place).json()['data']['getPlace']
