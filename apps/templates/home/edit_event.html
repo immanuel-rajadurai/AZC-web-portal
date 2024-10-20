@@ -90,13 +90,7 @@
           </div>
         </div>
         <div class="card-body">
-          {% if messages %}
-            <div>
-              {% for message in messages %}
-                <div class="alert alert-success">{{ message }}</div>
-              {% endfor %}
-            </div>
-          {% endif %}
+          {% include home/partials/messages.html %}
 
           <form method="post">
             {% csrf_token %}
