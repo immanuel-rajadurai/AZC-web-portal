@@ -16,7 +16,7 @@ def add_place_to_event(event_id, place_id):
 
     if len(response.json()["data"]["listEventPlaces"]["items"]) <= 0:
         create_event_place = f"""
-                    mutation createEventPlace {{
+            mutation createEventPlace {{
                 createEventPlace(input: {{
                     placeID: "{place_id}",
                     eventID: "{event_id}"}}) {{
