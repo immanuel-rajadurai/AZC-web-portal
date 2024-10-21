@@ -28,6 +28,7 @@
                           <i class="fas fa-pencil-alt"></i>
                       </button>
                     </form>
+                    
                     <form action="{% url 'remove_animal' animal.id %}" method="POST">
                       {% csrf_token %}
                       <button type="submit" class="delete-btn">

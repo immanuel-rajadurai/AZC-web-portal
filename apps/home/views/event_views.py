@@ -37,6 +37,8 @@ def all_events(request):
     form = event_forms.EventForm()
 
     events = event_services.get_events_list()
+    print(events)
+
     linked_places = {}
     linked_tags = {}
     for event in events:
@@ -57,7 +59,7 @@ def all_events(request):
 
     # print("linked_places: ", linked_places)
     # print("linked_tags: ", linked_tags)
-    print(tag_services.get_tags_list())
+    # print(tag_services.get_tags_list())
 
     context = {
         'segment': 'events',

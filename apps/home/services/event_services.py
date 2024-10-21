@@ -101,7 +101,7 @@ def delete_event(event_id):
 
     response = requests.post(
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(delete_event_payload))
-    # print(response.json())
+    print(response.json())
 
     delete_attached_relationships(event_id)
 

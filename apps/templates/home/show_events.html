@@ -24,6 +24,7 @@
                   <img src="{{ event.image }}" class="card-img-top card-img-fixed card-photo" alt="..."/>
                   <div class="card-body d-flex flex-column align-items-center">                  
                     <h1 class="card-title" style="text-align: center">{{ event.name }}</h1>
+                    
                     {% if linked_places|get_item:event.id %}
                       <div class="listbox-area">
                         <div>
@@ -49,22 +50,21 @@
                         #{{ tag }}
                       {% endfor %}
                     </p>
+
+                    <form action="{% url 'edit_event' event.id %}" method="GET">
+                      {% csrf_token %}
+                      <button type="submit" class="edit-btn">
+                          <i class="fas fa-pencil-alt"></i>
+                      </button>
+                    </form>
+
+                    <form action="{% url 'delete_event' event.id %}" method="POST">
+                      {% csrf_token %}
+                      <buttontype="submit" class="delete-btn">
+                          <i class="fas fa-trash-alt"></i>
+                      </button>
+                    </form>
                   </div>
-
-                  <br>
-
-                  <form action="{% url 'edit_event' event.id %}" method="GET">
-                    {% csrf_token %}
-                    <button type="submit" class="edit-btn">
-                        <i class="fas fa-pencil-alt"></i>
-                    </button>
-                  </form>
-                  <form action="{% url 'delete_event' event.id %}" method="POST">
-                    {% csrf_token %}
-                    <buttontype="submit" class="delete-btn">
-                        <i class="fas fa-trash-alt"></i>
-                    </button>
-                  </form>
                 </div>
               {% endfor %}
             </div>
