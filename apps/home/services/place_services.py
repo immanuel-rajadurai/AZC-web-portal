@@ -102,22 +102,22 @@ def delete_attached_relationships(place_id):
     response3 = requests.post(
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(get_rel_payload2))
 
-    rel_id = response3.json()["data"]["listEventPlaces"]["items"]['id']
-    # print("rel_id: ", rel_id)
+    rels2 = response3.json()["data"]["listEventPlaces"]["items"]
 
-    delete_rel_payload2 = {
-        'query': f"""
-            mutation deleteEventPlace {{
-                deleteEventPlace(input: {{id: "{rel_id}"}}) {{
-                    id
+    for rel in rels2:
+        delete_rel_payload2 = {
+            'query': f"""
+                mutation deleteEventPlace {{
+                    deleteEventPlace(input: {{id: "{rel['id']}"}}) {{
+                        id
+                    }}
                 }}
-            }}
-        """
-    }
+            """
+        }
 
-    response4 = requests.post(
-        APPSYNC_ENDPOINT, headers=headers, data=json.dumps(delete_rel_payload2))
-    # print("response4.json(): ", response4.json())
+        response4 = requests.post(
+            APPSYNC_ENDPOINT, headers=headers, data=json.dumps(delete_rel_payload2))
+        # print("response4.json(): ", response4.json())
 
 
 def delete_place(place_id):
