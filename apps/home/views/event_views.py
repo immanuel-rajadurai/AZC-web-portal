@@ -37,6 +37,8 @@ def all_events(request):
     form = event_forms.EventForm()
 
     events = event_services.get_events_list()
+    print(events)
+
     linked_places = {}
     linked_tags = {}
     for event in events:
