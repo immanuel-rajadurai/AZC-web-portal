@@ -1,8 +1,3 @@
-# -*- encoding: utf-8 -*-
-"""
-Copyright (c) 2019 - present AppSeed.us
-"""
-
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import redirect
@@ -33,8 +28,8 @@ def all_places(request):
                 name, description, isOpen, image)
 
             messages.success(request, 'Place created successfully')
-    else:
-        form = place_forms.PlaceForm()
+
+    form = place_forms.PlaceForm()
 
     places = place_services.get_places_list()
     linked_animals = {}

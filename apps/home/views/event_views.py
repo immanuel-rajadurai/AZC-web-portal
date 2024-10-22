@@ -1,8 +1,3 @@
-# -*- encoding: utf-8 -*-
-"""
-Copyright (c) 2019 - present AppSeed.us
-"""
-
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import redirect
@@ -38,10 +33,12 @@ def all_events(request):
                 event_tag_services.create_tag(event_id, tagName)
 
             messages.success(request, 'Event created successfully')
-    else:
-        form = event_forms.EventForm()
+
+    form = event_forms.EventForm()
 
     events = event_services.get_events_list()
+    print(events)
+
     linked_places = {}
     linked_tags = {}
     for event in events:
@@ -62,7 +59,7 @@ def all_events(request):
 
     # print("linked_places: ", linked_places)
     # print("linked_tags: ", linked_tags)
-    print(tag_services.get_tags_list())
+    # print(tag_services.get_tags_list())
 
     context = {
         'segment': 'events',

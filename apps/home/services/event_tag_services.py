@@ -2,7 +2,6 @@ import requests
 import json
 from .api_info import *
 
-# The headers for the HTTP request
 headers = {
     'Content-Type': 'application/json',
     'x-api-key': API_KEY
@@ -12,7 +11,7 @@ headers = {
 def get_tags(event_id):
     payload = {
         'query': f"""
-            query listEventTasg {{
+            query listEventTags {{
                 listEventTags(filter: {{ eventID: {{eq: "{ event_id }"}} }}) {{
                     items {{
                         tagName
@@ -22,7 +21,6 @@ def get_tags(event_id):
         """
     }
 
-    # Send the POST request to the AppSync endpoint
     response = requests.post(
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload))
 
@@ -39,7 +37,7 @@ def create_tag(event_id, tagName):
     if tagName != "":
         payload = {
             'query': f"""
-                query listEventTag {{
+                query listEventTags {{
                     listEventTags(filter: {{ eventID: {{eq: "{event_id}"}}, tagName: {{eq: "{tagName}" }} }}) {{
                         items {{
                             id
@@ -49,7 +47,6 @@ def create_tag(event_id, tagName):
             """
         }
 
-        # Send the POST request to the AppSync endpoint
         response = requests.post(
             APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload))
         # print(response.json())
@@ -65,7 +62,6 @@ def create_tag(event_id, tagName):
                 """
             }
 
-            # Send the POST request to the AppSync endpoint
             response2 = requests.post(
                 APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload2))
             # print(response2.json())
@@ -80,7 +76,6 @@ def create_tag(event_id, tagName):
                 """
             }
 
-            # Send the POST request to the AppSync endpoint
             response3 = requests.post(
                 APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload3))
             # print(response3.json())
@@ -89,7 +84,7 @@ def create_tag(event_id, tagName):
 def delete_tag(event_id, tagName):
     get_payload = {
         'query': f"""
-            query ListEventTagFilter {{
+            query listEventTags {{
                 listEventTags(filter: {{eventID: {{eq: "{event_id}"}}, tagName: {{eq: "{tagName}" }}}}) {{
                     items {{
                         id
@@ -104,20 +99,19 @@ def delete_tag(event_id, tagName):
     # print("response.json():", response.json())
 
     # if (response.json()["data"]["listEventTags"]["items"])
-    event_tag_id = response.json()["data"]["listEventTags"]["items"][0]['id']
-    # print("event_tag_id: ", event_tag_id)
+    event_tags = response.json()["data"]["listEventTags"]["items"]
 
-    deletion_payload = {
-        'query': f"""
-                mutation deleteEventTag {{
-                    deleteEventTag(input: {{id: "{event_tag_id}"}}) {{
-                        id
+    for event_tag in event_tags:
+        deletion_payload = {
+            'query': f"""
+                    mutation deleteEventTag {{
+                        deleteEventTag(input: {{id: "{event_tag['id']}"}}) {{
+                            id
+                        }}
                     }}
-                }}
-            """
-    }
+                """
+        }
 
-    # Send the POST request to the AppSync endpoint
-    response2 = requests.post(
-        APPSYNC_ENDPOINT, headers=headers, data=json.dumps(deletion_payload))
-    # print("response2.json(): ", response2.json())
+        response2 = requests.post(
+            APPSYNC_ENDPOINT, headers=headers, data=json.dumps(deletion_payload))
+        # print("response2.json(): ", response2.json())

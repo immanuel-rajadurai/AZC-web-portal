@@ -1,6 +1,5 @@
 {% extends 'layouts/base.html' %}
 
-{% load form_tags %}
 {% load miscellaneous_extras %}
 {% load animal_extras %}
 
@@ -12,10 +11,8 @@
 
 {% block content %}
   <div class="header pb-6" style="background-image: url(/static/assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
-    <!-- Mask -->
     <span class="mask bg-gradient-default opacity-8"></span>
     
-    <!-- Header container -->
     {% if places %}
       <div class="col">
         <h1 class="display-2 text-white">Current Places</h1>
@@ -33,6 +30,7 @@
                         <i class="fas fa-times is-open-status" style="color: red;"></i>
                       {% endif %}
                     </h1>
+
                     {% if linked_animals|get_item:place.id %}
                       <div class="listbox-area">
                         <div>
@@ -52,20 +50,21 @@
                     {% endif %}
 
                     <p class="card-text">{{ place.description }}</p>
-                  </div>
 
-                  <form action="{% url 'edit_place' place.id %}" method="GET">
-                    {% csrf_token %}
-                    <button type="submit" class="edit-btn">
-                        <i class="fas fa-pencil-alt"></i>
-                    </button>
-                  </form>
-                  <form action="{% url 'delete_place' place.id %}" method="POST">
-                    {% csrf_token %}
-                    <button type="submit" class="delete-btn">
-                        <i class="fas fa-trash-alt"></i>
-                    </button>
-                  </form>
+                    <form action="{% url 'edit_place' place.id %}" method="GET">
+                      {% csrf_token %}
+                      <button type="submit" class="edit-btn">
+                          <i class="fas fa-pencil-alt"></i>
+                      </button>
+                    </form>
+                    
+                    <form action="{% url 'delete_place' place.id %}" method="POST">
+                      {% csrf_token %}
+                      <button type="submit" class="delete-btn">
+                          <i class="fas fa-trash-alt"></i>
+                      </button>
+                    </form>
+                  </div>
                 </div>
               {% endfor %}
             </div>
@@ -75,7 +74,6 @@
     {% endif %}
   </div>
 
-  <!-- Page content -->
   <div class="container-fluid mt--6">
     <div class="col-xl-8 order-xl-1">
       <div class="card">
@@ -85,7 +83,6 @@
               <h3 class="mb-0">Add an place</h3>
             </div>
             <div class="col-4 text-right">
-              <!-- <a href="#!" class="btn btn-sm btn-primary">Settings</a> -->
             </div>
           </div>
         </div>
@@ -100,39 +97,9 @@
 
           <form method="post">
             {% csrf_token %}
-            <div class="pl-lg-4">
-              <div class="row">
-                <div class="col-lg-6">
-                  <div class="form-group">
-                    <label class="form-control-label" for="id_name">Name</label>
-                    <!-- <input type="text" id="input-username" class="form-control" placeholder="The name of the event" value=""> -->
-                    {{ form.name|add_class:'form-control' }}
-                  </div>
-                </div>
-                <div class="col-lg-6">
-                  <div class="form-group">
-                    <label class="form-control-label" for="id_image">Image URL</label>
-                    <!-- <input type="email" id="input-email" class="form-control" placeholder="The URL to the descriptive image for that event"> -->
-                    {{ form.image|add_class:'form-control' }}
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-2">
-                  <div class="form-group">
-                    <label class="form-control-label" for="id_isOpen">isOpen</label>
-                    {{ form.isOpen|add_class:'form-control' }}
-                  </div>
-                </div>
-                <div class="col-10">
-                  <div class="form-group">
-                    <label class="form-control-label" for="id_description">Description</label>
-                    <!-- <input type="text" id="input-first-name" class="form-control" placeholder="A short description that visitors can read in a few seconds" value=""> -->
-                    {{ form.description|add_class:'form-control' }}
-                  </div>
-                </div>
-              </div>
-            </div>
+
+            {% include 'home/partials/place_form.html' %}
+
             <button class="btn btn-sm btn-primary" type="submit">Submit</button>
           </form>
         </div>
@@ -143,7 +110,4 @@
   {% include 'includes/footer.html' %}
 {% endblock %}
 
-<!-- Specific JS goes HERE -->
-{% block javascripts %}
-
-{% endblock %}
+{% block javascripts %} {% endblock %}
