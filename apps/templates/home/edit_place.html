@@ -26,6 +26,8 @@
                   <i class="fas fa-times is-open-status" style="color: red;"></i>
                 {% endif %}
               </h1>
+              <p class="card-text">{{ place.description }}</p>
+
               {% if linked_animals %}
                 <div class="listbox-area">
                   <div>
@@ -43,8 +45,6 @@
                   </div>
                 </div>
               {% endif %}
-
-              <p class="card-text">{{ place.description }}</p>
 
               {% if animals %}
                 <div class="dropdown">
@@ -91,13 +91,7 @@
           </div>
         </div>
         <div class="card-body">
-          {% if messages %}
-            <div>
-              {% for message in messages %}
-                <div class="alert alert-success">{{ message }}</div>
-              {% endfor %}
-            </div>
-          {% endif %}
+          {% include 'home/partials/messages.html' %}
 
           <form method="post">
             {% csrf_token %}

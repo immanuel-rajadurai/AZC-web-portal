@@ -20,6 +20,8 @@
             <img src="{{ event.image }}" class="card-img-top card-img-fixed card-photo" alt="..."/>
             <div class="card-body d-flex flex-column align-items-center">
               <h1 class="card-title" style="text-align: center">{{ event.name }}</h1>
+              <p class="card-text">{{ event.description }}</p>
+
               {% if linked_places %}
                 <div class="listbox-area">
                   <div>
@@ -37,14 +39,14 @@
                   </div>
                 </div>
               {% endif %}
-
-              <p class="card-text">{{ event.description }}</p>
               
-              <p style="font-size: 12px;">
-                {% for tag in linked_tags %}
-                  #{{ tag.tagName }}
-                {% endfor %}
-              </p>
+              {% if linked_tags %}
+                <p style="font-size: 12px;">
+                  {% for tag in linked_tags %}
+                    #{{ tag.tagName }}
+                  {% endfor %}
+                </p>
+              {% endif %}
               
               {% if places %}
                 <div class="dropdown">
@@ -58,6 +60,7 @@
                   </div>
                 </div>
               {% endif %}
+
               {% if linked_places %}
                 <div class="dropdown">
                   <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -90,13 +93,7 @@
           </div>
         </div>
         <div class="card-body">
-          {% if messages %}
-            <div>
-              {% for message in messages %}
-                <div class="alert alert-success">{{ message }}</div>
-              {% endfor %}
-            </div>
-          {% endif %}
+          {% include 'home/partials/messages.html' %}
 
           <form method="post">
             {% csrf_token %}

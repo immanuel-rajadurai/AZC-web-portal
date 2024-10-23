@@ -1,11 +1,4 @@
-import requests
-import json
-from .api_info import *
-
-headers = {
-    'Content-Type': 'application/json',
-    'x-api-key': API_KEY
-}
+from .services_extras import *
 
 
 def get_tags_list():
@@ -19,14 +12,7 @@ def get_tags_list():
         }
     """
 
-    payload = {
-        'query': list_tags
-    }
-
-    response = requests.post(
-        APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload))
-
-    # print(response.json())
+    response = sendAWSQuery(list_tags)
     if response.json()["data"]:
         return response.json()["data"]["listTags"]["items"]
 
