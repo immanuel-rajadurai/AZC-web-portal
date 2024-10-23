@@ -19,7 +19,7 @@ def get_events_list():
 
 
 def create_event(name, description, image):
-    create_event_mutation = f"""
+    create_event = f"""
         mutation createEvent {{
             createEvent(input: {{name: "{name}", image: "{image}", description: "{description}"}}) {{
                 id
