@@ -2,24 +2,23 @@
 
 {% load animal_extras %}
 
-
 {% block title %}
   Edit Event
 {% endblock %}
 
-
 {% block content %}
   <div class="header pb-6" style="background-image: url(/static/assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
     <span class="mask bg-gradient-default opacity-8"></span>
-    <br>
+    <br />
 
     <div class="container">
       <div class="row align-items-center">
         <div class="mx-auto">
           <div class="card shadow border" style="width: 18rem; position: relative;">
-            <img src="{{ place.image }}" class="card-img-top card-img-fixed card-photo" alt="..."/>
+            <img src="{{ place.image }}" class="card-img-top card-img-fixed card-photo" alt="..." />
             <div class="card-body d-flex flex-column align-items-center">
-              <h1 class="card-title" style="text-align: center">{{ place.name }}
+              <h1 class="card-title" style="text-align: center">
+                {{ place.name }}
                 {% if place.isOpen %}
                   <i class="fas fa-check is-open-status" style="color: green;"></i>
                 {% else %}
@@ -31,9 +30,7 @@
               {% if linked_animals %}
                 <div class="listbox-area">
                   <div>
-                    <span class="listbox-label">
-                      Animals(s): 
-                    </span>
+                    <span class="listbox-label">Animals(s):</span>
                     <ul tabindex="0" role="listbox">
                       {% for animal in linked_animals %}
                         <li role="option">
@@ -48,12 +45,10 @@
 
               {% if animals %}
                 <div class="dropdown">
-                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Add an animal
-                  </button>
+                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Add an animal</button>
                   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     {% for animal in animals %}
-                      <a class="dropdown-item text-wrap" href="{% url 'add_animal_to_place' animal.id place_id %}" style='overflow-wrap: break-word;'>{{ animal.name }}</a>
+                      <a class="dropdown-item text-wrap" href="{% url 'add_animal_to_place' animal.id place_id %}" style="overflow-wrap: break-word">{{ animal.name }}</a>
                     {% endfor %}
                   </div>
                 </div>
@@ -61,12 +56,10 @@
 
               {% if linked_animals %}
                 <div class="dropdown">
-                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Remove an animal
-                  </button>
+                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Remove an animal</button>
                   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     {% for animal in linked_animals %}
-                      <a class="dropdown-item text-wrap" href="{% url 'remove_animal_from_place' animal place_id %}" style='overflow-wrap: break-word;'>{{ animal|get_animal_name }}</a>
+                      <a class="dropdown-item text-wrap" href="{% url 'remove_animal_from_place' animal place_id %}" style="overflow-wrap: break-word">{{ animal|get_animal_name }}</a>
                     {% endfor %}
                   </div>
                 </div>
@@ -86,8 +79,7 @@
             <div class="col-8">
               <h3 class="mb-0">Edit this place</h3>
             </div>
-            <div class="col-4 text-right">
-            </div>
+            <div class="col-4 text-right"></div>
           </div>
         </div>
         <div class="card-body">
@@ -110,4 +102,6 @@
   {% include 'includes/footer.html' %}
 {% endblock %}
 
-{% block javascripts %} {% endblock %}
+{% block javascripts %}
+
+{% endblock %}
