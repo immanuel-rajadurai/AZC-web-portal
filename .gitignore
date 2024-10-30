@@ -32,11 +32,11 @@ apps/static/assets/.temp
 .python-version
 
 # vscode files
-.vscode
+/.vscode
 
 # Jupyter Notebooks
 *.ipynb
 databaseSchema.graphql
 
 # PyCharm
-.idea
+/.idea
