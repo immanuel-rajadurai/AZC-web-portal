@@ -37,3 +37,6 @@ apps/static/assets/.temp
 # Jupyter Notebooks
 *.ipynb
 databaseSchema.graphql
+
+# PyCharm
+.idea
