@@ -1,11 +1,8 @@
-
-<nav class="sidenav navbar navbar-vertical  fixed-left  navbar-expand-xs navbar-light bg-white" id="sidenav-main">
+<nav class="sidenav navbar navbar-vertical fixed-left navbar-expand-xs navbar-light bg-white" id="sidenav-main">
   <div class="scrollbar-inner">
     <!-- Brand -->
-    <div class="sidenav-header  align-items-center">
-      <a class="navbar-brand" href="/">
-        <img src="/static/assets/img/brand/blue.png" class="navbar-brand-img" alt="Argon Design - Jinja Template Logo.">
-      </a>
+    <div class="sidenav-header align-items-center">
+      <a class="navbar-brand" href="/"><img src="/static/assets/img/brand/blue.png" class="navbar-brand-img" alt="Argon Design - Jinja Template Logo." /></a>
     </div>
     <div class="navbar-inner">
       <!-- Collapse -->
@@ -24,16 +21,22 @@
               <span class="nav-link-text">Animals</span>
             </a>
           </li>
-           <li class="nav-item">
+          <li class="nav-item">
             <a class="nav-link {% if 'events' in segment %} active {% endif %}" href="{% url 'events' %}">
               <i class="ni ni-bullet-list-67 text-primary"></i>
               <span class="nav-link-text">Events</span>
             </a>
           </li>
-           <li class="nav-item">
+          <li class="nav-item">
             <a class="nav-link {% if 'places' in segment %} active {% endif %}" href="{% url 'places' %}">
               <i class="ni ni-bullet-list-67 text-primary"></i>
               <span class="nav-link-text">Places</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if 'users' in segment %} active {% endif %}" href="{% url 'users' %}">
+              <i class="ni ni-bullet-list-67 text-primary"></i>
+              <span class="nav-link-text">Users</span>
             </a>
           </li>
           {% comment %} <li class="nav-item">
@@ -78,39 +81,30 @@
               <i class="ni ni-user-run text-red"></i>
               <span class="nav-link-text">Logout</span>
             </a>
-          </li>             {% endcomment %}
+          </li> {% endcomment %}
         </ul>
         {% comment %} <!-- Divider -->
-        <hr class="my-3">
+        <hr class="my-3" />
         <!-- Heading -->
-        <h6 class="navbar-heading p-0 text-muted">
-          <span class="docs-normal">Resources</span>
-        </h6>
+        <h6 class="navbar-heading p-0 text-muted"><span class="docs-normal">Resources</span></h6>
         <!-- Navigation -->
         <ul class="navbar-nav mb-md-3">
-
           <li class="nav-item">
-            <a class="nav-link" 
-               target="_blank" 
-               href="https://appseed.us/admin-dashboards/django-dashboard-argon">
+            <a class="nav-link" target="_blank" href="https://appseed.us/admin-dashboards/django-dashboard-argon">
               <i class="ni ni-archive-2"></i>
               <span class="nav-link-text">Product Page</span>
             </a>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link" 
-               target="_blank" 
-               href="https://appseed.us/admin-dashboards/django-dashboard-argon-pro">
+            <a class="nav-link" target="_blank" href="https://appseed.us/admin-dashboards/django-dashboard-argon-pro">
               <i class="ni ni-spaceship text-red"></i>
               <span class="nav-link-text text-red">PRO Version</span>
             </a>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link active active-pro" 
-               target="_blank" 
-               href="http://appseed.us">
+            <a class="nav-link active active-pro" target="_blank" href="http://appseed.us">
               <i class="ni ni-send text-dark"></i>
               <span class="nav-link-text">AppSeed</span>
             </a>

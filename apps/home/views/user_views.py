@@ -6,16 +6,9 @@ from ..services import user_services
 
 
 @login_required(login_url="/login/")
-def all_users(request):
-    if not 'users_list_nextToken' not in request.session:
-        users_list_nextToken = None
-    else:
-        users_list_nextToken = request.session['users_list_nextToken']
-
-    users = user_services.get_users_list(users_list_nextToken)
-    print(users)
-
-    request.session['users_list_nextToken'] = users["nextToken"]
+def all_users(request, page_token=None):
+    users = user_services.get_users_list(page_token)
+    # print(users)
 
     context = {
         'segment': 'users',
