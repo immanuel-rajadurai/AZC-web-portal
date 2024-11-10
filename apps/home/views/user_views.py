@@ -12,9 +12,15 @@ def all_users(request):
     users = user_services.get_users_list(token)
     # print("users: ", users)
 
+    if token is None:
+        isFirstPage = True
+    else:
+        isFirstPage = False
+
     context = {
         'segment': 'users',
         'users': users,
+        'isFirstPage': isFirstPage,
     }
 
     html_template = loader.get_template('home/show_users.html')
