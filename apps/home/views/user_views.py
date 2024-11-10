@@ -10,7 +10,6 @@ def all_users(request):
     token = request.POST.get('token')
 
     users = user_services.get_users_list(token)
-    # print("users: ", users)
 
     if token is None:
         isFirstPage = True
