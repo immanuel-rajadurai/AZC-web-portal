@@ -6,9 +6,11 @@ from ..services import user_services
 
 
 @login_required(login_url="/login/")
-def all_users(request, page_token=None):
-    users = user_services.get_users_list(page_token)
-    # print(users)
+def all_users(request):
+    token = request.POST.get('token')
+
+    users = user_services.get_users_list(token)
+    # print("users: ", users)
 
     context = {
         'segment': 'users',

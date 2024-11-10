@@ -6,7 +6,6 @@
 
 {% block content %}
   <div class="header pb-6">
-    <span class="mask bg-gradient-default opacity-8"></span>
     <div class="row">
       <div class="col-12">
         <table class="table">
@@ -25,7 +24,7 @@
             </td>
           </tr>
 
-          {% for user in users %}
+          {% for user in users.items %}
             <tr>
               <td>{{ user.email }}</td>
               <td>{{ user.firstName }}</td>
@@ -35,10 +34,18 @@
           {% endfor %}
         </table>
 
-        <form action="{% url 'users' users.nextToken %}" method="GET">
-          {% csrf_token %}
-          <button type="button" class="btn btn-primary">Next</button>
-        </form>
+        {% if users.nextToken %}
+          <form action="{% url 'users' %}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="token" value="{{ users.nextToken }}" />
+            <button type="submit" class="btn btn-primary">Next</button>
+          </form>
+        {% else %}
+          <form action="{% url 'users' %}" method="POST">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary">Back to Start</button>
+          </form>
+        {% endif %}
       </div>
     </div>
   </div>

@@ -40,7 +40,6 @@ urlpatterns = [
 
     # user views
     path('users/', user_views.all_users, name='users'),
-    path('users/<str:page_token>', user_views.all_users, name='users'),
 
 
     # Matches any html file
