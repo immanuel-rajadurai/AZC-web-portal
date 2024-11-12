@@ -11,12 +11,9 @@ from ..forms import animal_forms
 @login_required(login_url="/login/")
 def all_animals(request):
     if request.method == 'POST':
-        # print("executing post request")
         form = animal_forms.AnimalForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
-
-            # print("form data: ", data)
 
             name = data['name']
             scientificName = data['scientificName']
@@ -48,7 +45,6 @@ def all_animals(request):
 
 @login_required(login_url="/login/")
 def remove_animal(request, animal_id):
-    # print("attempting to remove animal ", animal_id)
     animal_services.remove_animal(animal_id)
 
     messages.success(request, 'Animal removed successfully')
@@ -57,17 +53,12 @@ def remove_animal(request, animal_id):
 
 @login_required(login_url="/login/")
 def edit_animal(request, animal_id):
-    animal = animal_services.get_animal(animal_id)\
-
-    # print(request.method)
+    animal = animal_services.get_animal(animal_id)
 
     if request.method == 'POST':
-        # print("executing post request")
         form = animal_forms.AnimalForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
-
-            # print("form data: ", data)
 
             name = data['name']
             scientificName = data['scientificName']

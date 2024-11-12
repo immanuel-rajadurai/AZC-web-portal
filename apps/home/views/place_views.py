@@ -12,12 +12,9 @@ from .miscellaneous_views import get_ids_from_filter
 @login_required(login_url="/login/")
 def all_places(request):
     if request.method == 'POST':
-        # print("executing post request")
         form = place_forms.PlaceForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
-
-            # print("form data: ", data)
 
             name = data['name']
             description = data['description']
@@ -38,8 +35,6 @@ def all_places(request):
         tmp = get_ids_from_filter(tmp, "animalID")
         linked_animals.update({place['id']: tmp})
 
-    # print("linked_animals: ", linked_animals)
-
     context = {
         'segment': 'places',
         'places': places,
@@ -53,7 +48,6 @@ def all_places(request):
 
 @ login_required(login_url="/login/")
 def delete_place(request, place_id):
-    # print("attempting to delete place: ", place_id)
     place_services.delete_place(place_id)
 
     messages.success(request, 'Place deleted successfully')
@@ -62,7 +56,6 @@ def delete_place(request, place_id):
 
 @ login_required(login_url="/login/")
 def add_animal_to_place(request, animal_id, place_id):
-    # print("attemping to add animal to place")
 
     animal_place_services.add_animal_to_place(animal_id, place_id)
 
@@ -73,15 +66,11 @@ def add_animal_to_place(request, animal_id, place_id):
 @ login_required(login_url="/login/")
 def edit_place(request, place_id):
     place = place_services.get_place(place_id)
-    # print("place: ", place)
 
     if request.method == 'POST':
-        # print("executing post request")
         form = place_forms.PlaceForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
-
-            # print("place_form data: ", data)
 
             name = data['name']
             description = data['description']
@@ -104,17 +93,12 @@ def edit_place(request, place_id):
     linked_animals = animal_place_services.get_animals_linked_to_place(
         place_id)
     linked_animals = get_ids_from_filter(linked_animals, "animalID")
-    # print("linked_animals: ", linked_animals)
 
     all_animals = animal_services.get_animals_list()
-    # print("all_animals",  all_animals)
     animals = []
     for item in all_animals:
-        # print("item['id']", item['id'])
         if not item['id'] in linked_animals:
             animals.append(item)
-
-    # print("animals", animals)
 
     context = {
         'segment': 'places',
@@ -131,7 +115,6 @@ def edit_place(request, place_id):
 
 @login_required(login_url="/login/")
 def remove_animal_from_place(request, animal_id, place_id):
-    # print("attempting to delete event: ", event_id)
     animal_place_services.remove_animal_from_place(animal_id, place_id)
 
     messages.success(request, 'Animal detached successfully')
