@@ -33,9 +33,4 @@ def get_users_list(token):
             }}
         """
 
-    response = sendAWSQuery(list_users)
-
-    if response.json()["data"]:
-        return response.json()["data"]["listUsers"]
-
-    return []
+    return sendAWSQuery(list_users).json()["data"]["listUsers"]
