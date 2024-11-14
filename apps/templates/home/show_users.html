@@ -6,46 +6,57 @@
 
 {% block content %}
   <div class="header pb-6">
-    <div class="row">
-      <div class="col-12">
-        <table class="table">
-          <tr>
-            <td>
-              <b>Email</b>
-            </td>
-            <td>
-              <b>First Name</b>
-            </td>
-            <td>
-              <b>Last Name</b>
-            </td>
-            <td>
-              <b>Opted In</b>
-            </td>
-          </tr>
-
-          {% for user in users.items %}
+    <div class="container">
+      <div class="row justify-content-start">
+        <div class="col">
+          <table class="table">
             <tr>
-              <td>{{ user.email }}</td>
-              <td>{{ user.firstName }}</td>
-              <td>{{ user.lastName }}</td>
-              <td>{{ user.optedIn }}</td>
+              <td>
+                <b>Email</b>
+              </td>
+              <td>
+                <b>First Name</b>
+              </td>
+              <td>
+                <b>Last Name</b>
+              </td>
+              <td>
+                <b>Opted In</b>
+              </td>
             </tr>
-          {% endfor %}
-        </table>
 
-        {% if users.nextToken %}
-          <form action="{% url 'users' %}" method="POST">
-            {% csrf_token %}
-            <input type="hidden" name="token" value="{{ users.nextToken }}" />
-            <button type="submit" class="btn btn-primary">Next</button>
-          </form>
+            {% for user in users.items %}
+              <tr>
+                <td>{{ user.email }}</td>
+                <td>{{ user.firstName }}</td>
+                <td>{{ user.lastName }}</td>
+                <td>{{ user.optedIn }}</td>
+              </tr>
+            {% endfor %}
+          </table>
+        </div>
+      </div>
+      <div class="row justify-content-start">
+        {% comment %} {% if users.nextToken %}
+          {% endcomment %}
+          <div class="col">
+            <form action="{% url 'users' %}" method="POST">
+              {% csrf_token %}
+              <input type="hidden" name="token" value="{{ users.nextToken }}" />
+              <button type="submit" class="btn btn-primary">Next</button>
+            </form>
+          </div>
+          {% comment %}
         {% elif not isFirstPage %}
-          <form action="{% url 'users' %}" method="POST">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-primary">Back to Start</button>
-          </form>
-        {% endif %}
+          {% endcomment %}
+          <div class="col">
+            <form action="{% url 'users' %}" method="POST">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-primary">Back to Start</button>
+            </form>
+          </div>
+          {% comment %}
+        {% endif %} {% endcomment %}
       </div>
     </div>
   </div>
