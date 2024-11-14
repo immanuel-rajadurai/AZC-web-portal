@@ -6,7 +6,7 @@
 
 {% block content %}
   <div class="header pb-6">
-    <div class="container">
+    <div class="container-fluid">
       <div class="row justify-content-start">
         <div class="col">
           <table class="table">
@@ -37,26 +37,28 @@
         </div>
       </div>
       <div class="row justify-content-start">
-        {% comment %} {% if users.nextToken %}
-          {% endcomment %}
-          <div class="col">
-            <form action="{% url 'users' %}" method="POST">
-              {% csrf_token %}
-              <input type="hidden" name="token" value="{{ users.nextToken }}" />
-              <button type="submit" class="btn btn-primary">Next</button>
-            </form>
+        {% if users.nextToken %}
+          <div class="col-2">
+            <div class="d-grid gap-2">
+              <form action="{% url 'users' %}" method="POST">
+                {% csrf_token %}
+
+                <input type="hidden" name="token" value="{{ users.nextToken }}" />
+                <button type="submit" class="btn btn-primary">Next</button>
+              </form>
+            </div>
           </div>
-          {% comment %}
         {% elif not isFirstPage %}
-          {% endcomment %}
-          <div class="col">
-            <form action="{% url 'users' %}" method="POST">
-              {% csrf_token %}
-              <button type="submit" class="btn btn-primary">Back to Start</button>
-            </form>
+          <div class="col-2">
+            <div class="d-grid gap-2">
+              <form action="{% url 'users' %}" method="POST">
+                {% csrf_token %}
+
+                <button type="submit" class="btn btn-primary">Back to Start</button>
+              </form>
+            </div>
           </div>
-          {% comment %}
-        {% endif %} {% endcomment %}
+        {% endif %}
       </div>
     </div>
   </div>

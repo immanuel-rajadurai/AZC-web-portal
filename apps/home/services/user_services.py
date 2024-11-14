@@ -2,7 +2,7 @@ from .services_extras import *
 
 
 def get_users_list(token):
-    PAGE_LIMIT = 20
+    PAGE_LIMIT = 10
 
     if token is None:
         list_users = f"""
