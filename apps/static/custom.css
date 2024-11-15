@@ -29,9 +29,9 @@
 }
 
 .is-open-status {
-    background-color: transparent;
-    border: none;
+    background-color: black;
     font-size: 2rem;
+    filter: drop-shadow(2px 2px #000000);
 }
 
 .list-container {
