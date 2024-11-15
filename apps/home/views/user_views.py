@@ -51,7 +51,7 @@ def all_users(request, actionCode=None):
     users = user_services.get_users_list(token)
     PAGE_LIST.add_page(users['nextToken'])
 
-    print("PAGE-LIST", PAGE_LIST)
+    # print("PAGE-LIST", PAGE_LIST)
 
     context = {
         'segment': 'users',
