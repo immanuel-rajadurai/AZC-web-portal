@@ -5,9 +5,6 @@
 }
 
 .edit-btn {
-    position: absolute;
-    bottom: 5px;
-    right: 35px;
     background-color: transparent;
     border: none;
     color: grey;
@@ -20,9 +17,6 @@
 }
 
 .delete-btn {
-    position: absolute;
-    bottom: 5px;
-    right: 5px;
     background-color: transparent;
     border: none;
     color: red;
@@ -35,9 +29,9 @@
 }
 
 .is-open-status {
-    background-color: transparent;
-    border: none;
+    background-color: black;
     font-size: 2rem;
+    filter: drop-shadow(2px 2px #000000);
 }
 
 .list-container {

@@ -18,8 +18,35 @@
   <div class="row">
     <div class="col-2">
       <div class="form-group">
-        <label class="form-control-label" for="id_isOpen">isOpen</label>
-        {{ form.isOpen|add_class:'form-control' }}
+        {% comment %} {{ form.isOpen|add_class:'form-control' }} {% endcomment %}
+        <div class="form-check form-switch">
+          {% if not form.isOpen.initial %}
+            <input class="form-check-input" id="checkBox" name="isOpen" type="checkbox" onclick="isOpenStatus()" />
+
+            <label class="form-check-label" for="checkBox" id="isOpenText" style="display:none">Open</label>
+            <label class="form-check-label" for="checkBox" id="isClosedText">Closed</label>
+          {% else %}
+            <input class="form-check-input" id="checkBox" name="isOpen" type="checkbox" onclick="isOpenStatus()" checked />
+
+            <label class="form-check-label" for="checkBox" id="isOpenText">Open</label>
+            <label class="form-check-label" for="checkBox" id="isClosedText" style="display:none">Closed</label>
+          {% endif %}
+        </div>
+
+        <script>
+          function isOpenStatus() {
+            var checkBox = document.getElementById('checkBox')
+            var text1 = document.getElementById('isOpenText')
+            var text2 = document.getElementById('isClosedText')
+            if (checkBox.checked == true) {
+              text1.style.display = 'inline'
+              text2.style.display = 'none'
+            } else {
+              text2.style.display = 'inline'
+              text1.style.display = 'none'
+            }
+          }
+        </script>
       </div>
     </div>
     <div class="col-10">

@@ -40,6 +40,8 @@ urlpatterns = [
 
     # user views
     path('users/', user_views.all_users, name='users'),
+    # user views
+    path('users/<int:actionCode>/', user_views.all_users, name='users'),
 
 
     # Matches any html file

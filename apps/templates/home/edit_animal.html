@@ -5,12 +5,12 @@
 {% endblock %}
 
 {% block content %}
-  <div class="header pb-6" style="background-image: url(/static/assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
+  <div class="header" style="background-image: url(/static/assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
     <span class="mask bg-gradient-default opacity-8"></span>
     <br />
 
     <div class="container">
-      <div class="row align-items-center">
+      <div class="row">
         <div class="mx-auto">
           <div class="card shadow border" style="width: 18rem; position: relative;">
             <img src="{{ animal.image }}" class="card-img-top card-img-fixed card-photo" alt="..." />
@@ -23,29 +23,31 @@
     </div>
   </div>
 
-  <div class="container-fluid mt--6">
-    <div class="col-xl-8 order-xl-1">
-      <div class="card">
-        <div class="card-header">
-          <div class="row align-items-center">
-            <div class="col-8">
-              <h3 class="mb-0">Edit this animal</h3>
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <div class="card">
+          <div class="card-header">
+            <div class="row align-items-center">
+              <div class="col-8">
+                <h3 class="mb-0">Edit this animal</h3>
+              </div>
+              <div class="col-4 text-right"></div>
             </div>
-            <div class="col-4 text-right"></div>
           </div>
-        </div>
-        <div class="card-body">
-          {% include 'home/partials/messages.html' %}
+          <div class="card-body">
+            {% include 'home/partials/messages.html' %}
 
-          <form method="post">
-            {% csrf_token %}
+            <form method="post">
+              {% csrf_token %}
 
-            <h6 class="heading-small text-muted mb-4">Animal information</h6>
+              <h6 class="heading-small text-muted mb-4">Animal information</h6>
 
-            {% include 'home/partials/animal_form.html' %}
+              {% include 'home/partials/animal_form.html' %}
 
-            <button class="btn btn-sm btn-primary" type="submit">Submit</button>
-          </form>
+              <button class="btn btn-sm btn-primary" type="submit">Submit</button>
+            </form>
+          </div>
         </div>
       </div>
     </div>

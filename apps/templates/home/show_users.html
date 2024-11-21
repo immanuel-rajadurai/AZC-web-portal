@@ -6,46 +6,53 @@
 
 {% block content %}
   <div class="header pb-6">
-    <div class="row">
-      <div class="col-12">
-        <table class="table">
-          <tr>
-            <td>
-              <b>Email</b>
-            </td>
-            <td>
-              <b>First Name</b>
-            </td>
-            <td>
-              <b>Last Name</b>
-            </td>
-            <td>
-              <b>Opted In</b>
-            </td>
-          </tr>
+    <div class="container-fluid">
+      <br />
 
-          {% for user in users.items %}
-            <tr>
-              <td>{{ user.email }}</td>
-              <td>{{ user.firstName }}</td>
-              <td>{{ user.lastName }}</td>
-              <td>{{ user.optedIn }}</td>
-            </tr>
-          {% endfor %}
-        </table>
+      <div class="row justify-content-start">
+        {% if not isFirstPage %}
+          <a class="btn btn-warning" href="{% url 'users' 0 %}" role="button">Previous</a>
+        {% else %}
+          <a class="btn btn-secondary" href="{% url 'users' 0 %}" role="button" style="pointer-events: none; text-decoration: none">Previous</a>
+        {% endif %}
 
         {% if users.nextToken %}
-          <form action="{% url 'users' %}" method="POST">
-            {% csrf_token %}
-            <input type="hidden" name="token" value="{{ users.nextToken }}" />
-            <button type="submit" class="btn btn-primary">Next</button>
-          </form>
-        {% elif not isFirstPage %}
-          <form action="{% url 'users' %}" method="POST">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-primary">Back to Start</button>
-          </form>
+          <a class="btn btn-primary" href="{% url 'users' 1 %}" role="button">Next</a>
+        {% else %}
+          <a class="btn btn btn-danger" href="{% url 'users' %}" role="button">Beginning</a>
         {% endif %}
+      </div>
+
+      <br />
+
+      <div class="row justify-content-start">
+        <div class="col">
+          <table class="table">
+            <tr>
+              <td>
+                <b>Email</b>
+              </td>
+              <td>
+                <b>First Name</b>
+              </td>
+              <td>
+                <b>Last Name</b>
+              </td>
+              <td>
+                <b>Opted In</b>
+              </td>
+            </tr>
+
+            {% for user in users.items %}
+              <tr>
+                <td>{{ user.email }}</td>
+                <td>{{ user.firstName }}</td>
+                <td>{{ user.lastName }}</td>
+                <td>{{ user.optedIn }}</td>
+              </tr>
+            {% endfor %}
+          </table>
+        </div>
       </div>
     </div>
   </div>

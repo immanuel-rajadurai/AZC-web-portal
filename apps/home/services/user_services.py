@@ -2,7 +2,7 @@ from .services_extras import *
 
 
 def get_users_list(token):
-    PAGE_LIMIT = 20
+    PAGE_LIMIT = 10
 
     if token is None:
         list_users = f"""
@@ -33,9 +33,4 @@ def get_users_list(token):
             }}
         """
 
-    response = sendAWSQuery(list_users)
-
-    if response.json()["data"]:
-        return response.json()["data"]["listUsers"]
-
-    return []
+    return sendAWSQuery(list_users).json()["data"]["listUsers"]

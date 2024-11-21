@@ -12,8 +12,4 @@ def get_tags_list():
         }
     """
 
-    response = sendAWSQuery(list_tags)
-    if response.json()["data"]:
-        return response.json()["data"]["listTags"]["items"]
-
-    return []
+    return sendAWSQuery(list_tags).json()["data"]["listTags"]["items"]
