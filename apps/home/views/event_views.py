@@ -1,7 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
-from django.shortcuts import redirect
-from django.template import loader
+from django.shortcuts import redirect, render
 from django.contrib import messages
 
 from ..services import event_services, place_event_services, place_services, event_tag_services, tag_services
@@ -58,14 +56,12 @@ def all_events(request):
         'form': form,
     }
 
-    html_template = loader.get_template('home/show_events.html')
-    return HttpResponse(html_template.render(context, request))
+    return render(request, 'home/show_events.html', context)
 
 
 @ login_required(login_url="/login/")
 def delete_event(request, event_id):
     event_services.delete_event(event_id)
-
     messages.success(request, 'Event deleted successfully')
     return redirect('events')
 
@@ -73,7 +69,6 @@ def delete_event(request, event_id):
 @ login_required(login_url="/login/")
 def add_place_to_event(request, place_id, event_id):
     place_event_services.add_place_to_event(event_id, place_id)
-
     messages.success(request, 'Place assigned successfully')
     return redirect('events')
 
@@ -144,13 +139,11 @@ def edit_event(request, event_id):
         'form': form,
     }
 
-    html_template = loader.get_template('home/edit_event.html')
-    return HttpResponse(html_template.render(context, request))
+    return render(request, 'home/edit_event.html', context)
 
 
 @ login_required(login_url="/login/")
 def remove_place_from_event(request, place_id, event_id):
     place_event_services.remove_place_from_event(place_id, event_id)
-
     messages.success(request, 'Place detached successfully')
     return redirect('events')

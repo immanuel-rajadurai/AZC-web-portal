@@ -1,7 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
-from django.shortcuts import redirect
-from django.template import loader
+from django.shortcuts import redirect, render
 from django.contrib import messages
 
 from ..services import animal_services, place_services, animal_place_services
@@ -42,23 +40,19 @@ def all_places(request):
         'form': form,
     }
 
-    html_template = loader.get_template('home/show_places.html')
-    return HttpResponse(html_template.render(context, request))
+    return render(request, 'home/show_places.html', context)
 
 
 @ login_required(login_url="/login/")
 def delete_place(request, place_id):
     place_services.delete_place(place_id)
-
     messages.success(request, 'Place deleted successfully')
     return redirect('places')
 
 
 @ login_required(login_url="/login/")
 def add_animal_to_place(request, animal_id, place_id):
-
     animal_place_services.add_animal_to_place(animal_id, place_id)
-
     messages.success(request, 'Animal assigned successfully')
     return redirect('places')
 
@@ -109,13 +103,11 @@ def edit_place(request, place_id):
         'form': form,
     }
 
-    html_template = loader.get_template('home/edit_place.html')
-    return HttpResponse(html_template.render(context, request))
+    return render(request, 'home/edit_place.html', context)
 
 
 @login_required(login_url="/login/")
 def remove_animal_from_place(request, animal_id, place_id):
     animal_place_services.remove_animal_from_place(animal_id, place_id)
-
     messages.success(request, 'Animal detached successfully')
     return redirect('places')
