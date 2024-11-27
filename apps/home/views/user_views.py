@@ -1,7 +1,9 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from ..services import user_services
+
+import pandas as pd
 
 
 class PageList:
@@ -43,6 +45,8 @@ def all_users(request, actionCode=None):
         token = PAGE_LIST.previous_page()
     elif actionCode == 1:
         token = PAGE_LIST.next_page()
+    elif actionCode == 2:
+        download_opted_in_users()
     else:
         token = None
         PAGE_LIST.reset()
@@ -59,3 +63,7 @@ def all_users(request, actionCode=None):
     }
 
     return render(request, 'home/show_users.html', context)
+
+
+def download_opted_in_users():
+    users = user_services.get_opted_in_users
