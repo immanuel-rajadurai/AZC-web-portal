@@ -40,3 +40,4 @@ databaseSchema.graphql
 
 # PyCharm
 /.idea
+opted_in_users.csv

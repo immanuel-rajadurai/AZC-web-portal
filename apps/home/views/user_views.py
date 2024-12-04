@@ -1,9 +1,11 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
+from django.shortcuts import render
+from django.http import HttpResponse
 
 from ..services import user_services
 
 import pandas as pd
+import mimetypes
 
 
 class PageList:
@@ -46,7 +48,7 @@ def all_users(request, actionCode=None):
     elif actionCode == 1:
         token = PAGE_LIST.next_page()
     elif actionCode == 2:
-        download_opted_in_users()
+        return download_opted_in_users()
     else:
         token = None
         PAGE_LIST.reset()
@@ -66,4 +68,18 @@ def all_users(request, actionCode=None):
 
 
 def download_opted_in_users():
-    users = user_services.get_opted_in_users
+    users = user_services.get_opted_in_users()
+    print("users", users)
+    filename = "opted_in_users.csv"
+
+    df = pd.DataFrame(
+        users, columns=['email', 'firstName', 'lastName', 'optedIn'])
+    df.to_csv(filename, index=False)
+
+    fl = open(filename, 'r')
+    print("fl", fl)
+
+    response = HttpResponse(fl, content_type="text/csv")
+    response['Content-Disposition'] = "attachment; filename=%s" % filename
+
+    return response
