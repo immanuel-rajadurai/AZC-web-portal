@@ -1,7 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
-from django.shortcuts import redirect
-from django.template import loader
+from django.shortcuts import render, redirect
 from django.contrib import messages
 
 from ..services import animal_services
@@ -39,14 +37,12 @@ def all_animals(request):
         'form': form,
     }
 
-    html_template = loader.get_template('home/show_animals.html')
-    return HttpResponse(html_template.render(context, request))
+    return render(request, 'home/show_animals.html', context)
 
 
 @login_required(login_url="/login/")
 def remove_animal(request, animal_id):
     animal_services.remove_animal(animal_id)
-
     messages.success(request, 'Animal removed successfully')
     return redirect('animals')
 
@@ -75,7 +71,6 @@ def edit_animal(request, animal_id):
                                         behaviour, weightMale, weightFemale, image, conservationStatus, funFacts)
 
             messages.success(request, f""""{name}" edited successfully""")
-
             return redirect('animals')
     else:
         form = animal_forms.AnimalForm()
@@ -96,5 +91,4 @@ def edit_animal(request, animal_id):
         'form': form,
     }
 
-    html_template = loader.get_template('home/edit_animal.html')
-    return HttpResponse(html_template.render(context, request))
+    return render(request, 'home/edit_animal.html', context)

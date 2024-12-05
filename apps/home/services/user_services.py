@@ -34,3 +34,21 @@ def get_users_list(token):
         """
 
     return sendAWSQuery(list_users).json()["data"]["listUsers"]
+
+
+def get_opted_in_users():
+    list_users = f"""
+        query listUsers {{
+            listUsers(filter: {{ optedIn: {{eq: true }} }}) {{
+                items {{
+                    email
+                    firstName
+                    lastName
+                }}
+            }}
+        }}
+    """
+    response = sendAWSQuery(list_users).json()
+    print("response", response)
+
+    return sendAWSQuery(list_users).json()["data"]["listUsers"]["items"]
