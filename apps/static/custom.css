@@ -1,7 +1,8 @@
 .card-photo {
     height: 200px;
     width: auto;
-    object-fit: cover
+    object-fit: cover;
+    filter: saturate(60%);
 }
 
 .edit-btn {
@@ -10,6 +11,9 @@
     color: grey;
     font-size: 1.2rem;
     cursor: pointer;
+    position: absolute;
+    bottom: 15px;
+    right: 40px
 }
 
 .edit-btn:hover {
@@ -22,6 +26,9 @@
     color: red;
     font-size: 1.2rem;
     cursor: pointer;
+    position: absolute;
+    bottom: 15px;
+    right: 15px
 }
 
 .delete-btn:hover {
@@ -29,9 +36,7 @@
 }
 
 .is-open-status {
-    background-color: black;
-    font-size: 2rem;
-    filter: drop-shadow(2px 2px #000000);
+    background-color: none;
 }
 
 .list-container {
