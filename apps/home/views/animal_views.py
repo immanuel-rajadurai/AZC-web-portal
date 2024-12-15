@@ -28,6 +28,8 @@ def all_animals(request):
                                        weightMale, weightFemale, image, conservationStatus, funFacts)
 
             messages.success(request, 'Animal created successfully')
+        else:
+            messages.error(request, 'Animal not created, check formatting')
 
     form = animal_forms.AnimalForm()
 

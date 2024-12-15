@@ -1,4 +1,5 @@
 from .services_extras import *
+import json
 
 
 def get_animals_list():
@@ -29,17 +30,17 @@ def add_animal(name, scientificName, habitat, diet, behaviour, weightMale, weigh
     add_animal = f"""
         mutation createAnimal {{
             createAnimal(input: {{ 
-                name: "{name}", 
-                scientificName: "{scientificName}", 
-                habitat: "{habitat}", 
-                diet: "{diet}", 
-                behaviour: "{behaviour}", 
-                weightMale: "{weightMale}", 
-                weightFemale: "{weightFemale}", 
-                image: "{image}", 
-                conservationStatus: "{conservationStatus}", 
-                funFacts: "{funFacts}" 
-            }} ) {{
+                name: {json.dumps(name)}, 
+                scientificName: {json.dumps(scientificName)}, 
+                habitat: {json.dumps(habitat)}, 
+                diet: {json.dumps(diet)}, 
+                behaviour: {json.dumps(behaviour)}, 
+                weightMale: {json.dumps(weightMale)}, 
+                weightFemale: {json.dumps(weightFemale)}, 
+                image: {json.dumps(image)}, 
+                conservationStatus: {json.dumps(conservationStatus)}, 
+                funFacts: {json.dumps(funFacts)} 
+            }}) {{
                 id
             }}
         }}

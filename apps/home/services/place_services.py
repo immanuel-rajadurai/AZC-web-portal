@@ -22,7 +22,12 @@ def get_places_list():
 def create_place(name, description, isOpen, image):
     create_place = f"""
         mutation createPlace {{
-            createPlace(input: {{name: "{name}", description: "{description}", isOpen: {str(isOpen).lower()}, image: "{image}"}}) {{
+            createPlace(input: {{
+                name: {json.dumps(name)},
+                description: {json.dumps(description)},
+                isOpen: {json.dumps(isOpen)},
+                image: {json.dumps(image)}
+            }}) {{
                 id
             }}
         }}
