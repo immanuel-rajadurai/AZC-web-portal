@@ -81,7 +81,12 @@ def delete_event(event_id):
 def edit_event(event_id, name, description, image):
     edit_event = f"""
         mutation updateEvent {{
-            updateEvent(input: {{id: "{event_id}", name: "{name}", description: "{description}", image: "{image}"}}, condition: null) {{
+            updateEvent(input: {{
+                id: {json.dumps(event_id)},
+                name: {json.dumps(name)},
+                description: {json.dumps(description)},
+                image: {json.dumps(image)}
+            }}, condition: null) {{
                 id
             }}
         }}
