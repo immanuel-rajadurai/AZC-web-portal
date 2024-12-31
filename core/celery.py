@@ -16,7 +16,7 @@ app.config_from_object(settings, namespace='CELERY')
 app.conf.beat_schedule = {
     'updateCounterHistory': {
         'task': 'apps.home.tasks.updateCounterHistory',
-        'schedule': crontab(day_of_month=15),
+        'schedule': 5.0,
     }
 }
 

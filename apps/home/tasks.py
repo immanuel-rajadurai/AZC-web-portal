@@ -5,22 +5,22 @@ from apps.home.services.services_extras import sendAWSQuery
 def getOccurenceCounters():
     current_occurences = """
         query listOccurrenceCounter {
-            listOccurrenceCounter {
+            listOccurrenceCounters {
                 items {
-                    name
-                    count
+                name
+                count
                 }
             }
         }
     """
 
-    return sendAWSQuery(current_occurences).json()["data"]["listOccurrenceCounter"]["items"]
+    return sendAWSQuery(current_occurences).json()["data"]["listOccurrenceCounters"]["items"]
 
 
 def getOccurenceCounterHistories():
     current_occurences_history = """
         query listOccurrenceCounterHistory {
-            listOccurrenceCounterHistory {
+            listOccurrenceCounterHistories {
                 items {
                     name
                     history
@@ -29,7 +29,7 @@ def getOccurenceCounterHistories():
         }
     """
 
-    return sendAWSQuery(current_occurences_history).json()["data"]["listOccurrenceCounterHistory"]["items"]
+    return sendAWSQuery(current_occurences_history).json()["data"]["listOccurrenceCounterHistories"]["items"]
 
 
 def convertListToDict(lst):
@@ -41,27 +41,67 @@ def convertListToDict(lst):
     return dict
 
 
-def edit_occurence_history(name, count):
+def edit_occurence_history(name, updated_count_history_list):
+    # edit_occurence_history = f"""
+    #     mutation updateOccurenceCounterHistory {{
+    #         updateOccurenceCounterHistory(input: {{
+    #             name: {name},
+    #             count: {count}
+    #         }}, condition: null) {{
+    #             name
+    #             count
+    #         }}
+    #     }}
+    # """
+
     edit_occurence_history = f"""
-        mutation updateOccurenceCounterHistory {{
-            updateOccurenceCounterHistory(input: {{
-                name: {name},
-                count: {count}
-            }}, condition: null) {{
+        mutation UpdateOccurrenceCounterHistory {{
+            updateOccurrenceCounterHistory(input: {{name: "{name}", history: {updated_count_history_list}}}) {{
                 name
-                count
+                history
             }}
         }}
     """
+    
 
     sendAWSQuery(edit_occurence_history)
 
 
-@shared_task(bind=True)
+@shared_task
 def updateCounterHistory():
-    current_occurences = getOccurenceCounters()
-    current_occurences_history = convertListToDict(getOccurenceCounterHistories())
+    print("-------------------------")
+    print("Updating Counter History")
 
-    for occurence in current_occurences:
-        tmp = current_occurences_history[occurence[0]] + [occurence[1]]
-        edit_occurence_history(occurence[0], tmp)
+    current_occurence_counters = getOccurenceCounters()
+    print("current occurences: ", current_occurence_counters)
+    
+    occurence_counter_histories = getOccurenceCounterHistories()
+    print("current occurences history: ", getOccurenceCounterHistories())
+
+    print()
+
+    for occurence_count in current_occurence_counters:
+        print("occurence count: ", occurence_count)
+
+        for occurence_count_history in occurence_counter_histories:
+
+            if occurence_count_history["name"] == occurence_count["name"]:
+                print("found occurence in history: ", occurence_count_history)
+
+                occurence_name = occurence_count["name"]
+                latest_count = occurence_count["count"]
+
+                matching_occurence_count_history = occurence_count_history
+
+                matching_occurence_count_history_count_list = matching_occurence_count_history["history"]
+
+                matching_occurence_count_history_count_list.append(latest_count)
+
+                print("updated history count list: ", matching_occurence_count_history_count_list)
+
+                edit_occurence_history(occurence_name, matching_occurence_count_history_count_list)
+
+                print("edited occurence history successfully: ", occurence_name, latest_count)
+
+            else:
+                print("not found occurence in history for occurence count: ", occurence_count)
