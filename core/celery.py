@@ -16,6 +16,7 @@ app.config_from_object(settings, namespace='CELERY')
 app.conf.beat_schedule = {
     'updateCounterHistory': {
         'task': 'apps.home.tasks.updateCounterHistory',
+        # TODO: change for production release to new schedule
         'schedule': 5.0,
     }
 }
