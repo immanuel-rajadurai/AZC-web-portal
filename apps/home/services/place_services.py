@@ -104,11 +104,18 @@ def delete_place(place_id):
 def edit_place(place_id, name, description, isOpen, image):
     edit_place = f"""
         mutation updatePlace {{
-            updatePlace(input: {{id: "{place_id}", name: "{name}", description: "{description}", isOpen: {str(isOpen).lower()}, image: "{image}"}}, condition: null) {{
+            updatePlace(input: {{
+                id: {json.dumps(place_id)},
+                name: {json.dumps(name)},
+                description: {json.dumps(description)},
+                isOpen: {json.dumps(isOpen)},
+                image: {json.dumps(image)}
+            }}, condition: null) {{
                 id
             }}
         }}
     """
+
 
     sendAWSQuery(edit_place)
 
