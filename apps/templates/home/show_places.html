@@ -33,7 +33,7 @@
                         </div>
 
                         <h1 class="card-title" style="text-align: center">{{ place.name }}</h1>
-                        <p class="card-text">{{ place.description }}</p>
+                        <p class="card-text">{{ place.description|truncatechars:100  }}</p>
 
                         {% if linked_animals|get_item:place.id %}
                           <div class="listbox-area">
