@@ -134,21 +134,49 @@
                   <h5 class="h3 text-white mb-0">Visitor count history</h5>
                 </div>
                 <div class="col">
-                  <ul class="nav nav-pills justify-content-end">
-                    <li class="nav-item mr-2 mr-md-0" data-toggle="chart" data-target="#chart-sales-dark" data-update='{"data":{"datasets":[{"data":[0, 20, 10, 30, 15, 40, 20, 60, 60]}]}}' data-prefix="" data-suffix="k">
-                      <a href="#" class="nav-link py-2 px-3 active" data-toggle="tab">
-                        <span class="d-none d-md-block">Month</span>
-                        <span class="d-md-none">M</span>
-                      </a>
-                    </li>
-                    <li class="nav-item" data-toggle="chart" data-target="#chart-sales-dark" data-update='{"data":{"datasets":[{"data":[0, 20, 5, 25, 10, 30, 15, 40, 40]}]}}' data-prefix="" data-suffix="k">
-                      <a href="#" class="nav-link py-2 px-3" data-toggle="tab">
-                        <span class="d-none d-md-block">Week</span>
-                        <span class="d-md-none">W</span>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
+    <ul class="nav nav-pills justify-content-end">
+        <!-- Button for Monthly Data -->
+        <li class="nav-item mr-2 mr-md-0" 
+            data-toggle="chart" 
+            data-target="#chart-sales-dark" 
+            data-update='{
+                "data": {
+                    "labels": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"], 
+                    "datasets": [{
+                        "data": [0, 1800, 10, 30, 1500, 1000, 200, 2000, 2000, 2000, 2000, 2000]
+                    }]
+                }
+            }' 
+            data-prefix="" 
+            data-suffix="">
+            <a href="#" class="nav-link py-2 px-3 active" data-toggle="tab">
+                <span class="d-none d-md-block">Month</span>
+                <span class="d-md-none">M</span>
+            </a>
+        </li>
+
+            <!-- Button for Weekly Data -->
+            <li class="nav-item" 
+                data-toggle="chart" 
+                data-target="#chart-sales-dark" 
+                data-update='{
+                    "data": {
+                        "labels": ["Week 1", "Week 2", "Week 3", "Week 4", "Week 5", "Week 6", "Week 7", "Week 8"], 
+                        "datasets": [{
+                            "data": [0, 20, 5, 25, 10, 30, 15, 40]
+                        }]
+                    }
+                }' 
+                data-prefix="" 
+                data-suffix="">
+                <a href="#" class="nav-link py-2 px-3" data-toggle="tab">
+                    <span class="d-none d-md-block">Week</span>
+                    <span class="d-md-none">W</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
               </div>
             </div>
             <div class="card-body">
