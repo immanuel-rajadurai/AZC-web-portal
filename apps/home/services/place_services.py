@@ -2,7 +2,6 @@ import requests
 import json
 from .api_info import *
 
-# The headers for the HTTP request
 headers = {
     'Content-Type': 'application/json',
     'x-api-key': API_KEY
@@ -24,40 +23,21 @@ def get_places_list():
         }
     """
 
-    # The payload for the HTTP request
     payload = {
         'query': list_places
     }
 
-    # Send the POST request to the AppSync endpoint
     response = requests.post(
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload))
 
     # print(response.json())
-    return response.json()["data"]["listPlaces"]["items"]
+    if response.json()["data"]:
+        return response.json()["data"]["listPlaces"]["items"]
+
+    return []
 
 
 def create_place(name, description, isOpen, image):
-
-    print("calling create place")
-
-    # payload = f'''
-    #             mutation {{
-    #                 createPlace(input: {{
-    #                     description: "{description}",
-    #                     image: "{image}",
-    #                     isOpen: {str(isOpen).lower()},
-    #                     name: "{name}"
-    #                 }}) {{
-    #                     id
-    #                     description
-    #                     image
-    #                     isOpen
-    #                     name
-    #                 }}
-    #             }}
-    #             '''
-
     payload = {
         'query': f"""
             mutation createPlace {{
@@ -68,28 +48,94 @@ def create_place(name, description, isOpen, image):
         """
     }
 
-    # Send the POST request to the AppSync endpoint
     response = requests.post(
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload))
 
-    print("create place response: ", response.json())
+    # print("create place response: ", response.json())
 
 
-def delete_place(id):
+def delete_attached_relationships(place_id):
+    get_rel_payload = {
+        'query': f"""
+                query listPlaceAnimals {{
+                    listPlaceAnimals(filter: {{ placeID: {{eq: "{ place_id }"}} }}) {{
+                        items {{
+                            id
+                        }}
+                    }}
+                }}
+            """
+    }
+
+    response = requests.post(
+        APPSYNC_ENDPOINT, headers=headers, data=json.dumps(get_rel_payload))
+
+    rels = response.json()["data"]["listPlaceAnimals"]["items"]
+
+    for rel in rels:
+        delete_rel_payload = {
+            'query': f"""
+                mutation deletePlaceAnimal {{
+                    deletePlaceAnimal(input: {{id: "{rel['id']}"}}) {{
+                        id
+                    }}
+                }}
+            """
+        }
+
+        response2 = requests.post(
+            APPSYNC_ENDPOINT, headers=headers, data=json.dumps(delete_rel_payload))
+        # print("response2.json(): ", response2.json())
+
+    get_rel_payload2 = {
+        'query': f"""
+                query listEventPlaces {{
+                    listEventPlaces(filter: {{ placeID: {{eq: "{ place_id }"}} }}) {{
+                        items {{
+                            id
+                        }}
+                    }}
+                }}
+            """
+    }
+
+    response3 = requests.post(
+        APPSYNC_ENDPOINT, headers=headers, data=json.dumps(get_rel_payload2))
+
+    rels2 = response3.json()["data"]["listEventPlaces"]["items"]
+
+    for rel in rels2:
+        delete_rel_payload2 = {
+            'query': f"""
+                mutation deleteEventPlace {{
+                    deleteEventPlace(input: {{id: "{rel['id']}"}}) {{
+                        id
+                    }}
+                }}
+            """
+        }
+
+        response4 = requests.post(
+            APPSYNC_ENDPOINT, headers=headers, data=json.dumps(delete_rel_payload2))
+        # print("response4.json(): ", response4.json())
+
+
+def delete_place(place_id):
     delete_place_payload = {
         'query': f"""
             mutation deletePlace {{
-                deletePlace(input: {{id: "{id}"}}) {{
+                deletePlace(input: {{id: "{place_id}"}}) {{
                     id
                 }}
             }}
         """
     }
 
-    # Send the POST request to the AppSync endpoint
     response = requests.post(
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(delete_place_payload))
     # print(response.json())
+
+    delete_attached_relationships(place_id)
 
 
 def edit_place(place_id, name, description, isOpen, image):
@@ -103,17 +149,16 @@ def edit_place(place_id, name, description, isOpen, image):
         """
     }
 
-    # Send the POST request to the AppSync endpoint
     response = requests.post(
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(edit_place_payload))
     # print(response.json())
 
 
-def get_place(id):
+def get_place(place_id):
     payload = {
         'query': f"""
-            query listPlaces {{
-                getPlace(id: "{id}") {{
+            query getPlace {{
+                getPlace(id: "{place_id}") {{
                     name
                     description
                     isOpen
@@ -123,7 +168,6 @@ def get_place(id):
         """
     }
 
-    # Send the POST request to the AppSync endpoint
     response = requests.post(
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload))
 

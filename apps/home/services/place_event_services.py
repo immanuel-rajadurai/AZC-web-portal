@@ -12,9 +12,9 @@ def add_place_to_event(event_id, place_id):
     check_event_place_payload = {
         'query': f"""
             query listEventPlaces {{
-                listEventPlaces(filter: {{ eventID: {{eq: "{ event_id }"}} }}) {{
+                listEventPlaces(filter: {{ eventID: {{eq: "{ event_id }"}}, placeID: {{eq: "{ place_id }"}} }}) {{
                     items {{
-                        placeID
+                        id
                     }}
                 }}
             }}
@@ -22,6 +22,7 @@ def add_place_to_event(event_id, place_id):
     }
     response = requests.post(
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(check_event_place_payload))
+    # print(response.json())
 
     if len(response.json()["data"]["listEventPlaces"]["items"]) <= 0:
         create_event_place_payload = {
@@ -39,45 +40,13 @@ def add_place_to_event(event_id, place_id):
             APPSYNC_ENDPOINT, headers=headers, data=json.dumps(create_event_place_payload))
 
 
-def add_animal_to_place(animal_id, place_id):
-    check_animal_place_payload = {
-        'query': f"""
-            query listPlaceAnimals {{
-                listPlaceAnimals(filter: {{ placeID: {{eq: "{ place_id }"}}, animalID: {{eq: "{ animal_id }"}} }}) {{
-                    items {{
-                        id
-                    }}
-                }}
-            }}
-        """
-    }
-    response = requests.post(
-        APPSYNC_ENDPOINT, headers=headers, data=json.dumps(check_animal_place_payload))
-    # print(response.json())
-
-    if len(response.json()["data"]["listPlaceAnimals"]["items"]) == 0:
-        create_animal_place_payload = {
-            'query': f"""
-                mutation createPlaceAnimal {{
-                    createPlaceAnimal(input: {{
-                        placeID: "{place_id}",
-                        animalID: "{animal_id}"}}) {{
-                            id
-                    }}
-                }}
-            """
-        }
-        requests.post(
-            APPSYNC_ENDPOINT, headers=headers, data=json.dumps(create_animal_place_payload))
-
-
-def get_animals_linked_to_place(place_id):
+def get_places_linked_to_event(event_id):
     payload = {
         'query': f"""
-            query listPlaceAnimals {{
-                listPlaceAnimals(filter: {{ placeID: {{eq: "{ place_id }"}} }}) {{
+            query listEventPlaces {{
+                listEventPlaces(filter: {{ eventID: {{eq: "{ event_id }"}} }}) {{
                     items {{
-                        animalID
+                        placeID
                     }}
                 }}
             }}
@@ -87,21 +56,20 @@ def get_animals_linked_to_place(place_id):
     response = requests.post(
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(payload))
 
-    tmp = response.json()["data"]["listPlaceAnimals"]["items"]
-    # print("tmp: ", tmp)
+    tmp = response.json()["data"]["listEventPlaces"]["items"]
 
     if tmp:
-        # print("listPlaceAnimals: ", tmp)
+        # print("listEventPlace: ", tmp)
         return tmp
 
     return []
 
 
-def remove_animal_from_place(animal_id, place_id):
+def remove_place_from_event(place_id, event_id):
     get_rel_payload = {
         'query': f"""
-            query listPlaceAnimals {{
-                listPlaceAnimals(filter: {{animalID: {{eq: "{animal_id}"}}, placeID: {{eq: "{place_id}"}}}}) {{
+            query listEventPlaces {{
+                listEventPlaces(filter: {{eventID: {{eq: "{event_id}"}}, placeID: {{eq: "{place_id}"}}}}) {{
                     items {{
                         id
                     }}
@@ -114,13 +82,13 @@ def remove_animal_from_place(animal_id, place_id):
         APPSYNC_ENDPOINT, headers=headers, data=json.dumps(get_rel_payload))
     # print("response.json():", response.json())
 
-    rels = response.json()["data"]["listPlaceAnimals"]["items"]
+    rels = response.json()["data"]["listEventPlaces"]["items"]
 
     for rel in rels:
         delete_rel_payload = {
             'query': f"""
-                mutation deletePlaceAnimal {{
-                    deletePlaceAnimal(input: {{id: "{rel['id']}"}}) {{
+                mutation deleteEventPlace {{
+                    deleteEventPlace(input: {{id: "{rel['id']}"}}) {{
                         id
                     }}
                 }}

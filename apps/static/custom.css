@@ -33,3 +33,16 @@
 .delete-btn:hover {
     color: darkred;
 }
+
+.is-open-status {
+    background-color: transparent;
+    border: none;
+    font-size: 2rem;
+}
+
+.list-container {
+    border: 1px solid black;
+    width: 200px;
+    max-height: 200px;
+    overflow-y: auto;
+}

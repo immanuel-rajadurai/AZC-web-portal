@@ -1,8 +1,3 @@
-# -*- encoding: utf-8 -*-
-"""
-Copyright (c) 2019 - present AppSeed.us
-"""
-
 from django import template
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
@@ -23,10 +18,6 @@ def index(request):
 @login_required(login_url="/login/")
 def pages(request):
     context = {}
-    # All resource paths end in .html.
-    # Pick out the html file name from the url. And load that template.
-
-    # print("now entering a HTML page")
 
     try:
 
@@ -50,3 +41,14 @@ def pages(request):
     except:
         html_template = loader.get_template('home/page-500.html')
         return HttpResponse(html_template.render(context, request))
+
+
+def get_ids_from_filter(lst, key):
+    tmp = []
+
+    if lst:
+        for item in lst:
+            tmp2 = item[key]
+            tmp.append(tmp2)
+
+    return tmp
