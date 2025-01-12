@@ -54,17 +54,17 @@ def all_users(request, actionCode=None):
         PAGE_LIST.reset()
 
     users = user_services.get_users_list(token)
-    PAGE_LIST.add_page(users['nextToken'])
+    PAGE_LIST.add_page(users["nextToken"])
 
     # print("PAGE-LIST", PAGE_LIST)
 
     context = {
-        'segment': 'users',
-        'users': users,
-        'isFirstPage': PAGE_LIST.is_first_page(),
+        "segment": "users",
+        "users": users,
+        "isFirstPage": PAGE_LIST.is_first_page(),
     }
 
-    return render(request, 'home/show_users.html', context)
+    return render(request, "home/show_users.html", context)
 
 
 def download_opted_in_users():
@@ -72,14 +72,13 @@ def download_opted_in_users():
     print("users", users)
     filename = "opted_in_users.csv"
 
-    df = pd.DataFrame(
-        users, columns=['email', 'firstName', 'lastName', 'optedIn'])
+    df = pd.DataFrame(users, columns=["email", "firstName", "lastName", "optedIn"])
     df.to_csv(filename, index=False)
 
-    fl = open(filename, 'r')
+    fl = open(filename, "r")
     print("fl", fl)
 
     response = HttpResponse(fl, content_type="text/csv")
-    response['Content-Disposition'] = "attachment; filename=%s" % filename
+    response["Content-Disposition"] = "attachment; filename=%s" % filename
 
     return response

@@ -26,7 +26,18 @@ def get_animals_list():
     return sendAWSQuery(list_animals).json()["data"]["listAnimals"]["items"]
 
 
-def add_animal(name, scientificName, habitat, diet, behaviour, weightMale, weightFemale, image, conservationStatus, funFacts):
+def add_animal(
+    name,
+    scientificName,
+    habitat,
+    diet,
+    behaviour,
+    weightMale,
+    weightFemale,
+    image,
+    conservationStatus,
+    funFacts,
+):
     add_animal = f"""
         mutation createAnimal {{
             createAnimal(input: {{ 
@@ -60,8 +71,7 @@ def delete_attached_relationships(animal_id):
         }}
     """
 
-    rels = sendAWSQuery(get_relationships).json()[
-        "data"]["listPlaceAnimals"]["items"]
+    rels = sendAWSQuery(get_relationships).json()["data"]["listPlaceAnimals"]["items"]
 
     for rel in rels:
         delete_relationships = f"""
@@ -88,7 +98,19 @@ def remove_animal(id):
     delete_attached_relationships(id)
 
 
-def edit_animal(animal_id, name, scientificName, habitat, diet, behaviour, weightMale, weightFemale, image, conservationStatus, funFacts):
+def edit_animal(
+    animal_id,
+    name,
+    scientificName,
+    habitat,
+    diet,
+    behaviour,
+    weightMale,
+    weightFemale,
+    image,
+    conservationStatus,
+    funFacts,
+):
     edit_animal = f"""
         mutation updateAnimal {{
             updateAnimal(input: {{ 
@@ -131,4 +153,4 @@ def get_animal(id):
         }}
     """
 
-    return sendAWSQuery(get_animal).json()['data']['getAnimal']
+    return sendAWSQuery(get_animal).json()["data"]["getAnimal"]

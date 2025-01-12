@@ -29,7 +29,7 @@ def create_tag(event_id, tagName):
 
         response = sendAWSQuery(list_event_tags)
 
-        if not response.json()["data"]['listEventTags']['items']:
+        if not response.json()["data"]["listEventTags"]["items"]:
             create_tag = f"""
                 mutation createTag {{
                     createTag(input: {{ name: "{tagName}" }}) {{
@@ -62,7 +62,9 @@ def delete_tag(event_id, tagName):
         }}
     """
 
-    for event_tag in sendAWSQuery(list_event_tags).json()["data"]["listEventTags"]["items"]:
+    for event_tag in sendAWSQuery(list_event_tags).json()["data"]["listEventTags"][
+        "items"
+    ]:
         delete_event_tags = f"""
             mutation deleteEventTag {{
                 deleteEventTag(input: {{id: "{event_tag['id']}"}}) {{

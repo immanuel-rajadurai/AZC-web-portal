@@ -5,19 +5,19 @@ from celery import Celery
 from celery.schedules import crontab
 from django.conf import settings
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings')
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "core.settings")
 
-app = Celery('core')
+app = Celery("core")
 app.conf.enable_utc = False
-app.conf.update(timezone='Europe/London')
+app.conf.update(timezone="Europe/London")
 
-app.config_from_object(settings, namespace='CELERY')
+app.config_from_object(settings, namespace="CELERY")
 
 app.conf.beat_schedule = {
-    'updateCounterHistory': {
-        'task': 'apps.home.tasks.updateCounterHistory',
+    "updateCounterHistory": {
+        "task": "apps.home.tasks.updateCounterHistory",
         # TODO: change for production release to new schedule
-        'schedule': 5.0,
+        "schedule": 5.0,
     }
 }
 

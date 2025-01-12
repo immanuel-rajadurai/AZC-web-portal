@@ -14,7 +14,9 @@ def getOccurenceCounters():
         }
     """
 
-    return sendAWSQuery(current_occurences).json()["data"]["listOccurrenceCounters"]["items"]
+    return sendAWSQuery(current_occurences).json()["data"]["listOccurrenceCounters"][
+        "items"
+    ]
 
 
 def getOccurenceCounterHistories():
@@ -29,7 +31,9 @@ def getOccurenceCounterHistories():
         }
     """
 
-    return sendAWSQuery(current_occurences_history).json()["data"]["listOccurrenceCounterHistories"]["items"]
+    return sendAWSQuery(current_occurences_history).json()["data"][
+        "listOccurrenceCounterHistories"
+    ]["items"]
 
 
 def convertListToDict(lst):
@@ -62,7 +66,6 @@ def edit_occurence_history(name, updated_count_history_list):
             }}
         }}
     """
-    
 
     sendAWSQuery(edit_occurence_history)
 
@@ -74,7 +77,7 @@ def updateCounterHistory():
 
     current_occurence_counters = getOccurenceCounters()
     print("current occurences: ", current_occurence_counters)
-    
+
     occurence_counter_histories = getOccurenceCounterHistories()
     print("current occurences history: ", getOccurenceCounterHistories())
 
@@ -93,15 +96,29 @@ def updateCounterHistory():
 
                 matching_occurence_count_history = occurence_count_history
 
-                matching_occurence_count_history_count_list = matching_occurence_count_history["history"]
+                matching_occurence_count_history_count_list = (
+                    matching_occurence_count_history["history"]
+                )
 
                 matching_occurence_count_history_count_list.append(latest_count)
 
-                print("updated history count list: ", matching_occurence_count_history_count_list)
+                print(
+                    "updated history count list: ",
+                    matching_occurence_count_history_count_list,
+                )
 
-                edit_occurence_history(occurence_name, matching_occurence_count_history_count_list)
+                edit_occurence_history(
+                    occurence_name, matching_occurence_count_history_count_list
+                )
 
-                print("edited occurence history successfully: ", occurence_name, latest_count)
+                print(
+                    "edited occurence history successfully: ",
+                    occurence_name,
+                    latest_count,
+                )
 
             else:
-                print("not found occurence in history for occurence count: ", occurence_count)
+                print(
+                    "not found occurence in history for occurence count: ",
+                    occurence_count,
+                )

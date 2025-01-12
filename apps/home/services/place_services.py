@@ -47,8 +47,9 @@ def delete_attached_relationships(place_id):
         }}
     """
 
-    relationships = sendAWSQuery(get_relationships).json()[
-        "data"]["listPlaceAnimals"]["items"]
+    relationships = sendAWSQuery(get_relationships).json()["data"]["listPlaceAnimals"][
+        "items"
+    ]
 
     for rel in relationships:
         delete_relationships = f"""
@@ -71,12 +72,13 @@ def delete_attached_relationships(place_id):
         }}
     """
 
-    relationships2 = sendAWSQuery(get_relationships2).json()[
-        "data"]["listEventPlaces"]["items"]
+    relationships2 = sendAWSQuery(get_relationships2).json()["data"]["listEventPlaces"][
+        "items"
+    ]
 
     for rel in relationships2:
         delete_relationships2 = {
-            'query': f"""
+            "query": f"""
                 mutation deleteEventPlace {{
                     deleteEventPlace(input: {{id: "{rel['id']}"}}) {{
                         id
@@ -116,7 +118,6 @@ def edit_place(place_id, name, description, isOpen, image):
         }}
     """
 
-
     sendAWSQuery(edit_place)
 
 
@@ -132,4 +133,4 @@ def get_place(place_id):
         }}
     """
 
-    return sendAWSQuery(get_place).json()['data']['getPlace']
+    return sendAWSQuery(get_place).json()["data"]["getPlace"]

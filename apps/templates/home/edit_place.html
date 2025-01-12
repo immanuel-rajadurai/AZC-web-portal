@@ -1,110 +1,139 @@
-{% extends 'layouts/base.html' %}
-
-{% load animal_extras %}
-
-{% block title %}
-  Edit Event
-{% endblock %}
-
-{% block content %}
-  <div class="header pb-6" style="background-image: url(/static/assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
-    <span class="mask bg-gradient-default opacity-8"></span>
-    <br />
-
-    <div class="container">
-      <div class="row">
-        <div class="mx-auto">
-          <div class="card shadow border" style="width: 18rem; position: relative;">
-            <img src="{{ place.image }}" class="card-img-top card-img-fixed card-photo" alt="..." />
-            <div class="card-body d-flex flex-column align-items-center">
-              <div style="position: absolute; top: 15px; right: 15px;">
-                {% if place.isOpen %}
-                  <i class="fas fa-check is-open-status" style="color: green;"></i>
-                {% else %}
-                  <i class="fas fa-times is-open-status" style="color: red;"></i>
-                {% endif %}
-              </div>
-
-              <h1 class="card-title" style="text-align: center">{{ place.name }}</h1>
-              <p class="card-text">{{ place.description }}</p>
-
-              {% if linked_animals %}
-                <div class="listbox-area">
-                  <div>
-                    <span class="listbox-label">Animals(s):</span>
-                    <ul tabindex="0" role="listbox">
-                      {% for animal in linked_animals %}
-                        <li role="option">
-                          <span class="checkmark" aria-hidden="true"></span>
-                          {{ animal|get_animal_name }}
-                        </li>
-                      {% endfor %}
-                    </ul>
-                  </div>
-                </div>
-              {% endif %}
-
-              {% if animals %}
-                <div class="dropdown">
-                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Add an animal</button>
-                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    {% for animal in animals %}
-                      <a class="dropdown-item text-wrap" href="{% url 'add_animal_to_place' animal.id place_id %}" style="overflow-wrap: break-word">{{ animal.name }}</a>
-                    {% endfor %}
-                  </div>
-                </div>
-              {% endif %}
-
-              {% if linked_animals %}
-                <div class="dropdown">
-                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Remove an animal</button>
-                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    {% for animal in linked_animals %}
-                      <a class="dropdown-item text-wrap" href="{% url 'remove_animal_from_place' animal place_id %}" style="overflow-wrap: break-word">{{ animal|get_animal_name }}</a>
-                    {% endfor %}
-                  </div>
-                </div>
-              {% endif %}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+{% extends 'layouts/base.html' %} {% load animal_extras %} {% block title %}
+Edit Event {% endblock %} {% block content %}
+<div
+  class="header pb-6"
+  style="
+    background-image: url(/static/assets/img/theme/profile-cover.jpg);
+    background-size: cover;
+    background-position: center top;
+  "
+>
+  <span class="mask bg-gradient-default opacity-8"></span>
+  <br />
 
   <div class="container">
     <div class="row">
-      <div class="col">
-        <div class="card">
-          <div class="card-header">
-            <div class="row align-items-center">
-              <div class="col-8">
-                <h3 class="mb-0">Edit this place</h3>
-              </div>
-              <div class="col-4 text-right"></div>
+      <div class="mx-auto">
+        <div
+          class="card shadow border"
+          style="width: 18rem; position: relative"
+        >
+          <img
+            src="{{ place.image }}"
+            class="card-img-top card-img-fixed card-photo"
+            alt="..."
+          />
+          <div class="card-body d-flex flex-column align-items-center">
+            <div style="position: absolute; top: 15px; right: 15px">
+              {% if place.isOpen %}
+              <i class="fas fa-check is-open-status" style="color: green"></i>
+              {% else %}
+              <i class="fas fa-times is-open-status" style="color: red"></i>
+              {% endif %}
             </div>
-          </div>
-          <div class="card-body">
-            {% include 'home/partials/messages.html' %}
 
-            <form method="post">
-              {% csrf_token %}
+            <h1 class="card-title" style="text-align: center">
+              {{ place.name }}
+            </h1>
+            <p class="card-text">{{ place.description }}</p>
 
-              <h6 class="heading-small text-muted mb-4">Place information</h6>
-
-              {% include 'home/partials/place_form.html' %}
-
-              <button class="btn btn-sm btn-primary" type="submit">Submit</button>
-            </form>
+            {% if linked_animals %}
+            <div class="listbox-area">
+              <div>
+                <span class="listbox-label">Animals(s):</span>
+                <ul tabindex="0" role="listbox">
+                  {% for animal in linked_animals %}
+                  <li role="option">
+                    <span class="checkmark" aria-hidden="true"></span>
+                    {{ animal|get_animal_name }}
+                  </li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+            {% endif %} {% if animals %}
+            <div class="dropdown">
+              <button
+                class="btn btn-secondary dropdown-toggle"
+                type="button"
+                id="dropdownMenuButton"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                Add an animal
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                {% for animal in animals %}
+                <a
+                  class="dropdown-item text-wrap"
+                  href="{% url 'add_animal_to_place' animal.id place_id %}"
+                  style="overflow-wrap: break-word"
+                  >{{ animal.name }}</a
+                >
+                {% endfor %}
+              </div>
+            </div>
+            {% endif %} {% if linked_animals %}
+            <div class="dropdown">
+              <button
+                class="btn btn-secondary dropdown-toggle"
+                type="button"
+                id="dropdownMenuButton"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                Remove an animal
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                {% for animal in linked_animals %}
+                <a
+                  class="dropdown-item text-wrap"
+                  href="{% url 'remove_animal_from_place' animal place_id %}"
+                  style="overflow-wrap: break-word"
+                  >{{ animal|get_animal_name }}</a
+                >
+                {% endfor %}
+              </div>
+            </div>
+            {% endif %}
           </div>
         </div>
       </div>
     </div>
   </div>
+</div>
 
-  {% include 'includes/footer.html' %}
-{% endblock %}
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <div class="card-header">
+          <div class="row align-items-center">
+            <div class="col-8">
+              <h3 class="mb-0">Edit this place</h3>
+            </div>
+            <div class="col-4 text-right"></div>
+          </div>
+        </div>
+        <div class="card-body">
+          {% include 'home/partials/messages.html' %}
 
-{% block javascripts %}
+          <form method="post">
+            {% csrf_token %}
 
-{% endblock %}
+            <h6 class="heading-small text-muted mb-4">Place information</h6>
+
+            {% include 'home/partials/place_form.html' %}
+
+            <button class="btn btn-sm btn-primary" type="submit">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% include 'includes/footer.html' %} {% endblock %} {% block javascripts %} {%
+endblock %}
