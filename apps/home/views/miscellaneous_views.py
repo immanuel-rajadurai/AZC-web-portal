@@ -4,10 +4,18 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.urls import reverse
 
+from ..services import occurence_counter_services
+
 
 @login_required(login_url="/login/")
 def index(request):
-    context = {"segment": "index"}
+    context = {
+        "segment": "index",
+        "chart1_data": occurence_counter_services.get_occurence_history(
+            "numberOfVisitors2024"
+        ),
+        "chart2_data": occurence_counter_services.get_occurence_history("test"),
+    }
 
     html_template = loader.get_template("home/index.html")
     return HttpResponse(html_template.render(context, request))

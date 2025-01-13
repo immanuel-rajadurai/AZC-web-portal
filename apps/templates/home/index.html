@@ -166,7 +166,9 @@
         <div class="card-header bg-transparent">
           <div class="row align-items-center">
             <div class="col">
+              {% comment %}
               <h6 class="text-uppercase text-muted ls-1 mb-1">Performance</h6>
+              {% endcomment %}
               <h5 class="h3 mb-0">Total animal challenge completions</h5>
             </div>
           </div>
@@ -391,6 +393,7 @@
 
 <!-- Specific JS goes HERE -->
 {% block javascripts %}
+
 <script src="/static/assets/vendor/chart.js/dist/Chart.min.js"></script>
 <script src="/static/assets/vendor/chart.js/dist/Chart.extension.js"></script>
 
@@ -424,7 +427,7 @@
       ],
       datasets: [
         {
-          data: [121, 115, 265, 780, 121, 115, 265, 780, 121, 115, 265, 780],
+          data: {{ chart1_data }},
           borderColor: "#00ff00",
           borderWidth: 2,
         },
@@ -456,7 +459,7 @@
       datasets: [
         {
           label: "# of Votes",
-          data: [12, 19, 3],
+          data: {{ chart2_data }},
           backgroundColor: [
             "rgba(2555, 99, 132, 0.6)",
             "rgba(54, 162, 235, 0.6)",
@@ -484,4 +487,5 @@
     },
   });
 </script>
+
 {% endblock %}
