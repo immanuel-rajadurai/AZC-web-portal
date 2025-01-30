@@ -7,14 +7,28 @@ from django.urls import reverse
 from ..services import occurence_counter_services
 
 
+def setListToLength(lst, length):
+    return lst + ([0] * (length - len(lst)))
+
+
 @login_required(login_url="/login/")
 def index(request):
+    numberOfVisitors = occurence_counter_services.get_occurence_history(
+        "numberOfVisitors"
+    )
+    numberOfVisitors = setListToLength(numberOfVisitors, 12)
+    print("numberOfVisitors", numberOfVisitors)
+
+    animalChallengeCompletions = occurence_counter_services.get_occurence_history(
+        "animalChallengeCompletions"
+    )
+    animalChallengeCompletions = setListToLength(animalChallengeCompletions, 12)
+    print("animalChallengeCompletions", animalChallengeCompletions)
+
     context = {
         "segment": "index",
-        "chart1_data": occurence_counter_services.get_occurence_history(
-            "numberOfVisitors2024"
-        ),
-        "chart2_data": occurence_counter_services.get_occurence_history("test"),
+        "numberOfVisitors": numberOfVisitors,
+        "animalChallengeCompletions": animalChallengeCompletions,
     }
 
     html_template = loader.get_template("home/index.html")

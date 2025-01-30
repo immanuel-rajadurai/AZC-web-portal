@@ -36,28 +36,7 @@ def getOccurenceCounterHistories():
     ]["items"]
 
 
-def convertListToDict(lst):
-    dict = {}
-
-    for item in lst:
-        dict[item[0]] = item[1]
-
-    return dict
-
-
 def edit_occurence_history(name, updated_count_history_list):
-    # edit_occurence_history = f"""
-    #     mutation updateOccurenceCounterHistory {{
-    #         updateOccurenceCounterHistory(input: {{
-    #             name: {name},
-    #             count: {count}
-    #         }}, condition: null) {{
-    #             name
-    #             count
-    #         }}
-    #     }}
-    # """
-
     edit_occurence_history = f"""
         mutation UpdateOccurrenceCounterHistory {{
             updateOccurrenceCounterHistory(input: {{name: "{name}", history: {updated_count_history_list}}}) {{
@@ -87,7 +66,6 @@ def updateCounterHistory():
         print("occurence count: ", occurence_count)
 
         for occurence_count_history in occurence_counter_histories:
-
             if occurence_count_history["name"] == occurence_count["name"]:
                 print("found occurence in history: ", occurence_count_history)
 
