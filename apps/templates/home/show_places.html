@@ -1,116 +1,102 @@
-{% extends 'layouts/base.html' %} {% load miscellaneous_extras %} {% load
-animal_extras %} {% block title %} Places {% endblock %} {% block content %}
-<div
-  class="header pb-6"
-  style="
+{% extends 'layouts/base.html' %}
+{% load miscellaneous_extras %}
+{% load animal_extras %}
+
+{% block title %}
+  Places
+{% endblock %}
+
+{% block content %}
+  <div class="header pb-6" style="
     background-image: url(/static/assets/img/theme/profile-cover.jpg);
     background-size: cover;
     background-position: center top;
-  "
->
-  <span class="mask bg-gradient-default opacity-8"></span>
+  ">
+    <span class="mask bg-gradient-default opacity-8"></span>
 
-  <div class="container-fluid">
-    <div class="row">
-      {% if places %}
-      <div class="col">
-        <h1 class="display-2 text-white">Current Places</h1>
-
-        <div class="row">
+    <div class="container-fluid">
+      <div class="row">
+        {% if places %}
           <div class="col">
-            <div class="d-flex overflow-auto">
-              {% for place in places %}
-              <div class="card mr-3" style="width: 18rem; position: relative">
-                <img
-                  src="{{ place.image }}"
-                  class="card-img-top card-img-fixed card-photo"
-                  alt="..."
-                />
-                <div class="card-body d-flex flex-column align-items-center">
-                  <div style="position: absolute; top: 10px; right: 15px">
-                    {% if place.isOpen %}
-                    <i
-                      class="fas fa-check is-open-status"
-                      style="color: #0fff50; font-size: 30pt"
-                    ></i>
-                    {% else %}
-                    <i
-                      class="fas fa-times is-open-status"
-                      style="color: #ff3131; font-size: 36pt"
-                    ></i>
-                    {% endif %}
-                  </div>
+            <h1 class="display-2 text-white">Current Places</h1>
 
-                  <h1 class="card-title" style="text-align: center">
-                    {{ place.name }}
-                  </h1>
-                  <p class="card-text">
-                    {{ place.description|truncatechars:100 }}
-                  </p>
+            <div class="row">
+              <div class="col">
+                <div class="d-flex overflow-auto">
+                  {% for place in places %}
+                    <div class="card mr-3" style="width: 18rem; position: relative">
+                      <img src="{{ place.image }}" class="card-img-top card-img-fixed card-photo" alt="..." />
+                      <div class="card-body d-flex flex-column align-items-center">
+                        <div style="position: absolute; top: 10px; right: 15px">
+                          {% if place.isOpen %}
+                            <i class="fas fa-check is-open-status" style="color: #0fff50; font-size: 30pt"></i>
+                          {% else %}
+                            <i class="fas fa-times is-open-status" style="color: #ff3131; font-size: 36pt"></i>
+                          {% endif %}
+                        </div>
 
-                  {% if linked_animals|get_item:place.id %}
-                  <div class="listbox-area">
-                    <div>
-                      <span class="listbox-label">Animals(s):</span>
-                      <ul tabindex="0" role="listbox">
-                        {% for animal in linked_animals|get_item:place.id %}
-                        <li role="option">
-                          <span class="checkmark" aria-hidden="true"></span>
-                          {{ animal|get_animal_name }}
-                        </li>
-                        {% endfor %}
-                      </ul>
+                        <h1 class="card-title" style="text-align: center">{{ place.name }}</h1>
+                        <p class="card-text">{{ place.description|truncatechars:100 }}</p>
+
+                        {% if linked_animals|get_item:place.id %}
+                          <div class="listbox-area">
+                            <div>
+                              <span class="listbox-label">Animals(s):</span>
+                              <ul tabindex="0" role="listbox">
+                                {% for animal in linked_animals|get_item:place.id %}
+                                  <li role="option">
+                                    <span class="checkmark" aria-hidden="true"></span>
+                                    {{ animal|get_animal_name }}
+                                  </li>
+                                {% endfor %}
+                              </ul>
+                            </div>
+                          </div>
+                        {% endif %}
+                      </div>
+
+                      <a class="edit-btn fas fa-pencil-alt" href="{% url 'edit_place' place.id %}" role="button"></a>
+                      <a class="delete-btn fas fa-trash-alt" href="{% url 'delete_place' place.id %}" role="button"></a>
                     </div>
-                  </div>
-                  {% endif %}
+                  {% endfor %}
                 </div>
-
-                <a
-                  class="edit-btn fas fa-pencil-alt"
-                  href="{% url 'edit_place' place.id %}"
-                  role="button"
-                ></a>
-                <a
-                  class="delete-btn fas fa-trash-alt"
-                  href="{% url 'delete_place' place.id %}"
-                  role="button"
-                ></a>
               </div>
-              {% endfor %}
             </div>
           </div>
-        </div>
-      </div>
-      {% endif %}
-    </div>
-  </div>
-</div>
-
-<div class="container">
-  <div class="row">
-    <div class="col">
-      <div class="card">
-        <div class="card-header">
-          <div class="row align-items-center">
-            <div class="col-8">
-              <h3 class="mb-0">Add an place</h3>
-            </div>
-            <div class="col-4 text-right"></div>
-          </div>
-        </div>
-        <div class="card-body">
-          {% include 'home/partials/messages.html' %}
-
-          <form method="post">
-            {% csrf_token %} {% include 'home/partials/place_form.html' %}
-
-            <button class="btn btn-sm btn-primary" type="submit">Submit</button>
-          </form>
-        </div>
+        {% endif %}
       </div>
     </div>
   </div>
-</div>
 
-{% include 'includes/footer.html' %} {% endblock %} {% block javascripts %} {%
-endblock %}
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <div class="card">
+          <div class="card-header">
+            <div class="row align-items-center">
+              <div class="col-8">
+                <h3 class="mb-0">Add an place</h3>
+              </div>
+              <div class="col-4 text-right"></div>
+            </div>
+          </div>
+          <div class="card-body">
+            {% include 'home/partials/messages.html' %}
+
+            <form method="post">
+              {% csrf_token %} {% include 'home/partials/place_form.html' %}
+
+              <button class="btn btn-sm btn-primary" type="submit">Submit</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% include 'includes/footer.html' %}
+{% endblock %}
+
+{% block javascripts %}
+
+{% endblock %}

@@ -1,117 +1,95 @@
-{% extends 'layouts/base.html' %} {% block title %} Users {% endblock %} {%
-block content %}
-<div class="header pb-6">
-  <div id="pageContainer" class="container-fluid">
-    <br />
+{% extends 'layouts/base.html' %}
 
-    <div class="row justify-content-between">
-      <div class="col">
-        {% if not isFirstPage %}
-        <a class="btn btn-warning" href="{% url 'users' 0 %}" role="button"
-          >Previous</a
-        >
-        {% else %}
-        <a
-          class="btn btn-secondary"
-          href="{% url 'users' 0 %}"
-          role="button"
-          style="pointer-events: none; text-decoration: none"
-          >Previous</a
-        >
-        {% endif %} {% if users.nextToken %}
-        <a class="btn btn-primary" href="{% url 'users' 1 %}" role="button"
-          >Next</a
-        >
-        {% else %}
-        <a class="btn btn btn-danger" href="{% url 'users' %}" role="button"
-          >Back to Start</a
-        >
-        {% endif %}
+{% block title %}
+  Users
+{% endblock %}
+
+{% block content %}
+  <div class="header pb-6">
+    <div id="pageContainer" class="container-fluid">
+      <br />
+
+      <div class="row justify-content-between">
+        <div class="col">
+          {% if not isFirstPage %}
+            <a class="btn btn-warning" href="{% url 'users' 0 %}" role="button">Previous</a>
+          {% else %}
+            <a class="btn btn-secondary" href="{% url 'users' 0 %}" role="button" style="pointer-events: none; text-decoration: none">Previous</a>
+          {% endif %} {% if users.nextToken %}
+            <a class="btn btn-primary" href="{% url 'users' 1 %}" role="button">Next</a>
+          {% else %}
+            <a class="btn btn btn-danger" href="{% url 'users' %}" role="button">Back to Start</a>
+          {% endif %}
+        </div>
+        <div class="col-3">
+          {% if users %}
+            <a class="btn btn-primary" href="{% url 'users' 2 %}" id="downloadButton" role="button" onclick="DownloadButtonClicked()">Download Opted-in</a>
+            <button type="button" class="btn btn-primary" id="downloadButtonAlt" style="display: none" disabled>Downloading...</button>
+          {% endif %}
+        </div>
       </div>
-      <div class="col-3">
-        {% if users %}
-        <a
-          class="btn btn-primary"
-          href="{% url 'users' 2 %}"
-          id="downloadButton"
-          role="button"
-          onclick="DownloadButtonClicked()"
-          >Download Opted-in</a
-        >
-        <button
-          type="button"
-          class="btn btn-primary"
-          id="downloadButtonAlt"
-          style="display: none"
-          disabled
-        >
-          Downloading...
-        </button>
-        {% endif %}
-      </div>
-    </div>
 
-    <br />
+      <br />
 
-    <div class="row justify-content-start">
-      <div class="col">
-        <table class="table">
-          <tr>
-            <td>
-              <b>Email</b>
-            </td>
-            <td>
-              <b>First Name</b>
-            </td>
-            <td>
-              <b>Last Name</b>
-            </td>
-            <td>
-              <b>Opted In</b>
-            </td>
-          </tr>
+      <div class="row justify-content-start">
+        <div class="col">
+          <table class="table">
+            <tr>
+              <td>
+                <b>Email</b>
+              </td>
+              <td>
+                <b>First Name</b>
+              </td>
+              <td>
+                <b>Last Name</b>
+              </td>
+              <td>
+                <b>Opted In</b>
+              </td>
+            </tr>
 
-          {% for user in users.items %}
-          <tr>
-            <td>{{ user.email }}</td>
-            <td>{{ user.firstName }}</td>
-            <td>{{ user.lastName }}</td>
-            <td>{{ user.optedIn }}</td>
-          </tr>
-          {% endfor %}
-        </table>
+            {% for user in users.items %}
+              <tr>
+                <td>{{ user.email }}</td>
+                <td>{{ user.firstName }}</td>
+                <td>{{ user.lastName }}</td>
+                <td>{{ user.optedIn }}</td>
+              </tr>
+            {% endfor %}
+          </table>
+        </div>
       </div>
     </div>
+
+    <div id="pageContainer2" class="container-fluid text-center" style="display: none">
+      <br />
+      <br />
+
+      <div class="row align-items-center">
+        <div class="col align-self-center">
+          Your download should start automatically, if it doesn't,
+          <a href="{% url 'users' 2 %}">download manually</a>
+        </div>
+      </div>
+
+      <br />
+      <br />
+    </div>
+
+    <script>
+      function DownloadButtonClicked() {
+        var pageContainer = document.getElementById('pageContainer')
+        var pageContainer2 = document.getElementById('pageContainer2')
+        pageContainer.style.display = 'none'
+        pageContainer2.style.display = 'block'
+      }
+    </script>
   </div>
 
-  <div
-    id="pageContainer2"
-    class="container-fluid text-center"
-    style="display: none"
-  >
-    <br />
-    <br />
+  {% include 'includes/footer.html' %}
+{% endblock %}
 
-    <div class="row align-items-center">
-      <div class="col align-self-center">
-        Your download should start automatically, if it doesn't,
-        <a href="{% url 'users' 2 %}">download manually</a>
-      </div>
-    </div>
+{% block javascripts %}
 
-    <br />
-    <br />
-  </div>
-
-  <script>
-    function DownloadButtonClicked() {
-      var pageContainer = document.getElementById("pageContainer");
-      var pageContainer2 = document.getElementById("pageContainer2");
-      pageContainer.style.display = "none";
-      pageContainer2.style.display = "block";
-    }
-  </script>
-</div>
-
-{% include 'includes/footer.html' %} {% endblock %} {% block javascripts %} {%
-endblock %}
+{% endblock %}
