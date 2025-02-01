@@ -357,40 +357,23 @@
   var chart1 = new Chart(ctx, {
     type: "line",
     data: {
-      labels: [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sept",
-        "Oct",
-        "Nov",
-        "Dec",
-      ],
-      datasets: [
-        {
-          data: {{ numberOfVisitors }},
-          borderColor: "#00ff00",
-          borderWidth: 2,
-        },
-      ],
+      labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"],
+      datasets: [{
+        data: {{ numberOfVisitors }},
+        borderColor: "#00ff00",
+        borderWidth: 2,
+      }],
     },
     options: {
       legend: {
         display: false,
       },
       scales: {
-        yAxes: [
-          {
-            ticks: {
-              beginAtZero: true,
-            },
+        yAxes: [{
+          ticks: {
+            beginAtZero: true,
           },
-        ],
+        }],
       },
     },
   });
@@ -401,41 +384,24 @@
   var chart2 = new Chart(ctx, {
     type: "line",
     data: {
-      labels: [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sept",
-        "Oct",
-        "Nov",
-        "Dec",
-      ],
-      datasets: [
-        {
-          label: "# of Votes",
-          data: {{ animalChallengeCompletions }},
-          borderColor: "#0000ff",
-          borderWidth: 2,
-        },
-      ],
+      labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"],
+      datasets: [{
+        label: "# of Votes",
+        data: {{ animalChallengeCompletions }},
+        borderColor: "#0000ff",
+        borderWidth: 2,
+      }],
     },
     options: {
       legend: {
         display: false,
       },
       scales: {
-        yAxes: [
-          {
-            ticks: {
-              beginAtZero: true,
-            },
+        yAxes: [{
+          ticks: {
+            beginAtZero: true,
           },
-        ],
+        }],
       },
     },
   });
