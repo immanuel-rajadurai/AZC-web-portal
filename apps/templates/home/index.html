@@ -340,18 +340,19 @@
 
 <!-- Specific JS goes HERE -->
 {% block javascripts %}
-  <script src="/static/assets/vendor/chart.js/dist/Chart.min.js"></script>
-  <script src="/static/assets/vendor/chart.js/dist/Chart.extension.js"></script>
 
-  <script>
-    function getRandomColor() {
-      var letters = "0123456789ABCDEF";
-      var color = "#";
-      for (var i = 0; i < 6; i++) {
-        color += letters[Math.floor(Math.random() * 16)];
-      }
-      return color;
+<script src="/static/assets/vendor/chart.js/dist/Chart.min.js"></script>
+<script src="/static/assets/vendor/chart.js/dist/Chart.extension.js"></script>
+
+<script>
+  function getRandomColor() {
+    var letters = "0123456789ABCDEF";
+    var color = "#";
+    for (var i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
     }
+    return color;
+  }
 
   var ctx = document.getElementById("numberOfVisitors").getContext("2d");
   var chart1 = new Chart(ctx, {
@@ -379,7 +380,7 @@
   });
 </script>
 
-  <script>
+<script>
   var ctx = document.getElementById("animalChallengeCompletions").getContext("2d");
   var chart2 = new Chart(ctx, {
     type: "line",
@@ -406,4 +407,5 @@
     },
   });
 </script>
+
 {% endblock %}
