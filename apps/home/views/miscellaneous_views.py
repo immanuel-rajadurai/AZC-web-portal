@@ -22,7 +22,8 @@ def index(request):
     animalChallengeCompletions = occurence_counter_services.get_occurence_history(
         "animalChallengeCompletions"
     )
-    animalChallengeCompletions = setListToLength(animalChallengeCompletions, 12)
+    animalChallengeCompletions = setListToLength(
+        animalChallengeCompletions, 12)
     print("animalChallengeCompletions", animalChallengeCompletions)
 
     context = {
