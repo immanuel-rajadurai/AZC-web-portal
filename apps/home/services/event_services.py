@@ -1,6 +1,7 @@
 from .services_extras import *
 import json
 
+
 def get_events_list():
     list_events = """
         query listEvents {
@@ -32,11 +33,11 @@ def create_event(name, description, image):
     """
     response = sendAWSQuery(create_event_query).json()
 
-    if 'errors' in response:
+    if "errors" in response:
         print(f"GraphQL errors: {response['errors']}")
         raise Exception("Failed to create event")
 
-    return response['data']['createEvent']['id']
+    return response["data"]["createEvent"]["id"]
 
 
 def delete_attached_relationships(event_id):
@@ -50,8 +51,9 @@ def delete_attached_relationships(event_id):
         }}
     """
 
-    relationships = sendAWSQuery(get_relationships).json()[
-        "data"]["listEventPlaces"]["items"]
+    relationships = sendAWSQuery(get_relationships).json()["data"]["listEventPlaces"][
+        "items"
+    ]
 
     for rel in relationships:
         delete_relationships = f"""

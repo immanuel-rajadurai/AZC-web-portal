@@ -38,8 +38,7 @@ def get_places_linked_to_event(event_id):
         }}
     """
 
-    return sendAWSQuery(list_event_places).json()[
-        "data"]["listEventPlaces"]["items"]
+    return sendAWSQuery(list_event_places).json()["data"]["listEventPlaces"]["items"]
 
 
 def remove_place_from_event(place_id, event_id):
@@ -53,8 +52,9 @@ def remove_place_from_event(place_id, event_id):
         }}
     """
 
-    relationships = sendAWSQuery(get_relationships).json()[
-        "data"]["listEventPlaces"]["items"]
+    relationships = sendAWSQuery(get_relationships).json()["data"]["listEventPlaces"][
+        "items"
+    ]
 
     for rel in relationships:
         delete_relationships = f"""

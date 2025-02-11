@@ -62,8 +62,7 @@ def get_animals_linked_to_place(place_id):
         }}
     """
 
-    return sendAWSQuery(list_place_animals).json()[
-        "data"]["listPlaceAnimals"]["items"]
+    return sendAWSQuery(list_place_animals).json()["data"]["listPlaceAnimals"]["items"]
 
 
 def remove_animal_from_place(animal_id, place_id):
@@ -77,8 +76,9 @@ def remove_animal_from_place(animal_id, place_id):
         }}
     """
 
-    relationships = sendAWSQuery(get_relationships).json()[
-        "data"]["listPlaceAnimals"]["items"]
+    relationships = sendAWSQuery(get_relationships).json()["data"]["listPlaceAnimals"][
+        "items"
+    ]
 
     for rel in relationships:
         delete_relationship = f"""

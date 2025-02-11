@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block content %}
-  <div class="header pb-6">
+  <div class="header mb-2">
     <div id="pageContainer" class="container-fluid">
       <br />
 
@@ -15,9 +15,7 @@
             <a class="btn btn-warning" href="{% url 'users' 0 %}" role="button">Previous</a>
           {% else %}
             <a class="btn btn-secondary" href="{% url 'users' 0 %}" role="button" style="pointer-events: none; text-decoration: none">Previous</a>
-          {% endif %}
-
-          {% if users.nextToken %}
+          {% endif %} {% if users.nextToken %}
             <a class="btn btn-primary" href="{% url 'users' 1 %}" role="button">Next</a>
           {% else %}
             <a class="btn btn btn-danger" href="{% url 'users' %}" role="button">Back to Start</a>
@@ -70,7 +68,8 @@
 
       <div class="row align-items-center">
         <div class="col align-self-center">
-          Your download should start automatically, if it doesn't, <a href="{% url 'users' 2 %}">download manually</a>
+          Your download should start automatically, if it doesn't,
+          <a href="{% url 'users' 2 %}">download manually</a>
         </div>
       </div>
 

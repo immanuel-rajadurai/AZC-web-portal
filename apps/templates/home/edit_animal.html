@@ -1,18 +1,20 @@
-{% extends 'layouts/base.html' %}
-
-{% block title %}
+{% extends 'layouts/base.html' %} {% block title %}
   Edit Animal
 {% endblock %}
 
 {% block content %}
-  <div class="header" style="background-image: url(/static/assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
+  <div class="header mb-2" style="
+    background-image: url(/static/assets/img/theme/profile-cover.jpg);
+    background-size: cover;
+    background-position: center top;
+  ">
     <span class="mask bg-gradient-default opacity-8"></span>
     <br />
 
     <div class="container">
       <div class="row">
         <div class="mx-auto">
-          <div class="card shadow border" style="width: 18rem; position: relative;">
+          <div class="card shadow border" style="width: 18rem; position: relative">
             <img src="{{ animal.image }}" class="card-img-top card-img-fixed card-photo" alt="..." />
             <div class="card-body d-flex flex-column align-items-center">
               <h1 class="card-title">{{ animal.name }}</h1>

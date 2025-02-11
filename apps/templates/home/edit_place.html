@@ -1,5 +1,4 @@
 {% extends 'layouts/base.html' %}
-
 {% load animal_extras %}
 
 {% block title %}
@@ -7,21 +6,25 @@
 {% endblock %}
 
 {% block content %}
-  <div class="header pb-6" style="background-image: url(/static/assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
+  <div class="header mb-2" style="
+    background-image: url(/static/assets/img/theme/profile-cover.jpg);
+    background-size: cover;
+    background-position: center top;
+  ">
     <span class="mask bg-gradient-default opacity-8"></span>
     <br />
 
     <div class="container">
       <div class="row">
         <div class="mx-auto">
-          <div class="card shadow border" style="width: 18rem; position: relative;">
+          <div class="card shadow border" style="width: 18rem; position: relative">
             <img src="{{ place.image }}" class="card-img-top card-img-fixed card-photo" alt="..." />
             <div class="card-body d-flex flex-column align-items-center">
-              <div style="position: absolute; top: 15px; right: 15px;">
+              <div style="position: absolute; top: 15px; right: 15px">
                 {% if place.isOpen %}
-                  <i class="fas fa-check is-open-status" style="color: green;"></i>
+                  <i class="fas fa-check is-open-status" style="color: green"></i>
                 {% else %}
-                  <i class="fas fa-times is-open-status" style="color: red;"></i>
+                  <i class="fas fa-times is-open-status" style="color: red"></i>
                 {% endif %}
               </div>
 
@@ -42,9 +45,7 @@
                     </ul>
                   </div>
                 </div>
-              {% endif %}
-
-              {% if animals %}
+              {% endif %} {% if animals %}
                 <div class="dropdown">
                   <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Add an animal</button>
                   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -53,9 +54,7 @@
                     {% endfor %}
                   </div>
                 </div>
-              {% endif %}
-
-              {% if linked_animals %}
+              {% endif %} {% if linked_animals %}
                 <div class="dropdown">
                   <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Remove an animal</button>
                   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
