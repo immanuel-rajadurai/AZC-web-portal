@@ -5,14 +5,11 @@ from django.template import loader
 from django.urls import reverse
 
 from ..services import occurence_counter_services
-
-
-def setListToLength(lst, length):
-    return lst + ([0] * (length - len(lst)))
+from extras import setListToLength
 
 
 @login_required(login_url="/login/")
-def index(request):
+def statistics(request):
     numberOfVisitors = occurence_counter_services.get_occurence_history(
         "numberOfVisitors"
     )
@@ -32,7 +29,7 @@ def index(request):
         "animalChallengeCompletions": animalChallengeCompletions,
     }
 
-    html_template = loader.get_template("home/index.html")
+    html_template = loader.get_template("home/statistics.html")
     return HttpResponse(html_template.render(context, request))
 
 

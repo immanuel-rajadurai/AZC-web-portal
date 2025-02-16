@@ -1,16 +1,10 @@
 from django.urls import path, re_path
 
-from .views import (
-    miscellaneous_views,
-    animal_views,
-    event_views,
-    place_views,
-    user_views,
-)
+from .views import miscellaneous_views, animal_views, event_views, place_views, user_views
 
 urlpatterns = [
     # home page
-    path("", miscellaneous_views.index, name="home"),
+    path("", miscellaneous_views.statistics, name="home"),
     
     # animal views
     path("animals/", animal_views.all_animals, name="animals"),

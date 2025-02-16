@@ -2,15 +2,9 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.contrib import messages
 
-from ..services import (
-    event_services,
-    place_event_services,
-    place_services,
-    event_tag_services,
-    tag_services,
-)
+from ..services import event_services, place_event_services, place_services, event_tag_services, tag_services
 from ..forms import event_forms
-from .views_extras import get_ids_from_filter, split_tags
+from .extras.miscellaneous_extras import get_ids_from_filter, split_tags
 
 
 @login_required(login_url="/login/")
