@@ -17,7 +17,7 @@ app.conf.beat_schedule = {
     "updateCounterHistory": {
         "task": "apps.home.tasks.updateCounterHistory",
         # TODO: change for production release to new schedule
-        "schedule": 5.0,
+        "schedule": crontab(day_of_month=15),
     }
 }
 

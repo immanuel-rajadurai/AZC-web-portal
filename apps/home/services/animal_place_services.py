@@ -76,9 +76,7 @@ def remove_animal_from_place(animal_id, place_id):
         }}
     """
 
-    relationships = sendAWSQuery(get_relationships).json()["data"]["listPlaceAnimals"][
-        "items"
-    ]
+    relationships = sendAWSQuery(get_relationships).json()["data"]["listPlaceAnimals"]["items"]
 
     for rel in relationships:
         delete_relationship = f"""

@@ -2,7 +2,9 @@
 
 {% block title %}
   Users
-{% endblock %}
+{% endblock title %}
+
+{% block stylesheets %} {% endblock stylesheets %}
 
 {% block content %}
   <div class="header mb-2">
@@ -88,8 +90,6 @@
   </div>
 
   {% include 'includes/footer.html' %}
-{% endblock %}
+{% endblock content %}
 
-{% block javascripts %}
-
-{% endblock %}
+{% block javascripts %} {% endblock javascripts %}

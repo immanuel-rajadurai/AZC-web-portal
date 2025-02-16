@@ -1,16 +1,18 @@
 {% extends 'layouts/base.html' %}
+
 {% load place_extras %}
 
 {% block title %}
   Edit Event
-{% endblock %}
+{% endblock title %}
+
+{% block stylesheets %} {% endblock stylesheets %}
 
 {% block content %}
   <div class="header mb-2" style="
     background-image: url(/static/assets/img/theme/profile-cover.jpg);
     background-size: cover;
-    background-position: center top;
-  ">
+    background-position: center top;">
     <span class="mask bg-gradient-default opacity-8"></span>
 
     <div class="container">
@@ -99,8 +101,8 @@
   </div>
 
   {% include 'includes/footer.html' %}
-{% endblock %}
+{% endblock content %}
 
 {% block javascripts %}
 
-{% endblock %}
+{% endblock javascripts %}

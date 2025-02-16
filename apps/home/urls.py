@@ -11,6 +11,7 @@ from .views import (
 urlpatterns = [
     # home page
     path("", miscellaneous_views.index, name="home"),
+    
     # animal views
     path("animals/", animal_views.all_animals, name="animals"),
     path(
@@ -19,6 +20,7 @@ urlpatterns = [
         name="remove_animal",
     ),
     path("edit_animal/<str:animal_id>/", animal_views.edit_animal, name="edit_animal"),
+    
     # event views
     path("events/", event_views.all_events, name="events"),
     path("delete_event/<str:event_id>", event_views.delete_event, name="delete_event"),
@@ -33,6 +35,7 @@ urlpatterns = [
         event_views.remove_place_from_event,
         name="remove_place_from_event",
     ),
+    \
     # place views
     path("places/", place_views.all_places, name="places"),
     path("delete_place/<str:place_id>", place_views.delete_place, name="delete_place"),
@@ -47,10 +50,11 @@ urlpatterns = [
         place_views.remove_animal_from_place,
         name="remove_animal_from_place",
     ),
+    
     # user views
     path("users/", user_views.all_users, name="users"),
-    # user views
     path("users/<int:actionCode>/", user_views.all_users, name="users"),
+    
     # Matches any html file
     re_path(r"^.*\.*", miscellaneous_views.pages),
 ]

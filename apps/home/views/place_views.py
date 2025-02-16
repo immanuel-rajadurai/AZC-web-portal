@@ -4,7 +4,7 @@ from django.contrib import messages
 
 from ..services import animal_services, place_services, animal_place_services
 from ..forms import place_forms
-from .miscellaneous_views import get_ids_from_filter
+from .views_extras import get_ids_from_filter
 
 
 @login_required(login_url="/login/")

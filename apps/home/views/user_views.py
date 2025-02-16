@@ -5,7 +5,6 @@ from django.http import HttpResponse
 from ..services import user_services
 
 import pandas as pd
-import mimetypes
 
 
 class PageList:
@@ -14,6 +13,8 @@ class PageList:
         self.currentPageNum = 0
 
     def __init__(self):
+        self.lst = None
+        self.currentPageNum = None
         self.reset()
 
     def __str__(self):

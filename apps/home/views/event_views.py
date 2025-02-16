@@ -10,8 +10,7 @@ from ..services import (
     tag_services,
 )
 from ..forms import event_forms
-from .miscellaneous_views import get_ids_from_filter
-from .views_extras import split_tags
+from .views_extras import get_ids_from_filter, split_tags
 
 
 @login_required(login_url="/login/")
