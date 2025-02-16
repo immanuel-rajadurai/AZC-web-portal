@@ -5,7 +5,7 @@ from django.template import loader
 from django.urls import reverse
 
 from ..services import occurence_counter_services
-from extras import setListToLength
+from .extras.miscellaneous_views_extras import setListToLength
 
 
 @login_required(login_url="/login/")
