@@ -34,7 +34,7 @@ def create_event(name, description, image):
     response = sendAWSQuery(create_event_query).json()
 
     if "errors" in response:
-        print(f"GraphQL errors: {response['errors']}")
+        # print(f"GraphQL errors: {response['errors']}")
         raise Exception("Failed to create event")
 
     return response["data"]["createEvent"]["id"]

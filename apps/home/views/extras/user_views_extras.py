@@ -4,14 +4,14 @@ from ...services import user_services
 
 def download_opted_in_users():
     users = user_services.get_opted_in_users()
-    print("users", users)
+    # print("users", users)
     filename = "opted_in_users.csv"
 
     df = pd.DataFrame(users, columns=["email", "firstName", "lastName", "optedIn"])
     df.to_csv(filename, index=False)
 
     fl = open(filename, "r")
-    print("fl", fl)
+    # print("fl", fl)
 
     response = HttpResponse(fl, content_type="text/csv")
     response["Content-Disposition"] = "attachment; filename=%s" % filename

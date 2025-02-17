@@ -49,6 +49,6 @@ def get_opted_in_users():
         }}
     """
     response = sendAWSQuery(list_users).json()
-    print("response", response)
+    # print("response", response)
 
     return sendAWSQuery(list_users).json()["data"]["listUsers"]["items"]

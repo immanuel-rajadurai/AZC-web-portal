@@ -14,14 +14,14 @@ def statistics(request):
         "numberOfVisitors"
     )
     numberOfVisitors = setListToLength(numberOfVisitors, 12)
-    print("numberOfVisitors", numberOfVisitors)
+    # print("numberOfVisitors", numberOfVisitors)
 
     animalChallengeCompletions = occurence_counter_services.get_occurence_history(
         "animalChallengeCompletions"
     )
     animalChallengeCompletions = setListToLength(
         animalChallengeCompletions, 12)
-    print("animalChallengeCompletions", animalChallengeCompletions)
+    # print("animalChallengeCompletions", animalChallengeCompletions)
 
     context = {
         "segment": "index",
