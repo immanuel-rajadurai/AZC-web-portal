@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth.models import User
 
-from .test_helpers import LogInTester
+from ..test_helpers import LogInTester
 
 class login_viewTestCase(TestCase, LogInTester):
     def setUp(self):

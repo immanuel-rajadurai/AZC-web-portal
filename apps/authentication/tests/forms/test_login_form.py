@@ -1,5 +1,5 @@
 from unittest import TestCase
-from ..forms import LoginForm
+from ...forms import LoginForm
 
 class LoginFormTestCase(TestCase):
     def test_form_valid_data(self):
