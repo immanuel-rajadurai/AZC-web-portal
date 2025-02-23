@@ -1,31 +1,6 @@
 from .services_extras import *
 
 
-def add_place_to_event(event_id, place_id):
-    check_event_place = f"""
-        query listEventPlaces {{
-            listEventPlaces(filter: {{ eventID: {{eq: "{ event_id }"}} }}) {{
-                items {{
-                    placeID
-                }}
-            }}
-        }}
-    """
-    response = sendAWSQuery(check_event_place)
-
-    if len(response.json()["data"]["listEventPlaces"]["items"]) <= 0:
-        create_event_place = f"""
-            mutation createEventPlace {{
-                createEventPlace(input: {{
-                    placeID: "{place_id}",
-                    eventID: "{event_id}"}}) {{
-                        id
-                }}
-            }}
-        """
-        sendAWSQuery(create_event_place)
-
-
 def add_animal_to_place(animal_id, place_id):
     check_animal_place = f"""
         query listPlaceAnimals {{

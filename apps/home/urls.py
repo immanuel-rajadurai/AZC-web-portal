@@ -29,7 +29,7 @@ urlpatterns = [
         event_views.remove_place_from_event,
         name="remove_place_from_event",
     ),
-    \
+    
     # place views
     path("places/", place_views.all_places, name="places"),
     path("delete_place/<str:place_id>", place_views.delete_place, name="delete_place"),
