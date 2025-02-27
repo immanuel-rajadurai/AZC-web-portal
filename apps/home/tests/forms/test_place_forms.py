@@ -1,6 +1,7 @@
 from django.test import TestCase
 from ...forms.place_forms import PlaceForm
 
+
 class PlaceFormTestCase(TestCase):
     def test_form_valid_data_without_not_required_fields(self):
         form = PlaceForm(data={
