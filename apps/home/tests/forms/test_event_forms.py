@@ -1,4 +1,4 @@
-from unittest import TestCase
+from django.test import TestCase
 from ...forms.event_forms import EventForm
 
 class EventFormTestCase(TestCase):

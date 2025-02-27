@@ -1,4 +1,4 @@
-from unittest import TestCase
+from django.test import TestCase
 from ...forms.animal_forms import AnimalForm
 
 class AnimalFormTestCase(TestCase):

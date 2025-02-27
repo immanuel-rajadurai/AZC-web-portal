@@ -1,4 +1,4 @@
-from unittest import TestCase
+from django.test import TestCase
 from ...forms.place_forms import PlaceForm
 
 class PlaceFormTestCase(TestCase):
