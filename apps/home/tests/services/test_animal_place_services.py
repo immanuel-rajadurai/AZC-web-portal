@@ -65,6 +65,8 @@ class AnimalPlaceServicesTestCase(TestCase):
     def test_add_animal_to_place(self):
         place = self.get_test_place()
         animal = self.get_test_animal()
+        self.assertIsNotNone(place)
+        self.assertIsNotNone(animal)
 
         animal_place_services.add_animal_to_place(animal['id'], place['id'])
         animals = animal_place_services.get_animals_linked_to_place(place['id'])
@@ -73,6 +75,12 @@ class AnimalPlaceServicesTestCase(TestCase):
     def test_remove_animal_from_place(self):
         place = self.get_test_place()
         animal = self.get_test_animal()
+        self.assertIsNotNone(place)
+        self.assertIsNotNone(animal)
+
+        animal_place_services.add_animal_to_place(animal['id'], place['id'])
+        animals = animal_place_services.get_animals_linked_to_place(place['id'])
+        self.assertEqual(animals, [{'animalID': animal['id']}])
 
         animal_place_services.remove_animal_from_place(animal['id'], place['id'])
         animals = animal_place_services.get_animals_linked_to_place(place['id'])

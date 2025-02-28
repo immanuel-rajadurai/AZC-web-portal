@@ -57,6 +57,8 @@ class PlaceEventServicesTestCase(TestCase):
     def test_add_place_to_event(self):
         place = self.get_test_place()
         event = self.get_test_event()
+        self.assertIsNotNone(place)
+        self.assertIsNotNone(event)
 
         place_event_services.add_place_to_event(place['id'], event['id'])
         places = place_event_services.get_places_linked_to_event(event['id'])
@@ -65,6 +67,12 @@ class PlaceEventServicesTestCase(TestCase):
     def test_remove_place_from_event(self):
         place = self.get_test_place()
         event = self.get_test_event()
+        self.assertIsNotNone(place)
+        self.assertIsNotNone(event)
+
+        place_event_services.add_place_to_event(place['id'], event['id'])
+        places = place_event_services.get_places_linked_to_event(event['id'])
+        self.assertEqual(places, [{'placeID': place['id']}])
         
         place_event_services.remove_place_from_event(place['id'], event['id'])
         places = place_event_services.get_places_linked_to_event(event['id'])
