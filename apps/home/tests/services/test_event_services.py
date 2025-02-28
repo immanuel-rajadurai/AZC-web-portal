@@ -1,9 +1,5 @@
 from django.test import TestCase
-import json
-
 from ...services import event_services
-
-from ...services.services_extras import *
 
 class EventServicesTestCase(TestCase):
     def delete_test_event(self):

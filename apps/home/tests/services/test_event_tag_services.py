@@ -1,9 +1,5 @@
 from django.test import TestCase
-import json
-
 from ...services import event_tag_services
-
-from ...services.services_extras import *
 
 class EventTagServices(TestCase):
     def delete_test_tag(self):

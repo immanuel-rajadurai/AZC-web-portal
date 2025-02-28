@@ -1,9 +1,5 @@
 from django.test import TestCase
-import json
-
 from ...services import animal_services
-
-from ...services.services_extras import *
 
 class AnimalServicesTestCase(TestCase):
     def delete_test_animal(self):

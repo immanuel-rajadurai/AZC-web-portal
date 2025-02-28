@@ -1,9 +1,5 @@
 from django.test import TestCase
-import json
-
 from ...services import place_event_services, place_services, event_services
-
-from ...services.services_extras import *
 
 
 class PlaceEventServicesTestCase(TestCase):

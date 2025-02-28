@@ -6,7 +6,7 @@ from ...services import place_services
 
 class PlaceExtrasTestCase(TestCase):
     def delete_test_place(self):
-        places = place_services.get_animals_list()
+        places = place_services.get_places_list()
         place = next((place for place in places if place['name'] == 'TEST'), None)
         place_services.delete_place(place['id']) if place else None
 
@@ -15,11 +15,11 @@ class PlaceExtrasTestCase(TestCase):
         return next((place for place in places if place['name'] == 'TEST'), None)
     
     def setUp(self):
-        place_services.add_place('TEST', 'testing description', 'https://www.google.com')
+        place_services.create_place('TEST', 'testing description', 'https://www.google.com')
 
     def tearDown(self):
         super().tearDown()
-        self.delete_test_animal()
+        self.delete_test_place()
 
     def test_get_place_name(self):
         place = self.get_test_place()
