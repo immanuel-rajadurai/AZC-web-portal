@@ -39,6 +39,7 @@ def create_event(name, description, image):
 
     return response["data"]["createEvent"]["id"]
 
+
 def get_attached_relationships(event_id):
     get_relationships = f"""
         query listEventPlaces {{
@@ -51,6 +52,7 @@ def get_attached_relationships(event_id):
     """
 
     return sendAWSQuery(get_relationships).json()["data"]["listEventPlaces"]["items"]
+
 
 def delete_attached_relationships(event_id):
     relationships = get_attached_relationships(event_id)

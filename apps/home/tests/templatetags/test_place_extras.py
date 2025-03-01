@@ -7,15 +7,17 @@ from ...services import place_services
 class PlaceExtrasTestCase(TestCase):
     def delete_test_place(self):
         places = place_services.get_places_list()
-        place = next((place for place in places if place['name'] == 'TEST'), None)
-        place_services.delete_place(place['id']) if place else None
+        place = next((place for place in places if place["name"] == "TEST"), None)
+        place_services.delete_place(place["id"]) if place else None
 
     def get_test_place(self):
         places = place_services.get_places_list()
-        return next((place for place in places if place['name'] == 'TEST'), None)
-    
+        return next((place for place in places if place["name"] == "TEST"), None)
+
     def setUp(self):
-        place_services.create_place('TEST', 'testing description', 'https://www.google.com')
+        place_services.create_place(
+            "TEST", "testing description", True, "https://www.google.com"
+        )
 
     def tearDown(self):
         super().tearDown()
@@ -25,7 +27,7 @@ class PlaceExtrasTestCase(TestCase):
         place = self.get_test_place()
         self.assertIsNotNone(place)
 
-        self.assertEqual(place_extras.get_place_name(place['id']), 'TEST')
+        self.assertEqual(place_extras.get_place_name(place["id"]), "TEST")
 
     def test_get_place_name_undefined(self):
-        self.assertEqual(place_extras.get_place_name(1234), 'Undefined')
+        self.assertEqual(place_extras.get_place_name(1234), "Undefined")

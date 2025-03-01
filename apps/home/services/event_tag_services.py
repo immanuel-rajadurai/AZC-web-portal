@@ -1,4 +1,5 @@
 from .services_extras import *
+from . import tag_services
 
 
 def get_tags(event_id):
@@ -30,15 +31,7 @@ def create_tag(event_id, tagName):
         response = sendAWSQuery(list_event_tags)
 
         if not response.json()["data"]["listEventTags"]["items"]:
-            create_tag = f"""
-                mutation createTag {{
-                    createTag(input: {{ name: "{tagName}" }}) {{
-                        name
-                    }}
-                }}
-            """
-
-            sendAWSQuery(create_tag)
+            tag_services.create_tag(tagName)
 
             create_event_tag = f"""
                 mutation createEventTag {{
