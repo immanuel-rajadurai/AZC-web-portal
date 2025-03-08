@@ -1,34 +1,46 @@
 <nav class="navbar navbar-top navbar-expand navbar-dark bg-primary border-bottom">
-  <div class="container-fluid">
+  <div class="container">
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <!-- Search form -->
-      <form class="navbar-search navbar-search-light form-inline mr-sm-3" id="navbar-search-main">
-        <div class="form-group mb-0">
-          <div class="input-group input-group-alternative input-group-merge">
-            <div class="input-group-prepend">
-              <span class="input-group-text"><i class="fas fa-search"></i></span>
-            </div>
-            <input class="form-control" placeholder="Search" type="text">
-          </div>
-        </div>
-        <button type="button" class="close" data-action="search-close" data-target="#navbar-search-main" aria-label="Close">
-          <span aria-hidden="true">×</span>
-        </button>
-      </form>
-      <!-- Navbar links -->
-      <ul class="navbar-nav align-items-center  ml-md-auto ">
-        <li class="nav-item d-xl-none">
-          <!-- Sidenav toggler -->
-          <div class="pr-3 sidenav-toggler sidenav-toggler-dark" data-action="sidenav-pin" data-target="#sidenav-main">
-            <div class="sidenav-toggler-inner">
-              <i class="sidenav-toggler-line"></i>
-              <i class="sidenav-toggler-line"></i>
-              <i class="sidenav-toggler-line"></i>
-            </div>
-          </div>
-        </li>
+      <ul class="navbar-nav align-items-center mr-sm-4">
+        <span class="avatar rounded-circle">
+          <img><img src="/static/assets/img/brand/blue.png"></img>
+        </span>
       </ul>
-      <ul class="navbar-nav align-items-center  ml-auto ml-md-0 ">
+
+      <ul class="navbar-nav align-items-center mr-sm-4">
+        <a class=" {% if 'statistics' in segment %} active {% endif %}" href="/" style="color:white">
+          <span class="font-weight-bold">Dashboard</span>
+        </a>
+      </ul>
+
+      <ul class="navbar-nav align-items-center mr-sm-4">
+        <a class="{% if 'animals' in segment %} active {% endif %}" href="{% url 'animals' %}" style="color:white">
+          <span class="font-weight-bold">Animals</span>
+        </a>
+      </ul>
+
+      <ul class="navbar-nav align-items-center mr-sm-4">
+        <a class="{% if 'events' in segment %} active {% endif %}" href="{% url 'events' %}" style="color:white">
+          <span class="font-weight-bold">Events</span>
+        </a>
+      </ul>
+
+      <ul class="navbar-nav align-items-center mr-sm-4">
+        <a class="{% if 'places' in segment %} active {% endif %}" href="{% url 'places' %}" style="color:white">
+          <span class="font-weight-bold">Places</span>
+        </a>
+      </ul>
+
+      <ul class="navbar-nav align-items-center mr-sm-4">
+        <a class="{% if 'users' in segment %} active {% endif %}" href="{% url 'users' %}" style="color:white">
+          <span class="font-weight-bold">Users</span>
+        </a>
+      </ul>
+
+      <ul class="navbar-nav align-items-center  ml-md-auto">
+      </ul>
+
+      <ul class="navbar-nav align-items-center  ml-auto ml-md-0">
         <li class="nav-item dropdown">
           <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <div class="media align-items-center">
@@ -42,8 +54,7 @@
               </div>
             </div>
           </a>
-          <div class="dropdown-menu  dropdown-menu-right ">
-            <div class="dropdown-divider"></div>
+          <div class="dropdown-menu  dropdown-menu-right">
             <a href="{% url 'logout' %}" class="dropdown-item">
               <i class="ni ni-user-run text-red"></i>
               <span>Logout</span>

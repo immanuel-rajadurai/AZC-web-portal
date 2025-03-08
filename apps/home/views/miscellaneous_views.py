@@ -24,7 +24,7 @@ def statistics(request):
     # print("animalChallengeCompletions", animalChallengeCompletions)
 
     context = {
-        "segment": "index",
+        "segment": "statistics",
         "numberOfVisitors": numberOfVisitors,
         "animalChallengeCompletions": animalChallengeCompletions,
     }
