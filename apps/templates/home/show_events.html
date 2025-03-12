@@ -48,7 +48,7 @@
                     {% endif %} {% if linked_tags %}
                       <p style="font-size: 12px">
                         {% for tag in linked_tags|get_item:event.id %}
-                          #{{ tag }}
+                          #{{ tag.tagName }}
                         {% endfor %}
                       </p>
                     {% endif %}

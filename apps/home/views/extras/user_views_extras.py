@@ -20,29 +20,45 @@ def download_opted_in_users():
 
 class PageList:
     def reset(self):
-        self.__lst = [None]
-        self.__currentPageNum = 0
+        self.lst = [None]
+        self.currentPageNum = 0
 
     def __init__(self):
-        self.__lst = None
-        self.__currentPageNum = None
         self.reset()
 
     def __str__(self):
-        return f"{self.__lst}\n{self.__currentPageNum}"
+        return f"{self.lst}\n{self.currentPageNum}"
 
     def add_page(self, token):
-        self.__lst.append(token)
+        self.lst.append(token)
 
     def is_first_page(self):
-        if self.__currentPageNum == 0:
+        if self.currentPageNum == 0:
             return True
         return False
 
-    def next_page(self):
-        self.__currentPageNum += 1
-        return self.__lst[self.__currentPageNum]
+    def forward(self):
+        self.currentPageNum += 1
+        try:
+            return self.lst[self.currentPageNum]
+        except:
+            return None
 
-    def previous_page(self):
-        self.__currentPageNum -= 1
-        return self.__lst[self.__currentPageNum]
+    def backward(self):
+        self.currentPageNum -= 1
+        try:
+            return self.lst[self.currentPageNum]
+        except:
+            return None
+    
+    def get_forward(self):
+        try:
+            return self.lst[self.currentPageNum + 1]
+        except:
+            return None
+    
+    def get_backward(self):
+        try:
+            return self.lst[self.currentPageNum - 1]
+        except:
+            return None

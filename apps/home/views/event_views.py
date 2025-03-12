@@ -4,7 +4,7 @@ from django.contrib import messages
 
 from ..services import event_services, place_event_services, place_services, event_tag_services, tag_services
 from ..forms import event_forms
-from .extras.miscellaneous_extras import get_ids_from_filter, split_tags
+from .extras.miscellaneous_extras import split_tags
 
 
 @login_required(login_url="/login/")
@@ -26,6 +26,8 @@ def all_events(request):
                 event_tag_services.create_tag(event_id, tagName)
 
             messages.success(request, "Event created successfully")
+        else:
+            messages.error(request, "Event not created, check formatting")
 
     form = event_forms.EventForm()
 
@@ -34,9 +36,7 @@ def all_events(request):
     linked_places = {}
     linked_tags = {}
     for event in events:
-        tmp = place_event_services.get_places_linked_to_event(event["id"])
-        tmp = get_ids_from_filter(tmp, "placeID")
-        linked_places.update({event["id"]: tmp})
+        linked_places.update({event["id"]: [animal['placeID'] for animal in (place_event_services.get_places_linked_to_event(event["id"]))]})
 
         tags = event_tag_services.get_tags(event["id"])
         tmp = []
@@ -78,31 +78,27 @@ def edit_event(request, event_id):
 
     if request.method == "POST":
         form = event_forms.EventForm(request.POST)
-        if form.is_valid():
-            data = form.cleaned_data
 
-            name = data["name"]
-            description = data["description"]
-            image = data["image"]
+        if form.is_valid():
+            name = form.cleaned_data["name"]
+            description = form.cleaned_data["description"]
+            image = form.cleaned_data["image"]
 
             event_services.edit_event(event_id, name, description, image)
-
-            existing_tags = event_tag_services.get_tags(event_id)
-
-            input_tags = data["tags"]
-            input_tags = split_tags(input_tags)
+            input_tags = split_tags(form.cleaned_data["tags"])
 
             for tag in input_tags:
-                if not tag in existing_tags:
-                    event_tag_services.create_tag(event_id, tag)
+                event_tag_services.create_tag(event_id, tag)
 
+            existing_tags = event_tag_services.get_tags(event_id)
             for tag in existing_tags:
                 if not tag["tagName"] in input_tags:
                     event_tag_services.delete_tag(event_id, tag["tagName"])
 
             messages.success(request, f""""{name}" edited successfully""")
-
             return redirect("events")
+        else:
+            form = event_forms.EventForm()
     else:
         form = event_forms.EventForm()
         form.fields["name"].initial = event["name"]
@@ -110,21 +106,11 @@ def edit_event(request, event_id):
         form.fields["image"].initial = event["image"]
 
         linked_tags = event_tag_services.get_tags(event_id)
-        tags = []
-        for tag in linked_tags:
-            if tag["tagName"] != "":
-                tags.append(tag["tagName"])
+        form.fields["tags"].initial = ", ".join([tag['tagName'] for tag in linked_tags])
 
-        form.fields["tags"].initial = ", ".join(tags)
 
-    linked_places = place_event_services.get_places_linked_to_event(event_id)
-    linked_places = get_ids_from_filter(linked_places, "placeID")
-
-    all_places = place_services.get_places_list()
-    places = []
-    for item in all_places:
-        if not item["id"] in linked_places:
-            places.append(item)
+    linked_places = [place['placeID'] for place in (place_event_services.get_places_linked_to_event(event_id))]
+    places = [x for x in (place_services.get_places_list()) if x["id"] not in set(linked_places)]
 
     context = {
         "segment": "events",

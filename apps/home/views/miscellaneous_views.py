@@ -5,7 +5,7 @@ from django.template import loader
 from django.urls import reverse
 
 from ..services import occurence_counter_services
-from .extras.miscellaneous_views_extras import setListToLength
+from .extras.miscellaneous_views_extras import set_list_to_length
 
 
 @login_required(login_url="/login/")
@@ -13,13 +13,13 @@ def statistics(request):
     numberOfVisitors = occurence_counter_services.get_occurence_history(
         "numberOfVisitors"
     )
-    numberOfVisitors = setListToLength(numberOfVisitors, 12)
+    numberOfVisitors = set_list_to_length(numberOfVisitors, 12)
     # print("numberOfVisitors", numberOfVisitors)
 
     animalChallengeCompletions = occurence_counter_services.get_occurence_history(
         "animalChallengeCompletions"
     )
-    animalChallengeCompletions = setListToLength(
+    animalChallengeCompletions = set_list_to_length(
         animalChallengeCompletions, 12)
     # print("animalChallengeCompletions", animalChallengeCompletions)
 

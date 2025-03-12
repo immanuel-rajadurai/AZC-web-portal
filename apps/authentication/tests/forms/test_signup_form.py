@@ -1,4 +1,4 @@
-from unittest import TestCase
+from django.test import TestCase
 from ...forms import SignUpForm
 
 class SignUpFormTestCase(TestCase):

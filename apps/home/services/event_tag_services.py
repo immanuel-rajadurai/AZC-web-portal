@@ -28,9 +28,7 @@ def create_tag(event_id, tagName):
             }}
         """
 
-        response = sendAWSQuery(list_event_tags)
-
-        if not response.json()["data"]["listEventTags"]["items"]:
+        if not sendAWSQuery(list_event_tags).json()["data"]["listEventTags"]["items"]:
             tag_services.create_tag(tagName)
 
             create_event_tag = f"""

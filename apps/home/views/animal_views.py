@@ -10,32 +10,19 @@ from ..forms import animal_forms
 def all_animals(request):
     if request.method == "POST":
         form = animal_forms.AnimalForm(request.POST)
+
         if form.is_valid():
-            data = form.cleaned_data
-
-            name = data["name"]
-            scientificName = data["scientificName"]
-            habitat = data["habitat"]
-            diet = data["diet"]
-            behaviour = data["behaviour"]
-            weightMale = data["weightMale"]
-            weightFemale = data["weightFemale"]
-            image = data["image"]
-            conservationStatus = data["conservationStatus"]
-            funFacts = data["funFacts"]
-
-            animal_services.add_animal(
-                name,
-                scientificName,
-                habitat,
-                diet,
-                behaviour,
-                weightMale,
-                weightFemale,
-                image,
-                conservationStatus,
-                funFacts,
-            )
+            name = form.cleaned_data["name"]
+            scientificName = form.cleaned_data["scientificName"]
+            habitat = form.cleaned_data["habitat"]
+            diet = form.cleaned_data["diet"]
+            behaviour = form.cleaned_data["behaviour"]
+            weightMale = form.cleaned_data["weightMale"]
+            weightFemale = form.cleaned_data["weightFemale"]
+            image = form.cleaned_data["image"]
+            conservationStatus = form.cleaned_data["conservationStatus"]
+            funFacts = form.cleaned_data["funFacts"]
+            animal_services.add_animal(name, scientificName, habitat, diet, behaviour, weightMale, weightFemale, image, conservationStatus, funFacts)
 
             messages.success(request, "Animal created successfully")
         else:
@@ -65,33 +52,19 @@ def edit_animal(request, animal_id):
 
     if request.method == "POST":
         form = animal_forms.AnimalForm(request.POST)
+
         if form.is_valid():
-            data = form.cleaned_data
-
-            name = data["name"]
-            scientificName = data["scientificName"]
-            habitat = data["habitat"]
-            diet = data["diet"]
-            behaviour = data["behaviour"]
-            weightMale = data["weightMale"]
-            weightFemale = data["weightFemale"]
-            image = data["image"]
-            conservationStatus = data["conservationStatus"]
-            funFacts = data["funFacts"]
-
-            animal_services.edit_animal(
-                animal_id,
-                name,
-                scientificName,
-                habitat,
-                diet,
-                behaviour,
-                weightMale,
-                weightFemale,
-                image,
-                conservationStatus,
-                funFacts,
-            )
+            name = form.cleaned_data["name"]
+            scientificName = form.cleaned_data["scientificName"]
+            habitat = form.cleaned_data["habitat"]
+            diet = form.cleaned_data["diet"]
+            behaviour = form.cleaned_data["behaviour"]
+            weightMale = form.cleaned_data["weightMale"]
+            weightFemale = form.cleaned_data["weightFemale"]
+            image = form.cleaned_data["image"]
+            conservationStatus = form.cleaned_data["conservationStatus"]
+            funFacts = form.cleaned_data["funFacts"]
+            animal_services.edit_animal(animal_id, name, scientificName, habitat, diet, behaviour, weightMale, weightFemale, image, conservationStatus, funFacts)
 
             messages.success(request, f""""{name}" edited successfully""")
             return redirect("animals")

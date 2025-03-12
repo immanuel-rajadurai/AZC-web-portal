@@ -11,9 +11,9 @@ def all_users(request, actionCode=None):
     global PAGE_LIST
 
     if actionCode == 0:
-        token = PAGE_LIST.previous_page()
+        token = PAGE_LIST.backward()
     elif actionCode == 1:
-        token = PAGE_LIST.next_page()
+        token = PAGE_LIST.forward()
     elif actionCode == 2:
         return download_opted_in_users()
     else:

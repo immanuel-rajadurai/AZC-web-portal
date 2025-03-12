@@ -4,37 +4,35 @@ from django.contrib import messages
 
 from ..services import animal_services, place_services, animal_place_services
 from ..forms import place_forms
-from .extras.miscellaneous_extras import get_ids_from_filter
 
 
 @login_required(login_url="/login/")
 def all_places(request):
     if request.method == "POST":
         form = place_forms.PlaceForm(request.POST)
+
         if form.is_valid():
-            data = form.cleaned_data
-
-            name = data["name"]
-            description = data["description"]
-            isOpen = data["isOpen"]
-            image = data["image"]
-
+            name = form.cleaned_data["name"]
+            description = form.cleaned_data["description"]
+            isOpen = form.cleaned_data["isOpen"]
+            image = form.cleaned_data["image"]
             place_services.create_place(name, description, isOpen, image)
 
             messages.success(request, "Place created successfully")
 
+        else:
+             messages.error(request, "Place not created, check formatting")
+
     form = place_forms.PlaceForm()
 
-    places = place_services.get_places_list()
+    all_places = place_services.get_places_list()
     linked_animals = {}
-    for place in places:
-        tmp = animal_place_services.get_animals_linked_to_place(place["id"])
-        tmp = get_ids_from_filter(tmp, "animalID")
-        linked_animals.update({place["id"]: tmp})
+    for place in all_places:
+        linked_animals.update({place["id"]: [animal['animalID'] for animal in (animal_place_services.get_animals_linked_to_place(place["id"]))]})
 
     context = {
         "segment": "places",
-        "places": places,
+        "places": all_places,
         "linked_animals": linked_animals,
         "form": form,
     }
@@ -62,6 +60,7 @@ def edit_place(request, place_id):
 
     if request.method == "POST":
         form = place_forms.PlaceForm(request.POST)
+        
         if form.is_valid():
             data = form.cleaned_data
 
@@ -75,6 +74,8 @@ def edit_place(request, place_id):
             messages.success(request, f""""{name}" edited successfully""")
 
             return redirect("places")
+        else:
+            form = place_forms.PlaceForm()
     else:
         form = place_forms.PlaceForm()
         form.fields["name"].initial = place["name"]
@@ -82,11 +83,10 @@ def edit_place(request, place_id):
         form.fields["isOpen"].initial = place["isOpen"]
         form.fields["image"].initial = place["image"]
 
+    animals = []
     linked_animals = animal_place_services.get_animals_linked_to_place(place_id)
     linked_animals = get_ids_from_filter(linked_animals, "animalID")
-
     all_animals = animal_services.get_animals_list()
-    animals = []
     for item in all_animals:
         if not item["id"] in linked_animals:
             animals.append(item)
