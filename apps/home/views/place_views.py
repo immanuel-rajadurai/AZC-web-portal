@@ -21,14 +21,15 @@ def all_places(request):
             messages.success(request, "Place created successfully")
 
         else:
-             messages.error(request, "Place not created, check formatting")
+            messages.error(request, "Place not created, check formatting")
 
     form = place_forms.PlaceForm()
 
     all_places = place_services.get_places_list()
     linked_animals = {}
     for place in all_places:
-        linked_animals.update({place["id"]: [animal['animalID'] for animal in (animal_place_services.get_animals_linked_to_place(place["id"]))]})
+        linked_animals.update({place["id"]: [animal['animalID'] for animal in (
+            animal_place_services.get_animals_linked_to_place(place["id"]))]})
 
     context = {
         "segment": "places",
@@ -60,7 +61,7 @@ def edit_place(request, place_id):
 
     if request.method == "POST":
         form = place_forms.PlaceForm(request.POST)
-        
+
         if form.is_valid():
             data = form.cleaned_data
 
@@ -69,7 +70,8 @@ def edit_place(request, place_id):
             isOpen = data["isOpen"]
             image = data["image"]
 
-            place_services.edit_place(place_id, name, description, isOpen, image)
+            place_services.edit_place(
+                place_id, name, description, isOpen, image)
 
             messages.success(request, f""""{name}" edited successfully""")
 
@@ -84,7 +86,8 @@ def edit_place(request, place_id):
         form.fields["image"].initial = place["image"]
 
     animals = []
-    linked_animals = animal_place_services.get_animals_linked_to_place(place_id)
+    linked_animals = animal_place_services.get_animals_linked_to_place(
+        place_id)
     linked_animals = get_ids_from_filter(linked_animals, "animalID")
     all_animals = animal_services.get_animals_list()
     for item in all_animals:

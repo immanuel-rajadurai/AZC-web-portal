@@ -6,6 +6,7 @@ from .extras.user_views_extras import download_opted_in_users, PageList
 
 PAGE_LIST = PageList()
 
+
 @login_required(login_url="/login/")
 def all_users(request, actionCode=None):
     global PAGE_LIST

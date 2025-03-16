@@ -22,7 +22,8 @@ def all_animals(request):
             image = form.cleaned_data["image"]
             conservationStatus = form.cleaned_data["conservationStatus"]
             funFacts = form.cleaned_data["funFacts"]
-            animal_services.add_animal(name, scientificName, habitat, diet, behaviour, weightMale, weightFemale, image, conservationStatus, funFacts)
+            animal_services.add_animal(name, scientificName, habitat, diet, behaviour,
+                                       weightMale, weightFemale, image, conservationStatus, funFacts)
 
             messages.success(request, "Animal created successfully")
         else:
@@ -64,7 +65,8 @@ def edit_animal(request, animal_id):
             image = form.cleaned_data["image"]
             conservationStatus = form.cleaned_data["conservationStatus"]
             funFacts = form.cleaned_data["funFacts"]
-            animal_services.edit_animal(animal_id, name, scientificName, habitat, diet, behaviour, weightMale, weightFemale, image, conservationStatus, funFacts)
+            animal_services.edit_animal(animal_id, name, scientificName, habitat, diet,
+                                        behaviour, weightMale, weightFemale, image, conservationStatus, funFacts)
 
             messages.success(request, f""""{name}" edited successfully""")
             return redirect("animals")

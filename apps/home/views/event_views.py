@@ -36,7 +36,8 @@ def all_events(request):
     linked_places = {}
     linked_tags = {}
     for event in events:
-        linked_places.update({event["id"]: [animal['placeID'] for animal in (place_event_services.get_places_linked_to_event(event["id"]))]})
+        linked_places.update({event["id"]: [animal['placeID'] for animal in (
+            place_event_services.get_places_linked_to_event(event["id"]))]})
 
         tags = event_tag_services.get_tags(event["id"])
         tmp = []
@@ -106,11 +107,13 @@ def edit_event(request, event_id):
         form.fields["image"].initial = event["image"]
 
         linked_tags = event_tag_services.get_tags(event_id)
-        form.fields["tags"].initial = ", ".join([tag['tagName'] for tag in linked_tags])
+        form.fields["tags"].initial = ", ".join(
+            [tag['tagName'] for tag in linked_tags])
 
-
-    linked_places = [place['placeID'] for place in (place_event_services.get_places_linked_to_event(event_id))]
-    places = [x for x in (place_services.get_places_list()) if x["id"] not in set(linked_places)]
+    linked_places = [place['placeID'] for place in (
+        place_event_services.get_places_linked_to_event(event_id))]
+    places = [x for x in (place_services.get_places_list())
+              if x["id"] not in set(linked_places)]
 
     context = {
         "segment": "events",
