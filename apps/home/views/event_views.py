@@ -59,78 +59,83 @@ def all_events(request):
     return render(request, "home/show_events.html", context)
 
 
-@login_required(login_url="/login/")
 def delete_event(request, event_id):
-    event_services.delete_event(event_id)
-    messages.success(request, "Event deleted successfully")
+    if request.user.is_authenticated:
+        event_services.delete_event(event_id)
+        messages.success(request, "Event deleted successfully")
+
     return redirect("events")
 
 
-@login_required(login_url="/login/")
 def add_place_to_event(request, place_id, event_id):
-    place_event_services.add_place_to_event(event_id, place_id)
-    messages.success(request, "Place assigned successfully")
+    if request.user.is_authenticated:
+        place_event_services.add_place_to_event(event_id, place_id)
+        messages.success(request, "Place assigned successfully")
+
     return redirect("events")
 
 
-@login_required(login_url="/login/")
 def edit_event(request, event_id):
-    event = event_services.get_event(event_id)
+    if request.user.is_authenticated:
+        event = event_services.get_event(event_id)
 
-    if request.method == "POST":
-        form = event_forms.EventForm(request.POST)
+        if request.method == "POST":
+            form = event_forms.EventForm(request.POST)
 
-        if form.is_valid():
-            name = form.cleaned_data["name"]
-            description = form.cleaned_data["description"]
-            image = form.cleaned_data["image"]
+            if form.is_valid():
+                name = form.cleaned_data["name"]
+                description = form.cleaned_data["description"]
+                image = form.cleaned_data["image"]
 
-            event_services.edit_event(event_id, name, description, image)
-            input_tags = split_tags(form.cleaned_data["tags"])
+                event_services.edit_event(event_id, name, description, image)
+                input_tags = split_tags(form.cleaned_data["tags"])
 
-            for tag in input_tags:
-                event_tag_services.create_tag(event_id, tag)
+                for tag in input_tags:
+                    event_tag_services.create_tag(event_id, tag)
 
-            existing_tags = event_tag_services.get_tags(event_id)
-            for tag in existing_tags:
-                if not tag["tagName"] in input_tags:
-                    event_tag_services.delete_tag(event_id, tag["tagName"])
+                existing_tags = event_tag_services.get_tags(event_id)
+                for tag in existing_tags:
+                    if not tag["tagName"] in input_tags:
+                        event_tag_services.delete_tag(event_id, tag["tagName"])
 
-            messages.success(request, f""""{name}" edited successfully""")
-            return redirect("events")
+                messages.success(request, f""""{name}" edited successfully""")
+                return redirect("events")
+            else:
+                form = event_forms.EventForm()
         else:
             form = event_forms.EventForm()
+            form.fields["name"].initial = event["name"]
+            form.fields["description"].initial = event["description"]
+            form.fields["image"].initial = event["image"]
+
+            linked_tags = event_tag_services.get_tags(event_id)
+            form.fields["tags"].initial = ", ".join(
+                [tag['tagName'] for tag in linked_tags])
+
+        linked_places = [place['placeID'] for place in (
+            place_event_services.get_places_linked_to_event(event_id))]
+        places = [x for x in (place_services.get_places_list())
+                  if x["id"] not in set(linked_places)]
+
+        context = {
+            "segment": "events",
+            "event": event,
+            "all_tags": tag_services.get_tags_list(),
+            "event_id": event_id,
+            "places": places,
+            "linked_places": linked_places,
+            "linked_tags": linked_tags,
+            "form": form,
+        }
+
+        return render(request, "home/edit_event.html", context)
     else:
-        form = event_forms.EventForm()
-        form.fields["name"].initial = event["name"]
-        form.fields["description"].initial = event["description"]
-        form.fields["image"].initial = event["image"]
-
-        linked_tags = event_tag_services.get_tags(event_id)
-        form.fields["tags"].initial = ", ".join(
-            [tag['tagName'] for tag in linked_tags])
-
-    linked_places = [place['placeID'] for place in (
-        place_event_services.get_places_linked_to_event(event_id))]
-    places = [x for x in (place_services.get_places_list())
-              if x["id"] not in set(linked_places)]
-
-    context = {
-        "segment": "events",
-        "event": event,
-        "all_tags": tag_services.get_tags_list(),
-        "event_id": event_id,
-        "places": places,
-        "linked_places": linked_places,
-        "linked_tags": linked_tags,
-        "form": form,
-    }
-
-    return render(request, "home/edit_event.html", context)
+        return redirect("events")
 
 
-@login_required(login_url="/login/")
 def remove_place_from_event(request, place_id, event_id):
-    place_event_services.remove_place_from_event(place_id, event_id)
-    messages.success(request, "Place detached successfully")
+    if request.user.is_authenticated:
+        place_event_services.remove_place_from_event(place_id, event_id)
+        messages.success(request, "Place detached successfully")
+
     return redirect("events")

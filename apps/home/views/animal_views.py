@@ -40,53 +40,56 @@ def all_animals(request):
     return render(request, "home/show_animals.html", context)
 
 
-@login_required(login_url="/login/")
 def remove_animal(request, animal_id):
-    animal_services.remove_animal(animal_id)
-    messages.success(request, "Animal removed successfully")
+    if request.user.is_authenticated:
+        animal_services.remove_animal(animal_id)
+        messages.success(request, "Animal removed successfully")
+
     return redirect("animals")
 
 
-@login_required(login_url="/login/")
 def edit_animal(request, animal_id):
-    animal = animal_services.get_animal(animal_id)
+    if request.user.is_authenticated:
+        animal = animal_services.get_animal(animal_id)
 
-    if request.method == "POST":
-        form = animal_forms.AnimalForm(request.POST)
+        if request.method == "POST":
+            form = animal_forms.AnimalForm(request.POST)
 
-        if form.is_valid():
-            name = form.cleaned_data["name"]
-            scientificName = form.cleaned_data["scientificName"]
-            habitat = form.cleaned_data["habitat"]
-            diet = form.cleaned_data["diet"]
-            behaviour = form.cleaned_data["behaviour"]
-            weightMale = form.cleaned_data["weightMale"]
-            weightFemale = form.cleaned_data["weightFemale"]
-            image = form.cleaned_data["image"]
-            conservationStatus = form.cleaned_data["conservationStatus"]
-            funFacts = form.cleaned_data["funFacts"]
-            animal_services.edit_animal(animal_id, name, scientificName, habitat, diet,
-                                        behaviour, weightMale, weightFemale, image, conservationStatus, funFacts)
+            if form.is_valid():
+                name = form.cleaned_data["name"]
+                scientificName = form.cleaned_data["scientificName"]
+                habitat = form.cleaned_data["habitat"]
+                diet = form.cleaned_data["diet"]
+                behaviour = form.cleaned_data["behaviour"]
+                weightMale = form.cleaned_data["weightMale"]
+                weightFemale = form.cleaned_data["weightFemale"]
+                image = form.cleaned_data["image"]
+                conservationStatus = form.cleaned_data["conservationStatus"]
+                funFacts = form.cleaned_data["funFacts"]
+                animal_services.edit_animal(animal_id, name, scientificName, habitat, diet,
+                                            behaviour, weightMale, weightFemale, image, conservationStatus, funFacts)
 
-            messages.success(request, f""""{name}" edited successfully""")
-            return redirect("animals")
+                messages.success(request, f""""{name}" edited successfully""")
+                return redirect("animals")
+        else:
+            form = animal_forms.AnimalForm()
+            form.fields["name"].initial = animal["name"]
+            form.fields["scientificName"].initial = animal["scientificName"]
+            form.fields["habitat"].initial = animal["habitat"]
+            form.fields["diet"].initial = animal["diet"]
+            form.fields["behaviour"].initial = animal["behaviour"]
+            form.fields["weightMale"].initial = animal["weightMale"]
+            form.fields["weightFemale"].initial = animal["weightFemale"]
+            form.fields["image"].initial = animal["image"]
+            form.fields["conservationStatus"].initial = animal["conservationStatus"]
+            form.fields["funFacts"].initial = animal["funFacts"]
+
+        context = {
+            "segment": "animals",
+            "animal": animal,
+            "form": form,
+        }
+
+        return render(request, "home/edit_animal.html", context)
     else:
-        form = animal_forms.AnimalForm()
-        form.fields["name"].initial = animal["name"]
-        form.fields["scientificName"].initial = animal["scientificName"]
-        form.fields["habitat"].initial = animal["habitat"]
-        form.fields["diet"].initial = animal["diet"]
-        form.fields["behaviour"].initial = animal["behaviour"]
-        form.fields["weightMale"].initial = animal["weightMale"]
-        form.fields["weightFemale"].initial = animal["weightFemale"]
-        form.fields["image"].initial = animal["image"]
-        form.fields["conservationStatus"].initial = animal["conservationStatus"]
-        form.fields["funFacts"].initial = animal["funFacts"]
-
-    context = {
-        "segment": "animals",
-        "animal": animal,
-        "form": form,
-    }
-
-    return render(request, "home/edit_animal.html", context)
+        return redirect("animals")
