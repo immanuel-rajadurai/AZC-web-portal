@@ -76,8 +76,10 @@ def add_place_to_event(request, place_id, event_id):
 
 
 def edit_event(request, event_id):
-    if request.user.is_authenticated:
-        event = event_services.get_event(event_id)
+    event = event_services.get_event(event_id)
+
+    if request.user.is_authenticated and event is not None:
+        linked_tags = event_tag_services.get_tags(event_id)
 
         if request.method == "POST":
             form = event_forms.EventForm(request.POST)
@@ -100,15 +102,11 @@ def edit_event(request, event_id):
 
                 messages.success(request, f""""{name}" edited successfully""")
                 return redirect("events")
-            else:
-                form = event_forms.EventForm()
         else:
             form = event_forms.EventForm()
             form.fields["name"].initial = event["name"]
             form.fields["description"].initial = event["description"]
             form.fields["image"].initial = event["image"]
-
-            linked_tags = event_tag_services.get_tags(event_id)
             form.fields["tags"].initial = ", ".join(
                 [tag['tagName'] for tag in linked_tags])
 

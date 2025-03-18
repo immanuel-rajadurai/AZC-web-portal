@@ -49,9 +49,9 @@ def remove_animal(request, animal_id):
 
 
 def edit_animal(request, animal_id):
-    if request.user.is_authenticated:
-        animal = animal_services.get_animal(animal_id)
-
+    animal = animal_services.get_animal(animal_id)
+    
+    if request.user.is_authenticated and animal is not None:
         if request.method == "POST":
             form = animal_forms.AnimalForm(request.POST)
 
