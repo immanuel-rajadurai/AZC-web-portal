@@ -32,8 +32,9 @@ class EventTagServices(TestCase):
         tag = self.get_test_event_tag()
         self.assertIsNotNone(tag)
 
-        event_tag_services.delete_tag("test event_id", tag["tagName"])
+        event_tag_services.delete_tag("test event_id", "test tagName")
 
         tags = event_tag_services.get_tags("test event_id")
-        tag2 = next((tag for tag in tags if tag["tagName"] == "test tagName"), None)
+        tag2 = next(
+            (tag for tag in tags if tag["tagName"] == "test tagName"), None)
         self.assertIsNone(tag2)

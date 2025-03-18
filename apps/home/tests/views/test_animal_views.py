@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from ...services.services_extras import *
 
 
-class AnimalViewsTestCast(TestCase):
+class AnimalViewsTestCase(TestCase):
     def setUp(self):
         self.form_data = {
             "name": "Test Animal",
@@ -114,12 +114,29 @@ class AnimalViewsTestCast(TestCase):
         self.assertRedirects(response, reverse("login") + "?next=/animals/")
         self.assertTemplateUsed(response, "accounts/login.html")
 
+    def test_remove_animal_view_not_logged_in_post(self):
+        response = self.client.post(self.remove_animal_url, follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertRedirects(response, reverse("login") + "?next=/animals/")
+        self.assertTemplateUsed(response, "accounts/login.html")
+
     def test_remove_animal_logged_in(self):
         login = self.client.login(
             username=self.user.username, password='testpass123')
         self.assertTrue(login)
 
         response = self.client.post(self.remove_animal_url, follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertRedirects(response, reverse("animals"))
+        self.assertIn("Animal removed successfully", [
+                      m.message for m in response.context['messages']])
+
+    def test_remove_animal_logged_in_get(self):
+        login = self.client.login(
+            username=self.user.username, password='testpass123')
+        self.assertTrue(login)
+
+        response = self.client.get(self.remove_animal_url, follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertRedirects(response, reverse("animals"))
         self.assertIn("Animal removed successfully", [
@@ -253,7 +270,7 @@ class AnimalViewsTestCast(TestCase):
         sendAWSQuery(add_animal)
 
         response = self.client.post(self.edit_animal_url, {
-            "name": 12345,
+            "name": "Test Animal",
         }, follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "home/edit_animal.html")

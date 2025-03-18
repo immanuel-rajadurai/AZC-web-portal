@@ -2,7 +2,7 @@ from django.test import TestCase
 from ....views.extras import user_views_extras
 
 
-class TestUserViewsExtras(TestCase):
+class TestUserViewsExtrasTestCase(TestCase):
     def setUp(self):
         self.page_list = user_views_extras.PageList()
 
@@ -52,7 +52,7 @@ class TestUserViewsExtras(TestCase):
 
         self.page_list.add_page("token")
         self.assertEqual(self.page_list.currentPageNum, 0)
-        
+
         self.page_list.forward()
         self.assertEqual(self.page_list.currentPageNum, 1)
 

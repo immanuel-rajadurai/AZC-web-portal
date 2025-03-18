@@ -1,3 +1,4 @@
+import time
 from .services_extras import *
 from . import tag_services
 
@@ -16,7 +17,7 @@ def get_tags(event_id):
     return sendAWSQuery(get_tags).json()["data"]["listEventTags"]["items"]
 
 
-def create_tag(event_id, tagName):
+async def create_tag(event_id, tagName):
     if tagName != "":
         list_event_tags = f"""
             query listEventTags {{
@@ -27,8 +28,10 @@ def create_tag(event_id, tagName):
                 }}
             }}
         """
+        response = sendAWSQuery(list_event_tags)
+        print(response.json())
 
-        if not sendAWSQuery(list_event_tags).json()["data"]["listEventTags"]["items"]:
+        if not response.json()["data"]["listEventTags"]["items"]:
             tag_services.create_tag(tagName)
 
             create_event_tag = f"""
@@ -38,8 +41,9 @@ def create_tag(event_id, tagName):
                     }}
                 }}
             """
-
-            sendAWSQuery(create_event_tag)
+        
+            response2 = await sendAWSQuery(create_event_tag)  
+            print(response2.json())
 
 
 def delete_tag(event_id, tagName):

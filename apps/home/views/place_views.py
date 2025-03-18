@@ -62,9 +62,9 @@ def add_animal_to_place(request, animal_id, place_id):
 
 
 def edit_place(request, place_id):
-    if request.user.is_authenticated:
-        place = place_services.get_place(place_id)
+    place = place_services.get_place(place_id)
 
+    if request.user.is_authenticated and place is not None:
         if request.method == "POST":
             form = place_forms.PlaceForm(request.POST)
 
